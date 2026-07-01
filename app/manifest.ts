@@ -13,5 +13,10 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#0f172a",
     lang: "es-AR",
     categories: ["finance", "news"],
+    icons: [
+      { src: "/favicon.svg", type: "image/svg+xml", sizes: "any" },
+      { src: "/icon", type: "image/png", sizes: "48x48" },
+      { src: "/apple-icon", type: "image/png", sizes: "180x180" },
+    ],
   };
 }

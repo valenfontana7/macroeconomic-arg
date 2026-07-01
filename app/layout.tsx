@@ -58,6 +58,14 @@ export const metadata: Metadata = {
   alternates: {
     canonical: getSiteUrl(),
   },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon", type: "image/png", sizes: "48x48" },
+    ],
+    apple: [{ url: "/apple-icon", type: "image/png", sizes: "180x180" }],
+    shortcut: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

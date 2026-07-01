@@ -134,7 +134,12 @@ export function organizationJsonLd() {
     url,
     description: BRAND_DESCRIPTION,
     slogan: BRAND_TAGLINE,
-    logo: `${url}/icon`,
+    logo: {
+      "@type": "ImageObject",
+      url: `${url}/icon`,
+      width: 48,
+      height: 48,
+    },
     sameAs: [],
     areaServed: {
       "@type": "Country",
