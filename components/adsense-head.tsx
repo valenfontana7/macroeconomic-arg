@@ -1,7 +1,9 @@
+import Script from "next/script";
+
 import { getAdSenseClientId } from "@/lib/ads-config";
 
 /**
- * Script de AdSense en <head> (requerido por Google para verificación y auto-ads).
+ * AdSense en <head> vía next/script (evita mismatch de hidratación con <head> manual).
  * Los bloques <ins> en AdSlot solo se renderizan tras consentimiento de cookies.
  */
 export function AdSenseHead() {
@@ -9,10 +11,12 @@ export function AdSenseHead() {
   if (!clientId) return null;
 
   return (
-    <script
+    <Script
+      id="adsense-loader"
       async
       src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${clientId}`}
       crossOrigin="anonymous"
+      strategy="beforeInteractive"
     />
   );
 }

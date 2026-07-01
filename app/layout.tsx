@@ -70,10 +70,8 @@ export default function RootLayout({
       lang="es-AR"
       className={`dark ${dmSans.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <head>
-        <AdSenseHead />
-      </head>
       <body className="min-h-full flex flex-col bg-background font-sans">
+        <AdSenseHead />
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
         <TooltipProvider>{children}</TooltipProvider>
