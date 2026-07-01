@@ -19,17 +19,12 @@ export const BRAND_COLORS = {
 } as const;
 
 /**
- * Dominio recomendado cuando labrecha.com.ar no está disponible.
- * Configurá el que registres en NEXT_PUBLIC_SITE_URL.
+ * Dominio canónico del sitio. Configurá el mismo valor en NEXT_PUBLIC_SITE_URL.
  */
 export const BRAND_DOMAIN_RECOMMENDED = "labrechahoy.com.ar";
 
 export const BRAND_DOMAIN_ALTERNATIVES = [
-  {
-    domain: "labrechahoy.com.ar",
-    note: "Corto y memorable — nuestra recomendación",
-  },
-  { domain: "brechahoy.com.ar", note: "Enfatiza el chequeo diario" },
+  { domain: "brechahoy.com.ar", note: "Sin el prefijo “la”" },
   { domain: "mirabrecha.com.ar", note: "Acción directa: “mirá la brecha”" },
   { domain: "elabrecha.com.ar", note: "Mínimo, fácil de decir" },
   {

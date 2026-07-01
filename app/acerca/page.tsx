@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
-  BRAND_DOMAIN_ALTERNATIVES,
   BRAND_DOMAIN_RECOMMENDED,
   BRAND_NAME,
   brandUrl,
@@ -211,25 +210,13 @@ export default function AboutPage() {
           </CardHeader>
           <CardContent className="flex flex-col gap-3 text-sm text-muted-foreground">
             <p>
-              <code className="text-foreground">labrecha.com.ar</code> no está disponible y{" "}
-              <code className="text-foreground">labrecha.ar</code> no es opción en este proyecto.
-              Recomendamos registrar{" "}
-              <code className="text-foreground">{BRAND_DOMAIN_RECOMMENDED}</code> y apuntarlo a Vercel.
-            </p>
-            <p>
+              El dominio del sitio es{" "}
+              <code className="text-foreground">{BRAND_DOMAIN_RECOMMENDED}</code>.
               Configurá{" "}
               <code className="text-foreground">NEXT_PUBLIC_SITE_URL</code> con la URL canónica
-              (ej. <code className="text-foreground">{brandUrl()}</code>). Eso actualiza sitemap,
-              Open Graph, embeds y enlaces de compartir.
+              (ej. <code className="text-foreground">{brandUrl()}</code>) en Vercel. Eso actualiza
+              sitemap, Open Graph, embeds y enlaces de compartir.
             </p>
-            <p className="font-medium text-foreground">Otras opciones si la principal ya está tomada:</p>
-            <ul className="flex list-disc flex-col gap-2 pl-5">
-              {BRAND_DOMAIN_ALTERNATIVES.map(({ domain, note }) => (
-                <li key={domain}>
-                  <code className="text-foreground">{domain}</code> — {note}
-                </li>
-              ))}
-            </ul>
             <p>
               El digest por email requiere{" "}
               <code className="text-foreground">RESEND_API_KEY</code> y{" "}
