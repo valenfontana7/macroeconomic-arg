@@ -283,7 +283,7 @@ const marketConcepts: MacroConcept[] = [
     slug: "termometro-macro",
     title: "Termómetro macro",
     category: "panel",
-    source: "Pulso Macro AR (reglas propias)",
+    source: "La Brecha (reglas propias)",
     enCristiano:
       "Un puntaje de 0 a 100 que resume si el panorama macro se ve tranquilo, atento, turbulento o crítico.",
     paraQueSirve:
@@ -299,7 +299,7 @@ const marketConcepts: MacroConcept[] = [
     slug: "senal-semaforo",
     title: "Semáforo OK / Atento / Alerta",
     category: "panel",
-    source: "Pulso Macro AR (reglas propias)",
+    source: "La Brecha (reglas propias)",
     enCristiano:
       "Un color en cada tarjeta que te dice si ese indicador va bien, regular o mal según reglas simples.",
     paraQueSirve:

@@ -3,24 +3,30 @@ import { BrechaAlertsBanner } from "@/components/brecha-alerts-banner";
 import { BrechaAlertsSettings } from "@/components/brecha-alerts-settings";
 import { ContextInsights } from "@/components/context-insights";
 import { DashboardGuide } from "@/components/dashboard-guide";
+import { DailyPulseHero } from "@/components/daily-pulse-hero";
 import { DollarPanel } from "@/components/dollar-panel";
 import { ForexPanel } from "@/components/forex-panel";
 import { IndicatorCard } from "@/components/indicator-card";
 import { MacroContextGrid } from "@/components/macro-context-grid";
+import { MacroCalendarPanel } from "@/components/macro-calendar-panel";
 import { MacroThermometer } from "@/components/macro-thermometer";
+import { ThermometerHistoryChart } from "@/components/thermometer-history-chart";
 import { SignalLegend } from "@/components/signal-legend";
+import { ToolsPromo } from "@/components/tools/tools-promo";
 import { TrendChart } from "@/components/trend-chart";
 import { WeeklyDigest } from "@/components/weekly-digest";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency, formatDate } from "@/lib/format";
 import { PILLAR_LABELS } from "@/lib/indicators";
 import type { DashboardData } from "@/lib/dashboard-data";
+import type { ThermometerHistoryPoint } from "@/lib/thermometer-history";
 
 type DashboardViewProps = {
   data: DashboardData;
+  thermometerHistory: ThermometerHistoryPoint[];
 };
 
-export function DashboardView({ data }: DashboardViewProps) {
+export function DashboardView({ data, thermometerHistory }: DashboardViewProps) {
   const pillars = Array.from(new Set(data.indicators.map((item) => item.pillar)));
 
   return (
@@ -59,9 +65,9 @@ export function DashboardView({ data }: DashboardViewProps) {
             ¿Cómo está la economía hoy?
           </h1>
           <p className="max-w-3xl text-muted-foreground">
-            Un pulso visual del macro argentino con datos oficiales y de mercado:
+            La brecha entre el oficial y el paralelo, explicada con datos oficiales y de mercado:
             reservas, todos los dólares, inflación INDEC, actividad y riesgo país —
-            explicado para decisiones del día a día.
+            para decisiones del día a día.
           </p>
         </div>
 
@@ -78,14 +84,29 @@ export function DashboardView({ data }: DashboardViewProps) {
 
       <DashboardGuide />
 
+      <DailyPulseHero data={data} />
+
       <AdSlot placement="dashboard-below-hero" />
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <MacroThermometer score={data.macroScore} />
-        <WeeklyDigest lines={data.digest} />
+        <div className="flex flex-col gap-4">
+          <MacroThermometer score={data.macroScore} />
+          <div className="rounded-2xl border border-border/60 bg-card/60 p-4">
+            <h3 className="mb-3 text-sm font-medium text-muted-foreground">
+              Histórico del termómetro (90 días)
+            </h3>
+            <ThermometerHistoryChart history={thermometerHistory} compact />
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <WeeklyDigest lines={data.digest} />
+          <MacroCalendarPanel compact limit={4} />
+        </div>
       </section>
 
       <BrechaAlertsSettings />
+
+      <ToolsPromo />
 
       {data.dollar ? <DollarPanel dollar={data.dollar} /> : null}
 

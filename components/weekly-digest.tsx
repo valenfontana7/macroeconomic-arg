@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type WeeklyDigestProps = {
@@ -14,6 +16,12 @@ export function WeeklyDigest({ lines }: WeeklyDigestProps) {
         {lines.map((line) => (
           <p key={line}>{line}</p>
         ))}
+        <Link
+          href="/digest"
+          className="text-xs text-primary underline-offset-2 hover:underline"
+        >
+          Recibirlo por email →
+        </Link>
       </CardContent>
     </Card>
   );

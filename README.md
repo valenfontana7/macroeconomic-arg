@@ -1,6 +1,6 @@
-# Pulso Macro AR
+# La Brecha
 
-Dashboard visual del estado macroeconómico de Argentina con datos oficiales del BCRA.
+Dólar, inflación y macro argentina en criollo. Entre el oficial y el paralelo, con datos del BCRA, INDEC y mercado.
 
 ## Desarrollo
 
@@ -17,7 +17,7 @@ Abrí [http://localhost:3000](http://localhost:3000).
 npx vercel
 ```
 
-O conectá el repositorio en [vercel.com](https://vercel.com). Next.js se detecta automáticamente.
+Configurá `NEXT_PUBLIC_SITE_URL` con tu dominio canónico (ej. `https://labrechahoy.com.ar`). Ver alternativas en `lib/brand.ts`.
 
 ## Fuentes
 

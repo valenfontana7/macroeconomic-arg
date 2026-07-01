@@ -16,8 +16,26 @@ export function findValueDaysAgo(
 
   const target = new Date();
   target.setDate(target.getDate() - days);
-  const targetTime = target.getTime();
+  return findClosestPointOnDate(series, target.toISOString().slice(0, 10));
+}
 
+export function findValueDaysAgoFromDate(
+  series: BcraDataPoint[],
+  days: number,
+  fromDate: string,
+): BcraDataPoint | undefined {
+  if (series.length === 0) return undefined;
+
+  const target = new Date(fromDate);
+  target.setDate(target.getDate() - days);
+  return findClosestPointOnDate(series, target.toISOString().slice(0, 10));
+}
+
+function findClosestPointOnDate(
+  series: BcraDataPoint[],
+  targetDate: string,
+): BcraDataPoint | undefined {
+  const targetTime = new Date(targetDate).getTime();
   let closest: BcraDataPoint | undefined;
   let closestDiff = Infinity;
 
@@ -30,6 +48,24 @@ export function findValueDaysAgo(
   }
 
   return closest;
+}
+
+export function sliceSeriesUpTo(series: BcraDataPoint[], endDate: string): BcraDataPoint[] {
+  return series.filter((point) => point.fecha <= endDate);
+}
+
+export function sliceSeriesByDaysFromDate(
+  series: BcraDataPoint[],
+  days: number,
+  endDate: string,
+): BcraDataPoint[] {
+  const end = new Date(endDate);
+  const start = new Date(endDate);
+  start.setDate(start.getDate() - days);
+  return series.filter((point) => {
+    const date = new Date(point.fecha);
+    return date >= start && date <= end;
+  });
 }
 
 export function sliceSeriesByDays(

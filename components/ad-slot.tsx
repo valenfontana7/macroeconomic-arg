@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
+import { useAdsConsent } from "@/components/cookie-consent";
 import {
   AD_PLACEMENTS,
   getAdSenseClientId,
@@ -24,10 +25,11 @@ declare global {
 
 export function AdSlot({ placement, className }: AdSlotProps) {
   const pushed = useRef(false);
+  const consent = useAdsConsent();
   const config = AD_PLACEMENTS[placement];
   const clientId = getAdSenseClientId();
   const slotId = getAdSlotId(placement);
-  const enabled = isAdsEnabled() && slotId !== null;
+  const enabled = isAdsEnabled() && slotId !== null && consent;
 
   useEffect(() => {
     if (!enabled || pushed.current) return;

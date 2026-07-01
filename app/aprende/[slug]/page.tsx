@@ -1,14 +1,20 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { AdSlot } from "@/components/ad-slot";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { IndicatorLearnPanel } from "@/components/indicator-learn-panel";
+import { JsonLd } from "@/components/json-ld";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Badge } from "@/components/ui/badge";
+import { pageTitle } from "@/lib/brand";
 import {
   ALL_CONCEPTS,
   CATEGORY_LABELS,
   getConceptBySlug,
 } from "@/lib/macro-education";
+import { faqJsonLd } from "@/lib/seo";
 import { INDICATOR_BY_SLUG, type IndicatorSlug } from "@/lib/indicators";
 
 type PageProps = {
@@ -25,7 +31,7 @@ export async function generateMetadata({ params }: PageProps) {
   if (!concept) return { title: "Concepto no encontrado" };
 
   return {
-    title: `${concept.title} | Aprendé | Pulso Macro AR`,
+    title: pageTitle(`${concept.title} | Aprendé`),
     description: concept.enCristiano,
   };
 }
@@ -40,8 +46,16 @@ export default async function AprendeConceptPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd data={faqJsonLd(concept)} />
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6">
+        <Breadcrumbs
+          items={[
+            { label: "Inicio", href: "/" },
+            { label: "Aprendé", href: "/aprende" },
+            { label: concept.title },
+          ]}
+        />
         <div className="flex flex-col gap-3">
           <Badge variant="outline" className="w-fit">
             {CATEGORY_LABELS[concept.category]}
@@ -71,7 +85,10 @@ export default async function AprendeConceptPage({ params }: PageProps) {
         >
           ← Volver al glosario
         </Link>
+
+        <AdSlot placement="aprende-footer" />
       </main>
+      <SiteFooter />
     </>
   );
 }

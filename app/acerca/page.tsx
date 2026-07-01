@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import {
   Card,
@@ -9,11 +10,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import {
+  BRAND_DOMAIN_ALTERNATIVES,
+  BRAND_DOMAIN_RECOMMENDED,
+  BRAND_NAME,
+  brandUrl,
+  pageTitle,
+} from "@/lib/brand";
 
 export const metadata = {
-  title: "Acerca | Pulso Macro AR",
+  title: pageTitle("Acerca"),
   description:
-    "Fuentes, metodología del termómetro macro y avisos legales de Pulso Macro AR.",
+    `Fuentes, metodología del termómetro macro y avisos legales de ${BRAND_NAME}.`,
 };
 
 export default function AboutPage() {
@@ -22,7 +30,7 @@ export default function AboutPage() {
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold tracking-tight">Acerca de Pulso Macro AR</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Acerca de {BRAND_NAME}</h1>
           <p className="text-muted-foreground">
             Dashboard independiente que integra datos públicos del BCRA, INDEC,
             cotizaciones de mercado y riesgo país para contextualizar la economía
@@ -97,7 +105,7 @@ export default function AboutPage() {
           </CardHeader>
           <CardContent className="flex flex-col gap-3 text-sm text-muted-foreground">
             <p>
-              Pulso Macro AR combina datos oficiales con explicaciones en criollo
+              {BRAND_NAME} combina datos oficiales con explicaciones en criollo
               para que cualquier persona entienda qué mira y por qué importa. El
               glosario en{" "}
               <Link href="/aprende" className="text-foreground underline underline-offset-2">
@@ -179,8 +187,8 @@ export default function AboutPage() {
                 (INDEC), no del sector industria (serie discontinuada).
               </li>
               <li>
-                Las alertas de brecha son locales al navegador; no hay
-                notificaciones push ni email.
+                Las alertas de brecha son locales al navegador; el digest por email es
+                opcional y requiere suscripción.
               </li>
               <li>
                 Cualquier fuente puede demorar o no responder; mostramos lo
@@ -199,11 +207,52 @@ export default function AboutPage() {
 
         <Card className="border-border/60 bg-card/60">
           <CardHeader>
+            <CardTitle>Dominio y producción</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-3 text-sm text-muted-foreground">
+            <p>
+              <code className="text-foreground">labrecha.com.ar</code> no está disponible y{" "}
+              <code className="text-foreground">labrecha.ar</code> no es opción en este proyecto.
+              Recomendamos registrar{" "}
+              <code className="text-foreground">{BRAND_DOMAIN_RECOMMENDED}</code> y apuntarlo a Vercel.
+            </p>
+            <p>
+              Configurá{" "}
+              <code className="text-foreground">NEXT_PUBLIC_SITE_URL</code> con la URL canónica
+              (ej. <code className="text-foreground">{brandUrl()}</code>). Eso actualiza sitemap,
+              Open Graph, embeds y enlaces de compartir.
+            </p>
+            <p className="font-medium text-foreground">Otras opciones si la principal ya está tomada:</p>
+            <ul className="flex list-disc flex-col gap-2 pl-5">
+              {BRAND_DOMAIN_ALTERNATIVES.map(({ domain, note }) => (
+                <li key={domain}>
+                  <code className="text-foreground">{domain}</code> — {note}
+                </li>
+              ))}
+            </ul>
+            <p>
+              El digest por email requiere{" "}
+              <code className="text-foreground">RESEND_API_KEY</code> y{" "}
+              <code className="text-foreground">RESEND_FROM_EMAIL</code>. Ver{" "}
+              <code className="text-foreground">.env.example</code> en el repositorio.
+            </p>
+            <p>
+              Medios y blogs pueden citar el sitio o insertar el termómetro desde{" "}
+              <Link href="/citar" className="text-primary underline-offset-2 hover:underline">
+                Citar e insertar
+              </Link>
+              .
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/60 bg-card/60">
+          <CardHeader>
             <CardTitle>Aviso legal</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-3 text-sm text-muted-foreground">
             <p>
-              Pulso Macro AR no está afiliado al BCRA, INDEC ni a los proveedores
+              {BRAND_NAME} no está afiliado al BCRA, INDEC ni a los proveedores
               de cotizaciones. Los datos se publican tal como los proveen las
               fuentes, sujeto a sus términos.
             </p>
@@ -223,6 +272,7 @@ export default function AboutPage() {
           </CardContent>
         </Card>
       </main>
+      <SiteFooter />
     </>
   );
 }

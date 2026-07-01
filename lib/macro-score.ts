@@ -206,7 +206,7 @@ export function buildWeeklyDigest(input: DigestInput): string[] {
   const { score, dollarChange7d, inflationMonthly, reservesChange30d } = input;
 
   lines.push(
-    `Hoy el pulso macro está en ${MOOD_LABELS[score.mood]} (${score.score}/100).`,
+    `Hoy el termómetro marca ${MOOD_LABELS[score.mood]} (${score.score}/100).`,
   );
 
   if (dollarChange7d !== null) {

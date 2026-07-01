@@ -188,7 +188,7 @@ export function buildContextInsights(input: BuildInsightsInput): ContextInsight[
   if (macroScore.mood === "critico" || macroScore.mood === "turbulento") {
     insights.push({
       id: "pulso-debil",
-      title: "Pulso macro bajo presión",
+      title: "Macro bajo presión",
       body: "Varias señales (precios, cambio, liquidez o tasas reales) apuntan a un entorno exigente. Para decisiones grandes (alquiler, dólar, deuda), tomate unos días extra de análisis.",
       level: macroScore.mood === "critico" ? "alert" : "warning",
       category: "externo",
@@ -223,7 +223,7 @@ export function buildExtendedDigest(input: ExtendedDigestInput): string[] {
   } = input;
 
   lines.push(
-    `Hoy el pulso macro está en ${MOOD_LABELS[score.mood]} (${score.score}/100).`,
+    `Hoy el termómetro marca ${MOOD_LABELS[score.mood]} (${score.score}/100).`,
   );
 
   if (dollarChange7d !== null) {

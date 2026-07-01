@@ -28,6 +28,7 @@ import {
   type SignalLevel,
 } from "@/lib/macro-score";
 import { getConceptForIndicator } from "@/lib/macro-education";
+import { INDICATOR_BY_SLUG } from "@/lib/indicators";
 import type { IndicatorSnapshot } from "@/lib/dashboard-data";
 import { cn } from "@/lib/utils";
 
@@ -69,6 +70,8 @@ function truncate(text: string, max = 80): string {
 export function IndicatorCard({ indicator }: IndicatorCardProps) {
   const signal = getSignal(indicator);
   const concept = getConceptForIndicator(indicator.slug);
+  const config = INDICATOR_BY_SLUG[indicator.slug];
+  const sourceLabel = config ? "BCRA" : "—";
   const chartData = indicator.sparkline.map((point) => ({
     fecha: point.fecha,
     valor: point.valor,
@@ -125,7 +128,9 @@ export function IndicatorCard({ indicator }: IndicatorCardProps) {
         ) : null}
 
         <div className="mt-auto flex items-center justify-between gap-2 text-xs text-muted-foreground">
-          <span>Actualizado {formatDate(indicator.latestDate)}</span>
+          <span>
+            {sourceLabel} · {formatDate(indicator.latestDate)}
+          </span>
           <div className="flex items-center gap-2">
             <Tooltip>
               <TooltipTrigger className="hidden underline decoration-dotted underline-offset-2 sm:inline">
@@ -137,7 +142,13 @@ export function IndicatorCard({ indicator }: IndicatorCardProps) {
             </Tooltip>
             <Link
               href={`/aprende/${indicator.slug}`}
-              className="text-primary underline-offset-2 hover:underline"
+              className="underline decoration-dotted underline-offset-2 sm:hidden"
+            >
+              ¿Qué es?
+            </Link>
+            <Link
+              href={`/aprende/${indicator.slug}`}
+              className="hidden text-primary underline-offset-2 hover:underline sm:inline"
             >
               Aprendé más
             </Link>

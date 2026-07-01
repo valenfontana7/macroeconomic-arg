@@ -23,6 +23,8 @@
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
+  --color-brecha-oficial: var(--brecha-oficial);
+  --color-brecha-paralelo: var(--brecha-paralelo);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -107,6 +109,8 @@
   --chart-3: oklch(0.78 0.12 85);
   --chart-4: oklch(0.62 0.18 25);
   --chart-5: oklch(0.55 0.12 300);
+  --brecha-oficial: oklch(0.72 0.12 230);
+  --brecha-paralelo: oklch(0.78 0.14 75);
   --sidebar: oklch(0.17 0.02 250);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.72 0.12 230);

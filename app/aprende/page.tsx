@@ -1,9 +1,13 @@
-import { SiteHeader } from "@/components/site-header";
+import { AdSlot } from "@/components/ad-slot";
 import { AprendeGlossary } from "@/components/aprende-glossary";
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { pageTitle } from "@/lib/brand";
 import { getAllConcepts } from "@/lib/macro-education";
 
 export const metadata = {
-  title: "Aprendé macro en criollo | Pulso Macro AR",
+  title: pageTitle("Aprendé macro en criollo"),
   description:
     "Glosario de indicadores macroeconómicos argentinos explicados en lenguaje cotidiano.",
 };
@@ -26,7 +30,9 @@ export default function AprendePage() {
         </div>
 
         <AprendeGlossary concepts={concepts} />
+        <AdSlot placement="aprende-footer" />
       </main>
+      <SiteFooter />
     </>
   );
 }

@@ -43,6 +43,7 @@ export type IndicatorSnapshot = {
   higherIsBetter: boolean;
   latestValue: number;
   latestDate: string;
+  change1d: number | null;
   change7d: number | null;
   change30d: number | null;
   sparkline: BcraDataPoint[];
@@ -87,6 +88,7 @@ async function fetchIndicatorSnapshot(
   if (series.length === 0) return null;
 
   const latest = series.at(-1)!;
+  const past1 = findValueDaysAgo(series, 1)?.valor;
   const past7 = findValueDaysAgo(series, 7)?.valor;
   const past30 = findValueDaysAgo(series, 30)?.valor;
 
@@ -100,6 +102,7 @@ async function fetchIndicatorSnapshot(
     higherIsBetter: indicator.higherIsBetter ?? false,
     latestValue: latest.valor,
     latestDate: latest.fecha,
+    change1d: percentChange(latest.valor, past1),
     change7d: percentChange(latest.valor, past7),
     change30d: percentChange(latest.valor, past30),
     sparkline: sliceSeriesByDays(series, 90),

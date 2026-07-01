@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { ExportSeriesButton } from "@/components/export-series-button";
 import { IndicatorLearnPanel } from "@/components/indicator-learn-panel";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { TrendChart } from "@/components/trend-chart";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +17,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getIndicatorDetail } from "@/lib/dashboard-data";
+import { pageTitle } from "@/lib/brand";
 import { formatChange, formatDate, formatNumber } from "@/lib/format";
 import { getChartFormat } from "@/lib/indicator-format";
 import { interpretIndicator } from "@/lib/indicator-reading";
@@ -60,7 +64,7 @@ export async function generateMetadata({ params }: PageProps) {
 
   const concept = getConceptForIndicator(indicator.slug);
   return {
-    title: `${indicator.label} | Pulso Macro AR`,
+    title: pageTitle(indicator.label),
     description: concept?.enCristiano ?? indicator.description,
   };
 }
@@ -84,6 +88,13 @@ export default async function IndicatorPage({ params }: PageProps) {
     <>
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
+        <Breadcrumbs
+          items={[
+            { label: "Inicio", href: "/" },
+            { label: "Indicadores", href: "/indicadores" },
+            { label: indicator.label },
+          ]}
+        />
         <div className="flex flex-col gap-3">
           <Badge variant="outline" className="w-fit">
             {PILLAR_LABELS[indicator.pillar]}
@@ -170,6 +181,15 @@ export default async function IndicatorPage({ params }: PageProps) {
           </section>
         ) : null}
 
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="sr-only">Gráfico histórico</h2>
+          <ExportSeriesButton
+            series={detail.series}
+            filename={`la-brecha-${indicator.slug}.csv`}
+            valueLabel={indicator.label}
+          />
+        </div>
+
         <TrendChart
           title={`Histórico: ${indicator.label}`}
           subtitle={indicator.unit}
@@ -192,6 +212,7 @@ export default async function IndicatorPage({ params }: PageProps) {
           </CardContent>
         </Card>
       </main>
+      <SiteFooter />
     </>
   );
 }
