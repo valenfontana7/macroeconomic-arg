@@ -37,7 +37,9 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
   return (
     <div className="flex flex-col items-center gap-4 rounded-2xl border border-border/60 bg-card/60 p-6">
       <div className="text-center">
-        <p className="text-sm font-medium text-muted-foreground">Termómetro macro</p>
+        <p className="text-sm font-medium text-muted-foreground">
+          Termómetro macro
+        </p>
         <p
           className="mt-1 text-2xl font-semibold"
           style={{ color: accentColor }}
@@ -109,7 +111,7 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
           {/* Escala: 0 y 100 en los extremos, 50 arriba del arco */}
           <text
             x={28}
-            y={124}
+            y={127}
             textAnchor="middle"
             fill="rgb(248 113 113 / 0.9)"
             fontSize={11}
@@ -119,7 +121,7 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
           </text>
           <text
             x={centerX}
-            y={centerY - radius - 6}
+            y={centerY - radius - 11}
             textAnchor="middle"
             fill="rgb(251 191 36 / 0.9)"
             fontSize={11}
@@ -129,7 +131,7 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
           </text>
           <text
             x={192}
-            y={124}
+            y={127}
             textAnchor="middle"
             fill="rgb(74 222 128 / 0.9)"
             fontSize={11}
