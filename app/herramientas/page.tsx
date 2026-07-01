@@ -1,24 +1,46 @@
 import Link from "next/link";
 
+import { AdSlot } from "@/components/ad-slot";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { JsonLd } from "@/components/json-ld";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { pageTitle } from "@/lib/brand";
 import { TOOLS } from "@/lib/tools/registry";
+import { buildPageMetadata, canonicalUrl, itemListJsonLd } from "@/lib/seo";
 
-export const metadata = {
-  title: pageTitle("Herramientas"),
+export const metadata = buildPageMetadata({
+  title: "Herramientas macro interactivas para Argentina",
   description:
-    "Simuladores, comparadores y experiencias interactivas para entender la economía argentina con datos.",
-};
+    "Simuladores de dólar, inflación y brecha cambiaria. Termómetro personal, árbol de decisiones y más herramientas con datos del BCRA e INDEC.",
+  path: "/herramientas",
+  keywords: [
+    "simulador dólar argentina",
+    "calculadora inflación sueldo",
+    "herramientas economía argentina",
+  ],
+});
 
 export default function HerramientasPage() {
   const sorted = [...TOOLS].sort((a, b) => a.impactOrder - b.impactOrder);
 
+  const listJsonLd = itemListJsonLd(
+    "Herramientas macro interactivas",
+    sorted.map((tool) => ({
+      name: tool.title,
+      url: canonicalUrl(`/herramientas/${tool.slug}`),
+    })),
+  );
+
   return (
     <>
+      <JsonLd data={listJsonLd} />
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
+        <Breadcrumbs
+          items={[{ label: "Inicio", href: "/" }, { label: "Herramientas" }]}
+          currentPath="/herramientas"
+        />
         <div className="flex flex-col gap-2">
           <h1 className="font-heading text-3xl font-bold tracking-tight">
             Herramientas interactivas
@@ -51,6 +73,8 @@ export default function HerramientasPage() {
             </Link>
           ))}
         </div>
+
+        <AdSlot placement="herramientas-footer" />
       </main>
       <SiteFooter />
     </>

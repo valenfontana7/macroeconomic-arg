@@ -1,18 +1,28 @@
 import Link from "next/link";
 
+import { AdSlot } from "@/components/ad-slot";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { IndicatorCard } from "@/components/indicator-card";
+import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Badge } from "@/components/ui/badge";
 import { getDashboardData } from "@/lib/dashboard-data";
 import { INDICATORS, PILLAR_LABELS, type IndicatorPillar } from "@/lib/indicators";
+import { buildPageMetadata, canonicalUrl, itemListJsonLd } from "@/lib/seo";
 
-export const metadata = {
-  title: "Indicadores macro de Argentina",
+export const metadata = buildPageMetadata({
+  title: "Indicadores macro de Argentina — BCRA e INDEC",
   description:
-    "Listado de indicadores del BCRA e INDEC: reservas, dólar, inflación, tasas y más.",
-};
+    "Listado de indicadores macro argentinos: reservas, dólar mayorista y minorista, inflación, base monetaria, BADLAR y más. Datos oficiales actualizados.",
+  path: "/indicadores",
+  keywords: [
+    "indicadores macro argentina",
+    "reservas BCRA",
+    "base monetaria argentina",
+    "BADLAR hoy",
+  ],
+});
 
 export const revalidate = 3600;
 
@@ -22,12 +32,22 @@ export default async function IndicadoresPage() {
   const data = await getDashboardData();
   const bySlug = new Map(data.indicators.map((i) => [i.slug, i]));
 
+  const listJsonLd = itemListJsonLd(
+    "Indicadores macro de Argentina",
+    INDICATORS.map((i) => ({
+      name: i.label,
+      url: canonicalUrl(`/indicador/${i.slug}`),
+    })),
+  );
+
   return (
     <>
+      <JsonLd data={listJsonLd} />
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6">
         <Breadcrumbs
           items={[{ label: "Inicio", href: "/" }, { label: "Indicadores" }]}
+          currentPath="/indicadores"
         />
 
         <div className="flex flex-col gap-2">
@@ -68,6 +88,8 @@ export default async function IndicadoresPage() {
           </Link>
           .
         </p>
+
+        <AdSlot placement="indicadores-footer" />
       </main>
       <SiteFooter />
     </>

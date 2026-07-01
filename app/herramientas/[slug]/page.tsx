@@ -15,9 +15,10 @@ import { TravelTool } from "@/components/tools/travel-tool";
 import { UncertaintyMapTool } from "@/components/tools/uncertainty-map-tool";
 import { analyzeConflictingSignals } from "@/lib/tools/conflicting-signals";
 import { buildDailyPulseCard } from "@/lib/tools/pulso-del-dia";
-import { pageTitle } from "@/lib/brand";
 import { getToolsBundle } from "@/lib/tools/bundle";
 import { TOOL_BY_SLUG, getToolSlugs } from "@/lib/tools/registry";
+import { buildPageMetadata, webApplicationJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
 import type { ToolSlug } from "@/lib/tools/types";
 
 export const revalidate = 3600;
@@ -34,10 +35,12 @@ export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const tool = TOOL_BY_SLUG[slug as ToolSlug];
   if (!tool) return { title: "Herramienta no encontrada" };
-  return {
-    title: pageTitle(`${tool.title} | Herramientas`),
-    description: tool.description,
-  };
+  return buildPageMetadata({
+    title: `${tool.title} — herramienta macro Argentina`,
+    description: `${tool.description} ${tool.tagline}.`,
+    path: `/herramientas/${tool.slug}`,
+    keywords: [tool.title, tool.tagline, "Argentina", "herramienta interactiva"],
+  });
 }
 
 export default async function HerramientaPage({ params }: PageProps) {
@@ -112,6 +115,13 @@ export default async function HerramientaPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd
+        data={webApplicationJsonLd({
+          name: tool.title,
+          description: tool.description,
+          path: `/herramientas/${tool.slug}`,
+        })}
+      />
       <SiteHeader />
       <main className="flex-1">
         <ToolShell tool={tool}>{content}</ToolShell>

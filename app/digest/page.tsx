@@ -3,14 +3,16 @@ import { SiteHeader } from "@/components/site-header";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { DigestSignup } from "@/components/digest-signup";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BRAND_DESCRIPTION, pageTitle } from "@/lib/brand";
+import { BRAND_DESCRIPTION, BRAND_NAME } from "@/lib/brand";
 import { getDashboardData } from "@/lib/dashboard-data";
 import { buildDigestContent, isDigestEnabled } from "@/lib/digest-email";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: pageTitle("Digest por email"),
-  description: BRAND_DESCRIPTION,
-};
+export const metadata = buildPageMetadata({
+  title: "Digest macro por email",
+  description: `Recibí el resumen diario de dólar, inflación y brecha de ${BRAND_NAME}. ${BRAND_DESCRIPTION}`,
+  path: "/digest",
+});
 
 export const revalidate = 3600;
 

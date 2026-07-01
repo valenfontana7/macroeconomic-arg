@@ -2,12 +2,15 @@ import Link from "next/link";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { BRAND_NAME, pageTitle } from "@/lib/brand";
+import { BRAND_NAME } from "@/lib/brand";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: pageTitle("Política de privacidad"),
-  description: `Cómo ${BRAND_NAME} trata los datos de visitantes y cookies.`,
-};
+export const metadata = buildPageMetadata({
+  title: "Política de privacidad",
+  description: `Cómo ${BRAND_NAME} trata los datos de visitantes, cookies y publicidad.`,
+  path: "/privacidad",
+  keywords: ["privacidad", BRAND_NAME],
+});
 
 export default function PrivacidadPage() {
   return (

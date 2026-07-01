@@ -11,12 +11,24 @@ import { buttonVariants } from "@/components/ui/button";
 import { getDollarHistory } from "@/lib/argentinadatos-client";
 import { getDashboardData } from "@/lib/dashboard-data";
 import { cn } from "@/lib/utils";
+import { buildPageMetadata, DOLAR_FAQ, faqJsonLdFromPairs } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
 
-export const metadata = {
-  title: "Dólar hoy en Argentina — cotizaciones y brechas",
+export const metadata = buildPageMetadata({
+  title: "Dólar hoy en Argentina — oficial, blue, MEP y CCL",
   description:
-    "Cotizaciones del dólar oficial, blue, MEP y CCL con brechas, histórico superpuesto y herramientas interactivas.",
-};
+    "Cotización del dólar hoy: oficial, blue, MEP y CCL con brecha cambiaria, histórico de un año y herramientas para entender el mercado paralelo.",
+  path: "/dolar",
+  keywords: [
+    "dólar hoy",
+    "dólar blue hoy",
+    "dólar oficial hoy",
+    "dólar MEP hoy",
+    "dólar CCL hoy",
+    "brecha cambiaria",
+    "cotización dólar argentina",
+  ],
+});
 
 export const revalidate = 900;
 
@@ -31,10 +43,12 @@ export default async function DolarPage() {
 
   return (
     <>
+      <JsonLd data={faqJsonLdFromPairs([...DOLAR_FAQ])} />
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6">
         <Breadcrumbs
           items={[{ label: "Inicio", href: "/" }, { label: "Dólar" }]}
+          currentPath="/dolar"
         />
 
         <div className="flex flex-col gap-2">

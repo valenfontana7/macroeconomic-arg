@@ -172,6 +172,8 @@ export function DashboardView({ data, thermometerHistory }: DashboardViewProps) 
           </section>
         );
       })}
+
+      <AdSlot placement="dashboard-footer" />
     </div>
   );
 }

@@ -14,14 +14,15 @@ import {
   BRAND_DOMAIN_RECOMMENDED,
   BRAND_NAME,
   brandUrl,
-  pageTitle,
 } from "@/lib/brand";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: pageTitle("Acerca"),
-  description:
-    `Fuentes, metodología del termómetro macro y avisos legales de ${BRAND_NAME}.`,
-};
+export const metadata = buildPageMetadata({
+  title: "Acerca de La Brecha — fuentes y metodología",
+  description: `Fuentes oficiales (BCRA, INDEC), metodología del termómetro macro, dominio ${BRAND_DOMAIN_RECOMMENDED} y avisos legales de ${BRAND_NAME}.`,
+  path: "/acerca",
+  keywords: ["fuentes BCRA INDEC", "metodología termómetro macro", BRAND_NAME],
+});
 
 export default function AboutPage() {
   return (

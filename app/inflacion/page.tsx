@@ -12,12 +12,22 @@ import { getDashboardData } from "@/lib/dashboard-data";
 import { getIndecInflationSeries } from "@/lib/datos-gobar-client";
 import { formatDate, formatNumber } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { buildPageMetadata, faqJsonLdFromPairs, INFLACION_FAQ } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
 
-export const metadata = {
-  title: "Inflación en Argentina — IPC mensual e interanual",
+export const metadata = buildPageMetadata({
+  title: "Inflación en Argentina hoy — IPC mensual e interanual INDEC",
   description:
-    "Inflación INDEC mensual e interanual, gráficos históricos y herramientas para medir el impacto en tu bolsillo.",
-};
+    "Inflación Argentina: IPC mensual e interanual del INDEC, gráficos históricos, BADLAR y herramientas para medir cuánto se achicó tu sueldo.",
+  path: "/inflacion",
+  keywords: [
+    "inflación argentina",
+    "IPC INDEC",
+    "inflación mensual argentina",
+    "inflación interanual",
+    "índice de precios al consumidor",
+  ],
+});
 
 export const revalidate = 3600;
 
@@ -33,10 +43,12 @@ export default async function InflacionPage() {
 
   return (
     <>
+      <JsonLd data={faqJsonLdFromPairs([...INFLACION_FAQ])} />
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6">
         <Breadcrumbs
           items={[{ label: "Inicio", href: "/" }, { label: "Inflación" }]}
+          currentPath="/inflacion"
         />
 
         <div className="flex flex-col gap-2">

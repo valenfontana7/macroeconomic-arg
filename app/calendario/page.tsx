@@ -1,14 +1,23 @@
+import { AdSlot } from "@/components/ad-slot";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { MacroCalendarPanel } from "@/components/macro-calendar-panel";
 import { Badge } from "@/components/ui/badge";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "Calendario macro — INDEC y BCRA",
+export const metadata = buildPageMetadata({
+  title: "Calendario macro Argentina — fechas INDEC y BCRA",
   description:
-    "Próximas publicaciones de inflación, EMAE, REM y otros datos macro argentinos.",
-};
+    "Calendario de publicaciones macro en Argentina: inflación IPC, EMAE, REM del BCRA y otras fechas clave del INDEC.",
+  path: "/calendario",
+  keywords: [
+    "calendario inflación argentina",
+    "cuándo sale el IPC",
+    "fechas INDEC",
+    "calendario BCRA",
+  ],
+});
 
 export default function CalendarioPage() {
   return (
@@ -17,6 +26,7 @@ export default function CalendarioPage() {
       <main className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6">
         <Breadcrumbs
           items={[{ label: "Inicio", href: "/" }, { label: "Calendario macro" }]}
+          currentPath="/calendario"
         />
 
         <div className="flex flex-col gap-2">
@@ -42,6 +52,8 @@ export default function CalendarioPage() {
           Tip: el IPC suele salir la segunda semana del mes con datos del mes anterior. Si
           mañana hay inflación, volvé al dashboard para ver el impacto en el termómetro.
         </p>
+
+        <AdSlot placement="calendario-footer" />
       </main>
       <SiteFooter />
     </>

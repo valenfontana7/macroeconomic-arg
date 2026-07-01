@@ -2,12 +2,14 @@ import Link from "next/link";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { BRAND_NAME, pageTitle } from "@/lib/brand";
+import { BRAND_NAME } from "@/lib/brand";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: pageTitle("Términos de uso"),
-  description: `Condiciones de uso de ${BRAND_NAME}.`,
-};
+export const metadata = buildPageMetadata({
+  title: "Términos de uso",
+  description: `Condiciones de uso del dashboard macro ${BRAND_NAME}. No constituye asesoramiento financiero.`,
+  path: "/terminos",
+});
 
 export default function TerminosPage() {
   return (

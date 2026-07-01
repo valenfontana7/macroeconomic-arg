@@ -5,51 +5,50 @@ import { INDICATORS } from "@/lib/indicators";
 import { getSiteUrl } from "@/lib/site-url";
 import { getToolSlugs } from "@/lib/tools/registry";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const base = getSiteUrl();
+type SitemapEntry = MetadataRoute.Sitemap[number];
+
+function route(
+  path: string,
+  priority: number,
+  changeFrequency: SitemapEntry["changeFrequency"],
+): SitemapEntry {
   const now = new Date();
-
-  const staticRoutes: MetadataRoute.Sitemap = [
-    "",
-    "/acerca",
-    "/aprende",
-    "/herramientas",
-    "/dolar",
-    "/inflacion",
-    "/indicadores",
-    "/digest",
-    "/citar",
-    "/calendario",
-    "/privacidad",
-    "/cookies",
-    "/terminos",
-  ].map((path) => ({
-    url: `${base}${path}`,
+  return {
+    url: `${getSiteUrl()}${path}`,
     lastModified: now,
-    changeFrequency: path === "" ? "hourly" : "weekly",
-    priority: path === "" ? 1 : 0.8,
-  }));
+    changeFrequency,
+    priority,
+  };
+}
 
-  const indicatorRoutes: MetadataRoute.Sitemap = INDICATORS.map((indicator) => ({
-    url: `${base}/indicador/${indicator.slug}`,
-    lastModified: now,
-    changeFrequency: "daily",
-    priority: 0.7,
-  }));
+export default function sitemap(): MetadataRoute.Sitemap {
+  const hubRoutes: MetadataRoute.Sitemap = [
+    route("/", 1, "hourly"),
+    route("/dolar", 0.95, "hourly"),
+    route("/inflacion", 0.95, "daily"),
+    route("/indicadores", 0.9, "daily"),
+    route("/herramientas", 0.85, "weekly"),
+    route("/aprende", 0.85, "weekly"),
+    route("/calendario", 0.75, "weekly"),
+    route("/acerca", 0.5, "monthly"),
+    route("/digest", 0.4, "monthly"),
+    route("/citar", 0.4, "monthly"),
+    route("/privacidad", 0.2, "yearly"),
+    route("/cookies", 0.2, "yearly"),
+    route("/terminos", 0.2, "yearly"),
+  ];
 
-  const conceptRoutes: MetadataRoute.Sitemap = ALL_CONCEPTS.map((concept) => ({
-    url: `${base}/aprende/${concept.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  }));
+  const indicatorRoutes: MetadataRoute.Sitemap = INDICATORS.map((indicator) =>
+    route(`/indicador/${indicator.slug}`, 0.85, "daily"),
+  );
 
-  const toolRoutes: MetadataRoute.Sitemap = getToolSlugs().map((slug) => ({
-    url: `${base}/herramientas/${slug}`,
-    lastModified: now,
-    changeFrequency: "daily",
-    priority: 0.75,
-  }));
+  const conceptRoutes: MetadataRoute.Sitemap = ALL_CONCEPTS.map((concept) =>
+    route(`/aprende/${concept.slug}`, 0.7, "monthly"),
+  );
 
-  return [...staticRoutes, ...indicatorRoutes, ...conceptRoutes, ...toolRoutes];
+  const toolRoutes: MetadataRoute.Sitemap = getToolSlugs().map((slug) =>
+    route(`/herramientas/${slug}`, 0.8, "weekly"),
+  );
+
+  return [...hubRoutes, ...indicatorRoutes, ...conceptRoutes, ...toolRoutes];
 }

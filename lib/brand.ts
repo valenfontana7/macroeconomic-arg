@@ -37,8 +37,9 @@ export function brandUrl(domain = BRAND_DOMAIN_RECOMMENDED): string {
   return `https://${domain}`;
 }
 
+/** Segmento de título; el layout agrega " | La Brecha" vía template. */
 export function pageTitle(segment: string): string {
-  return `${segment} | ${BRAND_NAME}`;
+  return segment;
 }
 
 export function brandCitation(

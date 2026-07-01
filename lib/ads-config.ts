@@ -1,7 +1,12 @@
 export type AdPlacement =
   | "dashboard-below-hero"
   | "dashboard-mid-content"
-  | "aprende-footer";
+  | "dashboard-footer"
+  | "aprende-footer"
+  | "indicadores-footer"
+  | "indicador-footer"
+  | "herramientas-footer"
+  | "calendario-footer";
 
 export const AD_PLACEMENTS: Record<
   AdPlacement,
@@ -17,10 +22,35 @@ export const AD_PLACEMENTS: Record<
     slotEnvKey: "NEXT_PUBLIC_ADSENSE_SLOT_DASHBOARD_MID",
     format: "horizontal",
   },
+  "dashboard-footer": {
+    label: "Dashboard — pie de contenido",
+    slotEnvKey: "NEXT_PUBLIC_ADSENSE_SLOT_DASHBOARD_FOOTER",
+    format: "horizontal",
+  },
   "aprende-footer": {
     label: "Aprendé — pie de página",
     slotEnvKey: "NEXT_PUBLIC_ADSENSE_SLOT_APRENDE",
     format: "rectangle",
+  },
+  "indicadores-footer": {
+    label: "Indicadores — pie de listado",
+    slotEnvKey: "NEXT_PUBLIC_ADSENSE_SLOT_INDICADORES",
+    format: "horizontal",
+  },
+  "indicador-footer": {
+    label: "Indicador — después del contenido",
+    slotEnvKey: "NEXT_PUBLIC_ADSENSE_SLOT_INDICADOR",
+    format: "rectangle",
+  },
+  "herramientas-footer": {
+    label: "Herramientas — pie del hub",
+    slotEnvKey: "NEXT_PUBLIC_ADSENSE_SLOT_HERRAMIENTAS",
+    format: "horizontal",
+  },
+  "calendario-footer": {
+    label: "Calendario — pie de página",
+    slotEnvKey: "NEXT_PUBLIC_ADSENSE_SLOT_CALENDARIO",
+    format: "horizontal",
   },
 };
 

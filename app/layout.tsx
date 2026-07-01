@@ -7,7 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AdSenseScript } from "@/components/adsense-script";
 import { BRAND_DESCRIPTION, BRAND_NAME, BRAND_OG_DESCRIPTION } from "@/lib/brand";
 import { getSiteUrl } from "@/lib/site-url";
-import { websiteJsonLd } from "@/lib/seo";
+import { organizationJsonLd, SEO_KEYWORDS, websiteJsonLd } from "@/lib/seo";
 
 import "./globals.css";
 
@@ -29,20 +29,34 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: {
-    default: BRAND_NAME,
+    default: `${BRAND_NAME} — dólar, inflación y brecha en Argentina`,
     template: `%s | ${BRAND_NAME}`,
   },
   description: BRAND_DESCRIPTION,
+  keywords: [...SEO_KEYWORDS],
+  authors: [{ name: BRAND_NAME, url: getSiteUrl() }],
+  creator: BRAND_NAME,
+  publisher: BRAND_NAME,
+  category: "finance",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
   openGraph: {
-    title: BRAND_NAME,
+    title: `${BRAND_NAME} — dólar, inflación y brecha en Argentina`,
     description: BRAND_OG_DESCRIPTION,
     locale: "es_AR",
     type: "website",
+    siteName: BRAND_NAME,
   },
   twitter: {
     card: "summary_large_image",
-    title: BRAND_NAME,
+    title: `${BRAND_NAME} — dólar, inflación y brecha en Argentina`,
     description: BRAND_OG_DESCRIPTION,
+  },
+  alternates: {
+    canonical: getSiteUrl(),
   },
 };
 
@@ -53,10 +67,11 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="es"
+      lang="es-AR"
       className={`dark ${dmSans.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background font-sans">
+        <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
         <AdSenseScript />
         <TooltipProvider>{children}</TooltipProvider>

@@ -8,13 +8,12 @@ import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Badge } from "@/components/ui/badge";
-import { pageTitle } from "@/lib/brand";
 import {
   ALL_CONCEPTS,
   CATEGORY_LABELS,
   getConceptBySlug,
 } from "@/lib/macro-education";
-import { faqJsonLd } from "@/lib/seo";
+import { buildPageMetadata, faqJsonLd } from "@/lib/seo";
 import { INDICATOR_BY_SLUG, type IndicatorSlug } from "@/lib/indicators";
 
 type PageProps = {
@@ -30,10 +29,13 @@ export async function generateMetadata({ params }: PageProps) {
   const concept = getConceptBySlug(slug);
   if (!concept) return { title: "Concepto no encontrado" };
 
-  return {
-    title: pageTitle(`${concept.title} | Aprendé`),
-    description: concept.enCristiano,
-  };
+  return buildPageMetadata({
+    title: `${concept.title} — qué es y cómo leerlo`,
+    description: `${concept.enCristiano} Guía en criollo con datos de Argentina.`,
+    path: `/aprende/${concept.slug}`,
+    type: "article",
+    keywords: [concept.title, "Argentina", "macroeconomía", concept.category],
+  });
 }
 
 export default async function AprendeConceptPage({ params }: PageProps) {
@@ -55,6 +57,7 @@ export default async function AprendeConceptPage({ params }: PageProps) {
             { label: "Aprendé", href: "/aprende" },
             { label: concept.title },
           ]}
+          currentPath={`/aprende/${concept.slug}`}
         />
         <div className="flex flex-col gap-3">
           <Badge variant="outline" className="w-fit">

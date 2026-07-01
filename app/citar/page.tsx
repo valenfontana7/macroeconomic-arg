@@ -3,14 +3,16 @@ import { SiteHeader } from "@/components/site-header";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { CiteBlocks } from "@/components/cite-blocks";
 import { EmbedThermometer } from "@/components/embed-thermometer";
-import { BRAND_NAME, pageTitle } from "@/lib/brand";
+import { BRAND_NAME } from "@/lib/brand";
 import { getDashboardData } from "@/lib/dashboard-data";
 import { getSiteUrl } from "@/lib/site-url";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: pageTitle("Citar e insertar"),
-  description: `Cómo citar ${BRAND_NAME} e insertar el termómetro en tu sitio o newsletter.`,
-};
+export const metadata = buildPageMetadata({
+  title: "Citar e insertar el termómetro macro",
+  description: `Cómo citar ${BRAND_NAME} en medios y blogs e insertar el widget del termómetro macro en tu sitio.`,
+  path: "/citar",
+});
 
 export const revalidate = 3600;
 

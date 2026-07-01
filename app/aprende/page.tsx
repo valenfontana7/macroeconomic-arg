@@ -1,24 +1,45 @@
 import { AdSlot } from "@/components/ad-slot";
 import { AprendeGlossary } from "@/components/aprende-glossary";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { pageTitle } from "@/lib/brand";
 import { getAllConcepts } from "@/lib/macro-education";
+import { buildPageMetadata, canonicalUrl, itemListJsonLd } from "@/lib/seo";
 
-export const metadata = {
-  title: pageTitle("Aprendé macro en criollo"),
+export const metadata = buildPageMetadata({
+  title: "Aprendé macro en criollo — glosario Argentina",
   description:
-    "Glosario de indicadores macroeconómicos argentinos explicados en lenguaje cotidiano.",
-};
+    "Glosario de economía argentina en criollo: dólar, inflación, reservas, brecha cambiaria y más. Explicado para el día a día, sin ser economista.",
+  path: "/aprende",
+  keywords: [
+    "glosario macroeconomía argentina",
+    "economía en criollo",
+    "qué es la brecha cambiaria",
+    "aprender economía argentina",
+  ],
+});
 
 export default function AprendePage() {
   const concepts = getAllConcepts();
 
+  const listJsonLd = itemListJsonLd(
+    "Glosario macro en criollo",
+    concepts.map((c) => ({
+      name: c.title,
+      url: canonicalUrl(`/aprende/${c.slug}`),
+    })),
+  );
+
   return (
     <>
+      <JsonLd data={listJsonLd} />
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
+        <Breadcrumbs
+          items={[{ label: "Inicio", href: "/" }, { label: "Aprendé" }]}
+          currentPath="/aprende"
+        />
         <div className="flex flex-col gap-2">
           <h1 className="font-heading text-3xl font-bold tracking-tight">
             Aprendé macro sin ser economista

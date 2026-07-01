@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { AdSlot } from "@/components/ad-slot";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ExportSeriesButton } from "@/components/export-series-button";
 import { IndicatorLearnPanel } from "@/components/indicator-learn-panel";
@@ -17,12 +18,13 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getIndicatorDetail } from "@/lib/dashboard-data";
-import { pageTitle } from "@/lib/brand";
 import { formatChange, formatDate, formatNumber } from "@/lib/format";
 import { getChartFormat } from "@/lib/indicator-format";
 import { interpretIndicator } from "@/lib/indicator-reading";
 import { getConceptForIndicator } from "@/lib/macro-education";
 import { INDICATOR_BY_SLUG, PILLAR_LABELS, type IndicatorSlug } from "@/lib/indicators";
+import { buildPageMetadata, datasetJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
 import { cn } from "@/lib/utils";
 import type { SignalLevel } from "@/lib/macro-score";
 
@@ -63,10 +65,16 @@ export async function generateMetadata({ params }: PageProps) {
   if (!indicator) return { title: "Indicador no encontrado" };
 
   const concept = getConceptForIndicator(indicator.slug);
-  return {
-    title: pageTitle(indicator.label),
-    description: concept?.enCristiano ?? indicator.description,
-  };
+  const description =
+    concept?.enCristiano ??
+    `${indicator.description} Datos actualizados del BCRA e INDEC en Argentina.`;
+
+  return buildPageMetadata({
+    title: `${indicator.label} hoy en Argentina`,
+    description,
+    path: `/indicador/${indicator.slug}`,
+    keywords: [indicator.label, "Argentina", "BCRA", "INDEC", indicator.slug],
+  });
 }
 
 export default async function IndicatorPage({ params }: PageProps) {
@@ -86,6 +94,13 @@ export default async function IndicatorPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd
+        data={datasetJsonLd({
+          name: indicator.label,
+          description: concept?.enCristiano ?? indicator.description,
+          path: `/indicador/${indicator.slug}`,
+        })}
+      />
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
         <Breadcrumbs
@@ -94,6 +109,7 @@ export default async function IndicatorPage({ params }: PageProps) {
             { label: "Indicadores", href: "/indicadores" },
             { label: indicator.label },
           ]}
+          currentPath={`/indicador/${indicator.slug}`}
         />
         <div className="flex flex-col gap-3">
           <Badge variant="outline" className="w-fit">
@@ -211,6 +227,8 @@ export default async function IndicatorPage({ params }: PageProps) {
             </p>
           </CardContent>
         </Card>
+
+        <AdSlot placement="indicador-footer" />
       </main>
       <SiteFooter />
     </>
