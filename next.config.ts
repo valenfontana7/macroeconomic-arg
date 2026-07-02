@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async rewrites() {
     return [
-      { source: "/favicon.ico", destination: "/icon" },
+      { source: "/favicon.ico", destination: "/icons/32" },
     ];
   },
   async headers() {

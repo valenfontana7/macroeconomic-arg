@@ -14,9 +14,10 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: "es-AR",
     categories: ["finance", "news"],
     icons: [
+      { src: "/icons/192", type: "image/png", sizes: "192x192", purpose: "any" },
+      { src: "/icons/512", type: "image/png", sizes: "512x512", purpose: "any" },
+      { src: "/icons/512", type: "image/png", sizes: "512x512", purpose: "maskable" },
       { src: "/favicon.svg", type: "image/svg+xml", sizes: "any" },
-      { src: "/icon", type: "image/png", sizes: "48x48" },
-      { src: "/apple-icon", type: "image/png", sizes: "180x180" },
     ],
   };
 }
