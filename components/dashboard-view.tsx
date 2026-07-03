@@ -116,8 +116,6 @@ export function DashboardView({ data, thermometerHistory }: DashboardViewProps) 
 
       <ContextInsights insights={data.insights} />
 
-      <AdSlot placement="dashboard-mid-content" />
-
       <section className="grid gap-6 lg:grid-cols-2">
         <TrendChart
           title="Brecha CCL vs oficial"
@@ -172,8 +170,6 @@ export function DashboardView({ data, thermometerHistory }: DashboardViewProps) 
           </section>
         );
       })}
-
-      <AdSlot placement="dashboard-footer" />
     </div>
   );
 }

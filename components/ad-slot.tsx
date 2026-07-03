@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { pushAdUnit, useAdSenseReady } from "@/components/adsense-loader";
 import { useAdsConsent } from "@/components/cookie-consent";
@@ -18,87 +18,63 @@ type AdSlotProps = {
   className?: string;
 };
 
+const FILL_CHECK_MS = 6_000;
+const MIN_AD_HEIGHT = 40;
+
+function hasFilledAd(ins: HTMLElement): boolean {
+  const iframe = ins.querySelector("iframe");
+  if (!iframe) return false;
+  return ins.getBoundingClientRect().height >= MIN_AD_HEIGHT;
+}
+
 export function AdSlot({ placement, className }: AdSlotProps) {
-  const pushed = useRef(false);
+  const insRef = useRef<HTMLModElement>(null);
+  const pushedRef = useRef(false);
   const consent = useAdsConsent();
   const scriptReady = useAdSenseReady();
   const config = AD_PLACEMENTS[placement];
   const clientId = getAdSenseClientId();
   const slotId = getAdSlotId(placement);
-  const enabled = isAdsEnabled() && slotId !== null && consent && scriptReady;
+  const canRender = isAdsEnabled() && slotId !== null && consent && scriptReady;
+  const [showSlot, setShowSlot] = useState(true);
 
   useEffect(() => {
-    pushed.current = false;
-  }, [placement, consent]);
-
-  useEffect(() => {
-    if (!enabled || pushed.current) return;
+    if (!canRender || !insRef.current || pushedRef.current) return;
 
     try {
       pushAdUnit();
-      pushed.current = true;
+      pushedRef.current = true;
     } catch {
-      // Script aún no listo
-    }
-  }, [enabled, placement]);
-
-  if (!consent) return null;
-
-  if (!scriptReady) {
-    if (process.env.NODE_ENV === "production") {
-      return (
-        <div
-          className={cn(
-            "flex items-center justify-center rounded-xl border border-border/30 bg-card/20",
-            config.format === "horizontal" ? "min-h-[90px]" : "min-h-[250px]",
-            className,
-          )}
-          aria-hidden
-        />
-      );
+      return;
     }
 
-    return (
-      <div
-        className={cn(
-          "flex items-center justify-center rounded-xl border border-dashed border-border/60 bg-muted/20 px-4 py-6 text-center text-xs text-muted-foreground",
-          config.format === "horizontal" ? "min-h-[90px]" : "min-h-[250px]",
-          className,
-        )}
-        aria-hidden
-      >
-        Cargando publicidad…
-      </div>
-    );
-  }
+    const timer = window.setTimeout(() => {
+      if (!insRef.current || !hasFilledAd(insRef.current)) {
+        setShowSlot(false);
+      }
+    }, FILL_CHECK_MS);
 
-  if (!slotId) {
-    if (process.env.NODE_ENV === "production") return null;
-    return (
-      <div
-        className={cn(
-          "flex items-center justify-center rounded-xl border border-dashed border-border/60 bg-muted/20 px-4 py-6 text-center text-xs text-muted-foreground",
-          config.format === "horizontal" ? "min-h-[90px]" : "min-h-[250px]",
-          className,
-        )}
-        aria-hidden
-      >
-        Falta NEXT_PUBLIC_ADSENSE_SLOT_DEFAULT
-      </div>
-    );
-  }
+    return () => window.clearTimeout(timer);
+  }, [canRender, placement]);
+
+  useEffect(() => {
+    pushedRef.current = false;
+    setShowSlot(true);
+  }, [placement, consent]);
+
+  if (!consent || !canRender || !showSlot || !slotId) return null;
 
   return (
     <div
       className={cn(
-        "flex min-h-[90px] justify-center overflow-hidden rounded-xl border border-border/40 bg-card/30",
-        config.format === "rectangle" && "min-h-[250px]",
+        "flex w-full justify-center overflow-hidden",
         className,
       )}
     >
       <ins
+        ref={insRef}
         className="adsbygoogle block w-full"
-        style={{ display: "block" }}
+        style={{ display: "block", minHeight: config.format === "rectangle" ? 250 : 90 }}
         data-ad-client={clientId!}
         data-ad-slot={slotId}
         data-ad-format={config.format === "horizontal" ? "auto" : "rectangle"}
