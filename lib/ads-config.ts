@@ -8,6 +8,8 @@ export type AdPlacement =
   | "herramientas-footer"
   | "calendario-footer";
 
+export const ADSENSE_CLIENT_ID = "ca-pub-7665091860772882";
+
 export const AD_PLACEMENTS: Record<
   AdPlacement,
   { label: string; slotEnvKey: string; format: "horizontal" | "rectangle" }
@@ -55,16 +57,28 @@ export const AD_PLACEMENTS: Record<
 };
 
 export function getAdSenseClientId(): string | null {
-  const id = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
-  return id && id.length > 0 ? id : null;
+  const id = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? ADSENSE_CLIENT_ID;
+  return id.length > 0 ? id : null;
 }
 
+/** Slot específico del placement, o el default compartido para todos. */
 export function getAdSlotId(placement: AdPlacement): string | null {
-  const key = AD_PLACEMENTS[placement].slotEnvKey;
-  const value = process.env[key as keyof NodeJS.ProcessEnv];
-  return typeof value === "string" && value.length > 0 ? value : null;
+  const specificKey = AD_PLACEMENTS[placement].slotEnvKey;
+  const specific = process.env[specificKey as keyof NodeJS.ProcessEnv];
+  if (typeof specific === "string" && specific.length > 0) return specific;
+
+  const fallback = process.env.NEXT_PUBLIC_ADSENSE_SLOT_DEFAULT;
+  return typeof fallback === "string" && fallback.length > 0 ? fallback : null;
 }
 
 export function isAdsEnabled(): boolean {
   return getAdSenseClientId() !== null;
+}
+
+export function hasConfiguredAdSlots(): boolean {
+  if (process.env.NEXT_PUBLIC_ADSENSE_SLOT_DEFAULT) return true;
+  return Object.values(AD_PLACEMENTS).some(({ slotEnvKey }) => {
+    const value = process.env[slotEnvKey as keyof NodeJS.ProcessEnv];
+    return typeof value === "string" && value.length > 0;
+  });
 }

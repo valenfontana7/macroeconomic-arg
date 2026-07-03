@@ -23,6 +23,10 @@ declare global {
   }
 }
 
+function pushAdUnit() {
+  (window.adsbygoogle = window.adsbygoogle || []).push({});
+}
+
 export function AdSlot({ placement, className }: AdSlotProps) {
   const pushed = useRef(false);
   const consent = useAdsConsent();
@@ -33,16 +37,35 @@ export function AdSlot({ placement, className }: AdSlotProps) {
 
   useEffect(() => {
     if (!enabled || pushed.current) return;
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-      pushed.current = true;
-    } catch {
-      // AdSense no cargado aún
-    }
-  }, [enabled]);
+
+    const tryPush = () => {
+      try {
+        pushAdUnit();
+        pushed.current = true;
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    if (tryPush()) return;
+
+    const interval = window.setInterval(() => {
+      if (tryPush()) window.clearInterval(interval);
+    }, 400);
+
+    const timeout = window.setTimeout(() => window.clearInterval(interval), 12_000);
+
+    return () => {
+      window.clearInterval(interval);
+      window.clearTimeout(timeout);
+    };
+  }, [enabled, placement]);
 
   if (!enabled) {
     if (process.env.NODE_ENV === "production") return null;
+
+    const missingSlot = isAdsEnabled() && slotId === null;
 
     return (
       <div
@@ -56,7 +79,11 @@ export function AdSlot({ placement, className }: AdSlotProps) {
         Espacio publicitario ({config.label})
         <br />
         <span className="opacity-70">
-          Configurá NEXT_PUBLIC_ADSENSE_CLIENT y {config.slotEnvKey}
+          {missingSlot
+            ? "Configurá NEXT_PUBLIC_ADSENSE_SLOT_DEFAULT en Vercel"
+            : !consent
+              ? "Aceptá cookies para ver el anuncio de prueba"
+              : `Configurá ${config.slotEnvKey}`}
         </span>
       </div>
     );

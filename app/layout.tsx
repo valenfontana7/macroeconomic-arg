@@ -80,8 +80,10 @@ export default function RootLayout({
       lang="es-AR"
       className={`dark ${dmSans.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background font-sans">
+      <head suppressHydrationWarning>
         <AdSenseHead />
+      </head>
+      <body className="min-h-full flex flex-col bg-background font-sans">
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
         <TooltipProvider>{children}</TooltipProvider>
