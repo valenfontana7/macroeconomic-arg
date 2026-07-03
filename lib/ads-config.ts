@@ -10,6 +10,9 @@ export type AdPlacement =
 
 export const ADSENSE_CLIENT_ID = "ca-pub-7665091860772882";
 
+/** Slot Display compartido (visible en el HTML del anuncio). */
+export const ADSENSE_SLOT_DEFAULT = "6740374565";
+
 export const AD_PLACEMENTS: Record<
   AdPlacement,
   { label: string; slotEnvKey: string; format: "horizontal" | "rectangle" }
@@ -67,8 +70,9 @@ export function getAdSlotId(placement: AdPlacement): string | null {
   const specific = process.env[specificKey as keyof NodeJS.ProcessEnv];
   if (typeof specific === "string" && specific.length > 0) return specific;
 
-  const fallback = process.env.NEXT_PUBLIC_ADSENSE_SLOT_DEFAULT;
-  return typeof fallback === "string" && fallback.length > 0 ? fallback : null;
+  const fallback =
+    process.env.NEXT_PUBLIC_ADSENSE_SLOT_DEFAULT ?? ADSENSE_SLOT_DEFAULT;
+  return fallback.length > 0 ? fallback : null;
 }
 
 export function isAdsEnabled(): boolean {
@@ -76,8 +80,9 @@ export function isAdsEnabled(): boolean {
 }
 
 export function hasConfiguredAdSlots(): boolean {
-  if (process.env.NEXT_PUBLIC_ADSENSE_SLOT_DEFAULT) return true;
-  return Object.values(AD_PLACEMENTS).some(({ slotEnvKey }) => {
+  return Boolean(
+    process.env.NEXT_PUBLIC_ADSENSE_SLOT_DEFAULT ?? ADSENSE_SLOT_DEFAULT,
+  ) || Object.values(AD_PLACEMENTS).some(({ slotEnvKey }) => {
     const value = process.env[slotEnvKey as keyof NodeJS.ProcessEnv];
     return typeof value === "string" && value.length > 0;
   });

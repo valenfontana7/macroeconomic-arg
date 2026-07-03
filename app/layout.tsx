@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 
 import { CookieConsentBanner } from "@/components/cookie-consent";
-import { AdSenseHead } from "@/components/adsense-head";
+import { AdSenseLoader } from "@/components/adsense-loader";
 import { JsonLd } from "@/components/json-ld";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BRAND_DESCRIPTION, BRAND_NAME, BRAND_OG_DESCRIPTION } from "@/lib/brand";
@@ -80,10 +80,8 @@ export default function RootLayout({
       lang="es-AR"
       className={`dark ${dmSans.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <head suppressHydrationWarning>
-        <AdSenseHead />
-      </head>
       <body className="min-h-full flex flex-col bg-background font-sans">
+        <AdSenseLoader />
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
         <TooltipProvider>{children}</TooltipProvider>
