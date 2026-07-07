@@ -34,13 +34,13 @@ export function BrandFaviconMarkup({ size }: BrandFaviconProps) {
       <svg width={svgSize} height={svgSize} viewBox="0 0 32 32" fill="none">
         <path
           d="M6 24 L18 21"
-          stroke={BRAND_COLORS.oficial}
+          stroke={BRAND_COLORS.oficialOnDark}
           strokeWidth={stroke}
           strokeLinecap="round"
         />
         <path
           d="M6 24 L26 10"
-          stroke={BRAND_COLORS.paralelo}
+          stroke={BRAND_COLORS.paraleloOnDark}
           strokeWidth={stroke}
           strokeLinecap="round"
         />

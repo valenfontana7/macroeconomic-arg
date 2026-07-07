@@ -3,18 +3,22 @@ export const BRAND_NAME = "La Brecha";
 export const BRAND_TAGLINE = "Entre el oficial y el paralelo";
 
 export const BRAND_DESCRIPTION =
-  "Dólar, inflación y macro argentina en criollo. Datos del BCRA, INDEC y mercado para entender la brecha y tu bolsillo.";
+  "Cotizaciones del dólar, inflación e indicadores económicos de Argentina, con datos oficiales del BCRA, INDEC y fuentes de mercado, explicados en simple.";
 
 export const BRAND_OG_DESCRIPTION =
-  "El dólar, la inflación y la macro argentina explicados en criollo, con datos oficiales.";
+  "El dólar, la inflación y los indicadores de la economía argentina, con datos oficiales y explicaciones claras.";
 
-/** Colores de marca: oficial (BCRA) vs paralelo (mercado). */
+/** Colores de marca: oficial (BCRA) vs paralelo (mercado), ajustados para fondo claro. */
 export const BRAND_COLORS = {
-  oficial: "#38bdf8",
-  paralelo: "#f59e0b",
-  paraleloAlt: "#f87171",
+  oficial: "#1d4ed8",
+  paralelo: "#d97706",
+  paraleloAlt: "#dc2626",
   gap: "#64748b",
-  surface: "#0f172a",
+  /* Variantes claras para trazos sobre superficies oscuras (logo, favicon, OG). */
+  oficialOnDark: "#7dd3fc",
+  paraleloOnDark: "#fbbf24",
+  gapOnDark: "#94a3b8",
+  surface: "#1e3a5f",
   surfaceElevated: "#1e293b",
 } as const;
 

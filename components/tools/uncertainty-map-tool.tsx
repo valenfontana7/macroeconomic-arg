@@ -3,9 +3,9 @@ import type { VolatilityEntry } from "@/lib/tools/types";
 import { cn } from "@/lib/utils";
 
 const LEVEL_STYLES = {
-  baja: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
-  normal: "border-amber-500/30 bg-amber-500/10 text-amber-400",
-  alta: "border-red-500/30 bg-red-500/10 text-red-400",
+  baja: "border-emerald-300 bg-emerald-50 text-emerald-700",
+  normal: "border-amber-300 bg-amber-50 text-amber-700",
+  alta: "border-red-300 bg-red-50 text-red-700",
 } as const;
 
 const LEVEL_LABELS = {

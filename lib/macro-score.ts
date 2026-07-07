@@ -233,22 +233,22 @@ export function buildWeeklyDigest(input: DigestInput): string[] {
   switch (score.mood) {
     case "tranquilo":
       lines.push(
-        "En criollo: el panorama macro da señales de calma, pero conviene seguir el ritmo de precios y del dólar.",
+        "En simple: el panorama macro da señales de calma, pero conviene seguir el ritmo de precios y del dólar.",
       );
       break;
     case "atento":
       lines.push(
-        "En criollo: conviene estar atento al tipo de cambio y no subestimar la inflación al fijar precios o gastos.",
+        "En simple: conviene estar atento al tipo de cambio y no subestimar la inflación al fijar precios o gastos.",
       );
       break;
     case "turbulento":
       lines.push(
-        "En criollo: hay varias señales de tensión. Si podés, evitá decisiones apuradas y priorizá cobertura ante inflación.",
+        "En simple: hay varias señales de tensión. Si podés, evitá decisiones apuradas y priorizá cobertura ante inflación.",
       );
       break;
     case "critico":
       lines.push(
-        "En criollo: el entorno macro está bajo presión fuerte. Revisá gastos, cobertura cambiaria y plazos de ahorro con cuidado.",
+        "En simple: el entorno macro está bajo presión fuerte. Revisá gastos, cobertura cambiaria y plazos de ahorro con cuidado.",
       );
       break;
     default: {

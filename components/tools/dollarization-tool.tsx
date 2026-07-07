@@ -100,7 +100,7 @@ export function DollarizationTool({ histories, currentRates }: DollarizationTool
                   </p>
                   <p
                     className={
-                      (row.gainPct ?? 0) >= 0 ? "text-emerald-400" : "text-red-400"
+                      (row.gainPct ?? 0) >= 0 ? "text-emerald-700" : "text-red-700"
                     }
                   >
                     {(row.gainPct ?? 0) >= 0 ? "+" : ""}

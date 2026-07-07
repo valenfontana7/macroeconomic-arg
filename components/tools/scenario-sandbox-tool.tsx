@@ -87,7 +87,7 @@ export function ScenarioSandboxTool({ baseInput, currentScore }: ScenarioSandbox
           </Badge>
           <p className="text-sm text-muted-foreground">
             Hoy real: {currentScore}/100 ·{" "}
-            <span className={delta >= 0 ? "text-emerald-400" : "text-red-400"}>
+            <span className={delta >= 0 ? "text-emerald-700" : "text-red-700"}>
               {delta >= 0 ? "+" : ""}
               {delta} pts en tu escenario
             </span>

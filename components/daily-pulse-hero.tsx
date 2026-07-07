@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { MOOD_EMOJI, MOOD_LABELS } from "@/lib/macro-score";
+import { MOOD_LABELS } from "@/lib/macro-score";
 import { scoreToGaugeColor } from "@/lib/thermometer-color";
 import type { DashboardData } from "@/lib/dashboard-data";
 import { formatChange, formatDate } from "@/lib/format";
@@ -53,7 +53,7 @@ export function DailyPulseHero({ data }: DailyPulseHeroProps) {
             </span>
             <span className="pb-1 text-sm text-muted-foreground">/ 100</span>
             <Badge variant="outline" className="mb-1">
-              {MOOD_EMOJI[macroScore.mood]} {MOOD_LABELS[macroScore.mood]}
+              {MOOD_LABELS[macroScore.mood]}
             </Badge>
           </div>
         </div>

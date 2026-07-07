@@ -9,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: BRAND_DESCRIPTION,
     start_url: "/",
     display: "standalone",
-    background_color: "#0f172a",
-    theme_color: "#0f172a",
+    background_color: "#f8fafc",
+    theme_color: "#1e3a5f",
     lang: "es-AR",
     categories: ["finance", "news"],
     icons: [

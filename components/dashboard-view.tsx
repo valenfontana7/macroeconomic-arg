@@ -4,6 +4,7 @@ import { BrechaAlertsSettings } from "@/components/brecha-alerts-settings";
 import { ContextInsights } from "@/components/context-insights";
 import { DashboardGuide } from "@/components/dashboard-guide";
 import { DailyPulseHero } from "@/components/daily-pulse-hero";
+import { DollarHero } from "@/components/dollar-hero";
 import { DollarPanel } from "@/components/dollar-panel";
 import { ForexPanel } from "@/components/forex-panel";
 import { IndicatorCard } from "@/components/indicator-card";
@@ -32,61 +33,66 @@ export function DashboardView({ data, thermometerHistory }: DashboardViewProps) 
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6">
       {data.error ? (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+        <div className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
           {data.error}
         </div>
       ) : null}
 
       {data.partialErrors.length > 0 ? (
-        <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
+        <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
           Algunas fuentes no respondieron. Mostramos los datos disponibles.
         </div>
       ) : null}
 
       {data.dollar ? <BrechaAlertsBanner dollar={data.dollar} /> : null}
 
-      <section className="flex flex-col gap-4">
-        <div className="flex flex-wrap gap-2">
-          <Badge variant="outline" className="border-sky-500/30 text-sky-400">
-            BCRA
-          </Badge>
-          <Badge variant="outline" className="border-sky-500/30 text-sky-400">
-            INDEC
-          </Badge>
-          <Badge variant="outline" className="border-sky-500/30 text-sky-400">
-            DolarAPI
-          </Badge>
-          <Badge variant="outline" className="border-sky-500/30 text-sky-400">
-            ArgentinaDatos
-          </Badge>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-            ¿Cómo está la economía hoy?
-          </h1>
-          <p className="max-w-3xl text-muted-foreground">
-            La brecha entre el oficial y el paralelo, explicada con datos oficiales y de mercado:
-            reservas, todos los dólares, inflación INDEC, actividad y riesgo país —
-            para decisiones del día a día.
-          </p>
-        </div>
-
+      <section className="flex flex-col gap-2">
+        <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+          Dólar hoy en Argentina: oficial, blue, MEP y CCL
+        </h1>
+        <p className="max-w-3xl text-muted-foreground">
+          Cotizaciones del dólar en tiempo casi real, inflación INDEC, reservas del BCRA
+          y los principales indicadores de la economía argentina, con fuentes oficiales
+          y de mercado.
+        </p>
         <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
           <span>Actualizado {formatDate(data.fetchedAt)}</span>
           {data.usdOfficial !== null ? (
             <span>
-              Dólar oficial: {formatCurrency(data.usdOfficial)}
-              {data.usdDate ? ` · BCRA ${formatDate(data.usdDate)}` : ""}
+              Dólar oficial BCRA: {formatCurrency(data.usdOfficial)}
+              {data.usdDate ? ` (${formatDate(data.usdDate)})` : ""}
             </span>
           ) : null}
+        </div>
+      </section>
+
+      {data.dollar ? <DollarHero dollar={data.dollar} /> : null}
+
+      <AdSlot placement="dashboard-below-hero" />
+
+      <section className="flex flex-col gap-2">
+        <h2 className="font-heading text-2xl font-semibold tracking-tight">
+          ¿Cómo está la economía hoy?
+        </h2>
+        <div className="flex flex-wrap gap-2">
+          <Badge variant="outline" className="border-sky-300 text-sky-800">
+            BCRA
+          </Badge>
+          <Badge variant="outline" className="border-sky-300 text-sky-800">
+            INDEC
+          </Badge>
+          <Badge variant="outline" className="border-sky-300 text-sky-800">
+            DolarAPI
+          </Badge>
+          <Badge variant="outline" className="border-sky-300 text-sky-800">
+            ArgentinaDatos
+          </Badge>
         </div>
       </section>
 
       <DashboardGuide />
 
       <DailyPulseHero data={data} />
-
-      <AdSlot placement="dashboard-below-hero" />
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="flex flex-col gap-4">
@@ -122,14 +128,14 @@ export function DashboardView({ data, thermometerHistory }: DashboardViewProps) 
           subtitle="Diferencia porcentual histórica (ArgentinaDatos)"
           series={data.featuredSeries.brechaCcl}
           format="percent"
-          color="#f87171"
+          color="#dc2626"
         />
         <TrendChart
           title="Inflación interanual (INDEC)"
           subtitle="Variación de precios en 12 meses"
           series={data.featuredSeries.indecInflationAnnual}
           format="percent"
-          color="#fbbf24"
+          color="#d97706"
         />
       </section>
 
@@ -139,14 +145,14 @@ export function DashboardView({ data, thermometerHistory }: DashboardViewProps) 
           subtitle="Tipo de cambio oficial de referencia"
           series={data.featuredSeries.dollar}
           format="currency"
-          color="#38bdf8"
+          color="#1d4ed8"
         />
         <TrendChart
           title="Inflación mensual"
           subtitle="IPC mensual (BCRA / INDEC)"
           series={data.featuredSeries.inflation}
           format="percent"
-          color="#a78bfa"
+          color="#7c3aed"
         />
       </section>
 
@@ -170,6 +176,8 @@ export function DashboardView({ data, thermometerHistory }: DashboardViewProps) 
           </section>
         );
       })}
+
+      <AdSlot placement="dashboard-footer" />
     </div>
   );
 }

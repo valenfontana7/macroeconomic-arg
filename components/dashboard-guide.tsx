@@ -54,7 +54,7 @@ export function DashboardGuide() {
                 href="/aprende"
                 className="text-foreground underline underline-offset-2"
               >
-                glosario en criollo
+                glosario de economía
               </Link>{" "}
               para entender cada concepto sin ser economista.
             </li>

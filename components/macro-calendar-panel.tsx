@@ -16,8 +16,8 @@ type MacroCalendarPanelProps = {
 };
 
 const SOURCE_STYLES = {
-  INDEC: "border-sky-500/30 text-sky-400",
-  BCRA: "border-violet-500/30 text-violet-400",
+  INDEC: "border-sky-300 text-sky-800",
+  BCRA: "border-violet-300 text-violet-800",
 } as const;
 
 function EventRow({ event }: { event: MacroCalendarEvent }) {
@@ -29,7 +29,7 @@ function EventRow({ event }: { event: MacroCalendarEvent }) {
           {event.source}
         </Badge>
         {event.status === "recent" ? (
-          <Badge variant="outline" className="border-emerald-500/30 text-emerald-400">
+          <Badge variant="outline" className="border-emerald-300 text-emerald-700">
             Reciente
           </Badge>
         ) : null}

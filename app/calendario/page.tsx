@@ -37,10 +37,10 @@ export default function CalendarioPage() {
             variar.
           </p>
           <div className="flex flex-wrap gap-2 pt-1">
-            <Badge variant="outline" className="border-sky-500/30 text-sky-400">
+            <Badge variant="outline" className="border-sky-300 text-sky-800">
               INDEC
             </Badge>
-            <Badge variant="outline" className="border-violet-500/30 text-violet-400">
+            <Badge variant="outline" className="border-violet-300 text-violet-800">
               BCRA
             </Badge>
           </div>

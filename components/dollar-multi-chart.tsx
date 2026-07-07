@@ -33,7 +33,7 @@ const PERIODS = [
 const LINES = [
   { key: "oficial", label: "Oficial", color: BRAND_COLORS.oficial },
   { key: "blue", label: "Blue", color: BRAND_COLORS.paraleloAlt },
-  { key: "bolsa", label: "MEP", color: "#a78bfa" },
+  { key: "bolsa", label: "MEP", color: "#7c3aed" },
   { key: "ccl", label: "CCL", color: BRAND_COLORS.paralelo },
 ] as const;
 

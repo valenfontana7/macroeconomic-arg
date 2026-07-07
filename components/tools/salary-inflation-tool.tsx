@@ -68,7 +68,7 @@ export function SalaryInflationTool({ ipcMonthlySeries }: SalaryInflationToolPro
             <p className="text-sm text-muted-foreground">
               Si tu sueldo nominal no subió en {months} meses:
             </p>
-            <p className="mt-2 text-2xl font-bold text-red-400">
+            <p className="mt-2 text-2xl font-bold text-red-700">
               Hoy compra como ${formatNumber(latest.real, 0)} de antes
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -97,8 +97,8 @@ export function SalaryInflationTool({ ipcMonthlySeries }: SalaryInflationToolPro
             <Area
               type="monotone"
               dataKey="real"
-              stroke="#f87171"
-              fill="#f87171"
+              stroke="#dc2626"
+              fill="#dc2626"
               fillOpacity={0.2}
               strokeWidth={2}
             />

@@ -31,7 +31,7 @@ export default async function DigestPage() {
           <h1 className="font-heading text-3xl font-bold tracking-tight">Digest por email</h1>
           <p className="text-muted-foreground">
             El mismo resumen del dashboard — termómetro, inflación y brecha — directo en tu
-            correo. Sin noticias: solo datos e interpretación en criollo.
+            correo. Sin noticias: solo datos e interpretación en simple.
           </p>
         </div>
 

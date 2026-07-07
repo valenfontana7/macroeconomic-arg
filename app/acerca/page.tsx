@@ -105,7 +105,7 @@ export default function AboutPage() {
           </CardHeader>
           <CardContent className="flex flex-col gap-3 text-sm text-muted-foreground">
             <p>
-              {BRAND_NAME} combina datos oficiales con explicaciones en criollo
+              {BRAND_NAME} combina datos oficiales con explicaciones claras
               para que cualquier persona entienda qué mira y por qué importa. El
               glosario en{" "}
               <Link href="/aprende" className="text-foreground underline underline-offset-2">
@@ -198,7 +198,7 @@ export default function AboutPage() {
                 Cada serie tiene su propia periodicidad y fecha de actualización.
               </li>
               <li>
-                Los textos &quot;En criollo&quot; y las señales usan reglas fijas,
+                Los textos &quot;En simple&quot; y las señales usan reglas fijas,
                 no inteligencia artificial.
               </li>
             </ul>

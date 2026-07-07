@@ -26,7 +26,7 @@ const SECTIONS: {
   >;
   title: string;
 }[] = [
-  { key: "enCristiano", title: "En criollo" },
+  { key: "enCristiano", title: "En simple" },
   { key: "paraQueSirve", title: "Para qué sirve" },
   { key: "comoLeerlo", title: "Cómo leer el número" },
   { key: "enTuVida", title: "En tu vida diaria" },

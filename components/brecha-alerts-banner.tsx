@@ -39,8 +39,8 @@ export function BrechaAlertsBanner({ dollar }: BrechaAlertsBannerProps) {
       className={cn(
         "flex flex-col gap-3 rounded-xl border px-4 py-3 text-sm",
         isCritical
-          ? "border-red-500/40 bg-red-500/10 text-red-100"
-          : "border-amber-500/40 bg-amber-500/10 text-amber-100",
+          ? "border-red-300 bg-red-50 text-red-800"
+          : "border-amber-300 bg-amber-50 text-amber-800",
       )}
       role="alert"
     >

@@ -35,9 +35,9 @@ const CASA_LABELS: Record<string, string> = {
 
 function brechaBadgeClass(pct: number | null): string {
   if (pct === null) return "border-muted-foreground/30 text-muted-foreground";
-  if (pct < 10) return "border-emerald-500/30 text-emerald-400";
-  if (pct < 25) return "border-amber-500/30 text-amber-400";
-  return "border-red-500/30 text-red-400";
+  if (pct < 10) return "border-emerald-300 text-emerald-700";
+  if (pct < 25) return "border-amber-300 text-amber-700";
+  return "border-red-300 text-red-700";
 }
 
 export function DollarPanel({ dollar }: DollarPanelProps) {

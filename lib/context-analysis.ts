@@ -268,22 +268,22 @@ export function buildExtendedDigest(input: ExtendedDigestInput): string[] {
   switch (score.mood) {
     case "tranquilo":
       lines.push(
-        "En criollo: hay señales de calma relativa, pero en Argentina conviene revisar precios y dólar cada semana.",
+        "En simple: hay señales de calma relativa, pero en Argentina conviene revisar precios y dólar cada semana.",
       );
       break;
     case "atento":
       lines.push(
-        "En criollo: no es momento de ignorar el macro. Actualizá expectativas de gasto y cobertura cambiaria.",
+        "En simple: no es momento de ignorar el macro. Actualizá expectativas de gasto y cobertura cambiaria.",
       );
       break;
     case "turbulento":
       lines.push(
-        "En criollo: varias variables apuntan a tensión. Evitá decisiones apuradas y priorizá liquidez.",
+        "En simple: varias variables apuntan a tensión. Evitá decisiones apuradas y priorizá liquidez.",
       );
       break;
     case "critico":
       lines.push(
-        "En criollo: el entorno está exigente. Si podés, postergá compromisos grandes hasta tener más claridad.",
+        "En simple: el entorno está exigente. Si podés, postergá compromisos grandes hasta tener más claridad.",
       );
       break;
     default: {

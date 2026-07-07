@@ -57,7 +57,7 @@ const STATIC_PAGES: SearchItem[] = [
   {
     id: "aprende",
     title: "Aprendé",
-    subtitle: "Glosario en criollo",
+    subtitle: "Glosario de economía",
     href: "/aprende",
     group: "Páginas",
     keywords: ["conceptos", "educación", "glosario"],

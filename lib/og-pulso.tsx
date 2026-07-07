@@ -60,13 +60,13 @@ export function PulsoOgMarkup({ data }: { data: PulsoOgData }) {
             <rect width="32" height="32" rx="8" fill={BRAND_COLORS.surfaceElevated} />
             <path
               d="M6 24 L18 21"
-              stroke={BRAND_COLORS.oficial}
+              stroke={BRAND_COLORS.oficialOnDark}
               strokeWidth="2.5"
               strokeLinecap="round"
             />
             <path
               d="M6 24 L26 10"
-              stroke={BRAND_COLORS.paralelo}
+              stroke={BRAND_COLORS.paraleloOnDark}
               strokeWidth="2.5"
               strokeLinecap="round"
             />

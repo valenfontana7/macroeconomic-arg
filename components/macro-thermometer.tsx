@@ -1,10 +1,6 @@
 import Link from "next/link";
 
-import {
-  MOOD_EMOJI,
-  MOOD_LABELS,
-  type MacroScoreResult,
-} from "@/lib/macro-score";
+import { MOOD_LABELS, type MacroScoreResult } from "@/lib/macro-score";
 import { scoreToArcPoint, scoreToGaugeColor } from "@/lib/thermometer-color";
 
 type MacroThermometerProps = {
@@ -44,7 +40,7 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
           className="mt-1 text-2xl font-semibold"
           style={{ color: accentColor }}
         >
-          {MOOD_EMOJI[score.mood]} {MOOD_LABELS[score.mood]}
+          {MOOD_LABELS[score.mood]}
         </p>
         <Link
           href="/aprende/termometro-macro"
@@ -70,11 +66,11 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
               y2="108"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="0%" stopColor="#ef4444" />
-              <stop offset="35%" stopColor="#f97316" />
-              <stop offset="55%" stopColor="#fbbf24" />
-              <stop offset="75%" stopColor="#84cc16" />
-              <stop offset="100%" stopColor="#22c55e" />
+            <stop offset="0%" stopColor="#dc2626" />
+            <stop offset="35%" stopColor="#ea580c" />
+            <stop offset="55%" stopColor="#d97706" />
+            <stop offset="75%" stopColor="#65a30d" />
+            <stop offset="100%" stopColor="#16a34a" />
             </linearGradient>
           </defs>
 
@@ -113,7 +109,7 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
             x={28}
             y={127}
             textAnchor="middle"
-            fill="rgb(248 113 113 / 0.9)"
+            fill="#dc2626"
             fontSize={11}
             fontWeight={500}
           >
@@ -123,7 +119,7 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
             x={centerX}
             y={centerY - radius - 11}
             textAnchor="middle"
-            fill="rgb(251 191 36 / 0.9)"
+            fill="#d97706"
             fontSize={11}
             fontWeight={500}
           >
@@ -133,7 +129,7 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
             x={192}
             y={127}
             textAnchor="middle"
-            fill="rgb(74 222 128 / 0.9)"
+            fill="#16a34a"
             fontSize={11}
             fontWeight={500}
           >

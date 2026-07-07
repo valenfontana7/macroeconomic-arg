@@ -73,9 +73,9 @@ export function DigestSignup({ enabled }: DigestSignupProps) {
         <p
           className={
             status === "success"
-              ? "text-sm text-emerald-400"
+              ? "text-sm text-emerald-700"
               : status === "error"
-                ? "text-sm text-red-400"
+                ? "text-sm text-red-700"
                 : "text-sm text-muted-foreground"
           }
         >

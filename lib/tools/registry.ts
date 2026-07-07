@@ -6,7 +6,7 @@ export const TOOLS: ToolDefinition[] = [
     title: "La brecha de hoy",
     tagline: "Tu resumen compartible del día",
     description:
-      "Tres frases en criollo, el termómetro y los números clave — listos para WhatsApp.",
+      "Tres frases claras, el termómetro y los números clave — listos para WhatsApp.",
     emoji: "📲",
     impactOrder: 1,
   },
@@ -60,7 +60,7 @@ export const TOOLS: ToolDefinition[] = [
     title: "Modo viajero",
     tagline: "¿Cuánto cuesta tu viaje ahora?",
     description:
-      "Brasil, Chile, Uruguay o Europa: cotización hoy vs hace un mes en criollo.",
+      "Brasil, Chile, Uruguay o Europa: cotización de hoy comparada con la de hace un mes.",
     emoji: "✈️",
     impactOrder: 7,
   },

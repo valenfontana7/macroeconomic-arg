@@ -6,20 +6,22 @@ import { getThermometerHistory } from "@/lib/thermometer-history";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "Dólar, inflación y brecha cambiaria hoy en Argentina",
+  title: "Dólar hoy: cotización del dólar blue, oficial, MEP y CCL en Argentina",
   description:
-    "Dashboard macro argentino con dólar oficial, blue, MEP y CCL, inflación INDEC, reservas del BCRA y termómetro del día. Datos en criollo para entender la brecha.",
+    "Cotización del dólar hoy en Argentina: blue, oficial, MEP, CCL y tarjeta en tiempo real, con brecha cambiaria, inflación INDEC y reservas del BCRA. Datos de fuentes oficiales y de mercado.",
   path: "/",
   keywords: [
-    "dólar hoy argentina",
+    "dólar hoy",
+    "dólar blue hoy",
+    "cotización dólar",
+    "dólar oficial hoy",
+    "dólar MEP hoy",
     "brecha cambiaria hoy",
     "inflación argentina hoy",
-    "termómetro macro argentina",
-    "cotización dólar blue MEP CCL",
   ],
 });
 
-export const revalidate = 3600;
+export const revalidate = 900;
 
 export default async function HomePage() {
   const [data, thermometerHistory] = await Promise.all([

@@ -24,20 +24,20 @@ export function BrandLogo({ size = 32, className, showGap = true }: BrandLogoPro
       <rect width="32" height="32" rx="8" fill={BRAND_COLORS.surface} />
       <path
         d="M6 24 L18 21"
-        stroke={BRAND_COLORS.oficial}
+        stroke={BRAND_COLORS.oficialOnDark}
         strokeWidth="2.5"
         strokeLinecap="round"
       />
       <path
         d="M6 24 L26 10"
-        stroke={BRAND_COLORS.paralelo}
+        stroke={BRAND_COLORS.paraleloOnDark}
         strokeWidth="2.5"
         strokeLinecap="round"
       />
       {showGap ? (
         <path
           d="M18 21 L26 10"
-          stroke={BRAND_COLORS.gap}
+          stroke={BRAND_COLORS.gapOnDark}
           strokeWidth="1.5"
           strokeDasharray="2 2"
           strokeLinecap="round"

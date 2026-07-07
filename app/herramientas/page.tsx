@@ -47,7 +47,7 @@ export default function HerramientasPage() {
           </h1>
           <p className="max-w-2xl text-muted-foreground">
             Experiencias que no vas a encontrar en un diario ni en un panel de
-            cotizaciones: simuladores, tu termómetro personal y lectura de señales en criollo.
+            cotizaciones: simuladores, tu termómetro personal y lectura de señales en simple.
           </p>
         </div>
 

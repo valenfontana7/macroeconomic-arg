@@ -10,7 +10,7 @@ import {
   YAxis,
 } from "recharts";
 
-import { MOOD_EMOJI, MOOD_LABELS } from "@/lib/macro-score";
+import { MOOD_LABELS } from "@/lib/macro-score";
 import { scoreToGaugeColor } from "@/lib/thermometer-color";
 import type { ThermometerHistoryPoint } from "@/lib/thermometer-history";
 import { formatShortDate } from "@/lib/format";
@@ -73,7 +73,7 @@ export function ThermometerHistoryChart({ history, compact = false }: Thermomete
                   <div className="rounded-lg border border-border bg-card px-3 py-2 text-xs shadow-md">
                     <p className="font-medium">{formatShortDate(String(label))}</p>
                     <p className="tabular-nums" style={{ color: scoreToGaugeColor(point.score) }}>
-                      {point.score}/100 — {MOOD_EMOJI[point.mood]} {MOOD_LABELS[point.mood]}
+                      {point.score}/100 — {MOOD_LABELS[point.mood]}
                     </p>
                   </div>
                 );

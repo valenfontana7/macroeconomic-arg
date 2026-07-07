@@ -8,13 +8,13 @@ import { getAllConcepts } from "@/lib/macro-education";
 import { buildPageMetadata, canonicalUrl, itemListJsonLd } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "Aprendé macro en criollo — glosario Argentina",
+  title: "Glosario de economía argentina — dólar, inflación y más",
   description:
-    "Glosario de economía argentina en criollo: dólar, inflación, reservas, brecha cambiaria y más. Explicado para el día a día, sin ser economista.",
+    "Glosario de economía argentina explicado en simple: dólar, inflación, reservas, brecha cambiaria y más. Para entender el día a día sin ser economista.",
   path: "/aprende",
   keywords: [
     "glosario macroeconomía argentina",
-    "economía en criollo",
+    "economía argentina explicada",
     "qué es la brecha cambiaria",
     "aprender economía argentina",
   ],
@@ -24,7 +24,7 @@ export default function AprendePage() {
   const concepts = getAllConcepts();
 
   const listJsonLd = itemListJsonLd(
-    "Glosario macro en criollo",
+    "Glosario de economía argentina",
     concepts.map((c) => ({
       name: c.title,
       url: canonicalUrl(`/aprende/${c.slug}`),

@@ -130,7 +130,7 @@ export function BrechaAlertsSettings() {
               Restaurar defaults
             </Button>
             {saved ? (
-              <span className="self-center text-xs text-emerald-400">Guardado</span>
+              <span className="self-center text-xs text-emerald-700">Guardado</span>
             ) : null}
           </div>
         </CardContent>

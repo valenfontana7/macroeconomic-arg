@@ -1,11 +1,11 @@
-/** Interpola rojo → ámbar → verde según score 0–100. */
+/** Interpola rojo → ámbar → verde según score 0–100 (tonos con contraste sobre fondo claro). */
 export function scoreToGaugeColor(score: number): string {
   const t = Math.min(100, Math.max(0, score)) / 100;
 
   if (t <= 0.5) {
-    return mixHex("#ef4444", "#fbbf24", t * 2);
+    return mixHex("#dc2626", "#d97706", t * 2);
   }
-  return mixHex("#fbbf24", "#22c55e", (t - 0.5) * 2);
+  return mixHex("#d97706", "#16a34a", (t - 0.5) * 2);
 }
 
 function mixHex(from: string, to: string, amount: number): string {

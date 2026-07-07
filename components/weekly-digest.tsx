@@ -10,7 +10,7 @@ export function WeeklyDigest({ lines }: WeeklyDigestProps) {
   return (
     <Card className="border-border/60 bg-card/60">
       <CardHeader>
-        <CardTitle>En criollo</CardTitle>
+        <CardTitle>Resumen en simple</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-3 text-sm leading-relaxed text-muted-foreground">
         {lines.map((line) => (

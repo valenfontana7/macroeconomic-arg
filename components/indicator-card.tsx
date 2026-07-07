@@ -37,9 +37,9 @@ type IndicatorCardProps = {
 };
 
 const SIGNAL_STYLES: Record<SignalLevel, string> = {
-  good: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
-  warning: "bg-amber-500/15 text-amber-400 border-amber-500/30",
-  danger: "bg-red-500/15 text-red-400 border-red-500/30",
+  good: "bg-emerald-50 text-emerald-700 border-emerald-300",
+  warning: "bg-amber-50 text-amber-700 border-amber-300",
+  danger: "bg-red-50 text-red-700 border-red-300",
 };
 
 function formatIndicatorValue(slug: string, value: number): string {
@@ -122,7 +122,7 @@ export function IndicatorCard({ indicator }: IndicatorCardProps) {
 
         {concept ? (
           <p className="text-xs leading-relaxed text-muted-foreground">
-            <span className="font-medium text-foreground/80">En criollo:</span>{" "}
+            <span className="font-medium text-foreground/80">En simple:</span>{" "}
             {truncate(concept.enCristiano)}
           </p>
         ) : null}

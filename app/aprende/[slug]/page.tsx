@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps) {
 
   return buildPageMetadata({
     title: `${concept.title} — qué es y cómo leerlo`,
-    description: `${concept.enCristiano} Guía en criollo con datos de Argentina.`,
+    description: `${concept.enCristiano} Guía explicada en simple con datos de Argentina.`,
     path: `/aprende/${concept.slug}`,
     type: "article",
     keywords: [concept.title, "Argentina", "macroeconomía", concept.category],

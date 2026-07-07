@@ -40,7 +40,7 @@ type CiteBlocksProps = {
 
 export function CiteBlocks({ siteUrl }: CiteBlocksProps) {
   const citation = brandCitation(siteUrl);
-  const markdownLink = `[${BRAND_NAME}](${siteUrl}) — dólar, inflación y macro en criollo`;
+  const markdownLink = `[${BRAND_NAME}](${siteUrl}) — dólar, inflación e indicadores de Argentina`;
   const embedCode = `<iframe src="${siteUrl}/embed/termometro" width="320" height="220" style="border:0;border-radius:12px" title="${BRAND_NAME} — termómetro macro" loading="lazy"></iframe>`;
 
   return (

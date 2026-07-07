@@ -78,7 +78,7 @@ export default function RootLayout({
   return (
     <html
       lang="es-AR"
-      className={`dark ${dmSans.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background font-sans">
         <AdSenseLoader />
