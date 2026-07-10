@@ -2,6 +2,7 @@ import { DashboardView } from "@/components/dashboard-view";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getDashboardData } from "@/lib/dashboard-data";
+import { buildMacroBriefing } from "@/lib/macro-briefing";
 import { getThermometerHistory } from "@/lib/thermometer-history";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -28,12 +29,17 @@ export default async function HomePage() {
     getDashboardData(),
     getThermometerHistory(90),
   ]);
+  const editorialBriefing = buildMacroBriefing(data, "home");
 
   return (
     <>
       <SiteHeader />
       <main id="main-content" className="flex-1">
-        <DashboardView data={data} thermometerHistory={thermometerHistory} />
+        <DashboardView
+          data={data}
+          thermometerHistory={thermometerHistory}
+          editorialBriefing={editorialBriefing}
+        />
       </main>
       <SiteFooter />
     </>

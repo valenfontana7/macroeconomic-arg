@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { AdSlot } from "@/components/ad-slot";
 import { AprendeGlossary } from "@/components/aprende-glossary";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -5,6 +7,7 @@ import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getAllConcepts } from "@/lib/macro-education";
+import { GUIDE_PAGES } from "@/lib/guide-pages";
 import { buildPageMetadata, canonicalUrl, itemListJsonLd } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
@@ -49,6 +52,24 @@ export default function AprendePage() {
             cómo leer el número y qué hacer con eso en tu vida diaria.
           </p>
         </div>
+
+        <section className="flex flex-col gap-3 rounded-2xl border border-border/60 bg-card/40 p-5">
+          <h2 className="font-heading text-lg font-semibold">Guías temáticas</h2>
+          <p className="text-sm text-muted-foreground">
+            Lecturas largas que reúnen varios conceptos del glosario en un solo lugar.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {GUIDE_PAGES.map((guide) => (
+              <Link
+                key={guide.slug}
+                href={`/aprende/guia/${guide.slug}`}
+                className="rounded-lg border border-border/60 px-4 py-2 text-sm transition-colors hover:border-primary/40 hover:text-primary"
+              >
+                {guide.title}
+              </Link>
+            ))}
+          </div>
+        </section>
 
         <AprendeGlossary concepts={concepts} />
         <AdSlot placement="aprende-footer" />

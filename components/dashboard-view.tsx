@@ -10,6 +10,7 @@ import { DailyPulseHero } from "@/components/daily-pulse-hero";
 import { DollarHero } from "@/components/dollar-hero";
 import { FiscalPanel } from "@/components/fiscal-panel";
 import { ForexPanel } from "@/components/forex-panel";
+import { HubEditorialPanel } from "@/components/hub-editorial-panel";
 import { IndicatorCard } from "@/components/indicator-card";
 import { MacroContextGrid } from "@/components/macro-context-grid";
 import { MacroCalendarPanel } from "@/components/macro-calendar-panel";
@@ -24,14 +25,16 @@ import { DashboardPulseExtras } from "@/components/dashboard-pulse-extras";
 import { formatCurrency, formatDate } from "@/lib/format";
 import { PILLAR_LABELS } from "@/lib/indicators";
 import type { DashboardData } from "@/lib/dashboard-data";
+import type { MacroBriefing } from "@/lib/macro-briefing";
 import type { ThermometerHistoryPoint } from "@/lib/thermometer-history";
 
 type DashboardViewProps = {
   data: DashboardData;
   thermometerHistory: ThermometerHistoryPoint[];
+  editorialBriefing: MacroBriefing;
 };
 
-export function DashboardView({ data, thermometerHistory }: DashboardViewProps) {
+export function DashboardView({ data, thermometerHistory, editorialBriefing }: DashboardViewProps) {
   const pillars = Array.from(new Set(data.indicators.map((item) => item.pillar)));
   const topInsights = data.insights.slice(0, 3);
 
@@ -96,6 +99,8 @@ export function DashboardView({ data, thermometerHistory }: DashboardViewProps) 
         </section>
 
         <DailyPulseHero data={data} />
+
+        <HubEditorialPanel briefing={editorialBriefing} scope="home" />
 
         <div data-section="pulse-only">
           <DashboardPulseExtras score={data.macroScore} insights={topInsights} />

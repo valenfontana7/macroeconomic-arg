@@ -6,6 +6,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    date: "2026-07-10",
+    title: "Contenido editorial para AdSense",
+    items: [
+      "Nueva página /pulso con briefing macro automatizado e indexable.",
+      "Páginas /contacto, guías pillar en /aprende/guia/* y paneles editoriales en home, dólar, inflación e indicadores.",
+      "FAQs visibles, autor identificado y JSON-LD Person/Organization.",
+    ],
+  },
+  {
     date: "2026-07-09",
     title: "Finanzas públicas en el termómetro",
     items: [

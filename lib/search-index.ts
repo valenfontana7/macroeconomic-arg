@@ -1,4 +1,5 @@
 import { ALL_CONCEPTS } from "@/lib/macro-education";
+import { GUIDE_PAGES } from "@/lib/guide-pages";
 import { INDICATORS } from "@/lib/indicators";
 import { TOOLS } from "@/lib/tools/registry";
 
@@ -14,6 +15,22 @@ export type SearchItem = {
 };
 
 const STATIC_PAGES: SearchItem[] = [
+  {
+    id: "pulso",
+    title: "Pulso macro",
+    subtitle: "Análisis del día en texto",
+    href: "/pulso",
+    group: "Páginas",
+    keywords: ["pulso", "análisis", "briefing", "hoy"],
+  },
+  {
+    id: "contacto",
+    title: "Contacto",
+    subtitle: "Editor y consultas",
+    href: "/contacto",
+    group: "Páginas",
+    keywords: ["contacto", "email", "editor"],
+  },
   {
     id: "home",
     title: "Dashboard",
@@ -123,6 +140,15 @@ function buildIndex(): SearchItem[] {
     keywords: [concept.slug, concept.category, concept.title.toLowerCase()],
   }));
 
+  const guides: SearchItem[] = GUIDE_PAGES.map((guide) => ({
+    id: `guide-${guide.slug}`,
+    title: guide.title,
+    subtitle: guide.description,
+    href: `/aprende/guia/${guide.slug}`,
+    group: "Aprendé",
+    keywords: [guide.slug, "guía", guide.title.toLowerCase()],
+  }));
+
   const tools: SearchItem[] = TOOLS.map((tool) => ({
     id: `tool-${tool.slug}`,
     title: tool.title,
@@ -132,7 +158,7 @@ function buildIndex(): SearchItem[] {
     keywords: [tool.slug, tool.title.toLowerCase(), tool.tagline.toLowerCase()],
   }));
 
-  return [...STATIC_PAGES, ...indicators, ...concepts, ...tools];
+  return [...STATIC_PAGES, ...indicators, ...concepts, ...guides, ...tools];
 }
 
 const SEARCH_INDEX = buildIndex();

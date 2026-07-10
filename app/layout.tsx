@@ -7,8 +7,9 @@ import { JsonLd } from "@/components/json-ld";
 import { SkipLink } from "@/components/skip-link";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BRAND_DESCRIPTION, BRAND_NAME, BRAND_OG_DESCRIPTION } from "@/lib/brand";
+import { PUBLISHER_NAME } from "@/lib/publisher";
 import { getSiteUrl } from "@/lib/site-url";
-import { organizationJsonLd, SEO_KEYWORDS, websiteJsonLd } from "@/lib/seo";
+import { organizationJsonLd, personJsonLd, SEO_KEYWORDS, websiteJsonLd } from "@/lib/seo";
 
 import "./globals.css";
 
@@ -35,8 +36,8 @@ export const metadata: Metadata = {
   },
   description: BRAND_DESCRIPTION,
   keywords: [...SEO_KEYWORDS],
-  authors: [{ name: BRAND_NAME, url: getSiteUrl() }],
-  creator: BRAND_NAME,
+  authors: [{ name: PUBLISHER_NAME, url: `${getSiteUrl()}/acerca` }],
+  creator: PUBLISHER_NAME,
   publisher: BRAND_NAME,
   category: "finance",
   robots: {
@@ -85,6 +86,7 @@ export default function RootLayout({
         <SkipLink />
         <AdSenseLoader />
         <JsonLd data={organizationJsonLd()} />
+        <JsonLd data={personJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
         <TooltipProvider>{children}</TooltipProvider>
         <CookieConsentBanner />

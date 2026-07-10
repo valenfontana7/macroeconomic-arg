@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { AdSlot } from "@/components/ad-slot";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { HubEditorialPanel } from "@/components/hub-editorial-panel";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { TrendChart } from "@/components/trend-chart";
@@ -11,6 +12,7 @@ import { getInflacionIndecHistory } from "@/lib/argentinadatos-client";
 import { getDashboardData } from "@/lib/dashboard-data";
 import { getIndecInflationSeries } from "@/lib/datos-gobar-client";
 import { formatDate, formatNumber } from "@/lib/format";
+import { buildMacroBriefing } from "@/lib/macro-briefing";
 import { cn } from "@/lib/utils";
 import { buildPageMetadata, faqJsonLdFromPairs, INFLACION_FAQ } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
@@ -40,6 +42,8 @@ export default async function InflacionPage() {
 
   const inflation = dashboard.indicators.find((i) => i.slug === "inflacion");
   const badlar = dashboard.indicators.find((i) => i.slug === "badlar");
+
+  const editorialBriefing = buildMacroBriefing(dashboard, "inflacion");
 
   return (
     <>
@@ -147,6 +151,8 @@ export default async function InflacionPage() {
             Tu sueldo vs inflación
           </Link>
         </section>
+
+        <HubEditorialPanel briefing={editorialBriefing} scope="inflacion" />
 
         <AdSlot placement="dashboard-mid-content" />
       </main>

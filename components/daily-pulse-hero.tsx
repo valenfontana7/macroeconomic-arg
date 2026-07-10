@@ -73,7 +73,10 @@ export function DailyPulseHero({ data }: DailyPulseHeroProps) {
         ) : null}
 
         <div className="flex flex-wrap gap-2">
-          <Link href="/herramientas/pulso-del-dia" className={cn(buttonVariants({ size: "sm" }))}>
+          <Link href="/pulso" className={cn(buttonVariants({ size: "sm" }))}>
+            Leer pulso completo
+          </Link>
+          <Link href="/herramientas/pulso-del-dia" className={cn(buttonVariants({ size: "sm", variant: "outline" }))}>
             Compartir resumen
           </Link>
           <Link

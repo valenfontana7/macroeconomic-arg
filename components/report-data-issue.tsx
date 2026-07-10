@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
 import { BRAND_NAME } from "@/lib/brand";
+import { PUBLISHER_EMAIL } from "@/lib/publisher";
 import { cn } from "@/lib/utils";
 
 export function ReportDataIssue() {
@@ -12,7 +13,7 @@ export function ReportDataIssue() {
 
   return (
     <Link
-      href={`mailto:contacto@labrecha.ar?subject=${subject}&body=${body}`}
+      href={`mailto:${PUBLISHER_EMAIL}?subject=${subject}&body=${body}`}
       className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
     >
       Reportar dato incorrecto

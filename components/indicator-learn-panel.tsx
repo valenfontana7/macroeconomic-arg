@@ -37,7 +37,7 @@ export function IndicatorLearnPanel({
   showRelated = true,
 }: IndicatorLearnPanelProps) {
   return (
-    <div className="flex flex-col gap-4">
+    <article className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center gap-2">
         <Badge variant="outline">{CATEGORY_LABELS[concept.category]}</Badge>
         <span className="text-xs text-muted-foreground">Fuente: {concept.source}</span>
@@ -49,25 +49,17 @@ export function IndicatorLearnPanel({
         </p>
       ) : null}
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4">
         {SECTIONS.map((section) => (
-          <details
+          <div
             key={section.key}
-            className="group rounded-xl border border-border/60 bg-card/60"
-            open={section.key === "enCristiano"}
+            className="rounded-xl border border-border/60 bg-card/60 px-4 py-3"
           >
-            <summary className="cursor-pointer list-none px-4 py-3 font-medium marker:content-none [&::-webkit-details-marker]:hidden">
-              <span className="flex items-center justify-between gap-2">
-                {section.title}
-                <span className="text-xs text-muted-foreground transition-transform group-open:rotate-180">
-                  ▼
-                </span>
-              </span>
-            </summary>
-            <div className="border-t border-border/40 px-4 py-3 text-sm leading-relaxed text-muted-foreground">
+            <h3 className="text-sm font-semibold text-foreground">{section.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               {concept[section.key]}
-            </div>
-          </details>
+            </p>
+          </div>
         ))}
       </div>
 
@@ -101,6 +93,6 @@ export function IndicatorLearnPanel({
           </div>
         </>
       ) : null}
-    </div>
+    </article>
   );
 }

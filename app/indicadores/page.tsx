@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { AdSlot } from "@/components/ad-slot";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { HubEditorialPanel } from "@/components/hub-editorial-panel";
 import { IndicatorCard } from "@/components/indicator-card";
 import { IndicatorsViewToggle } from "@/components/indicators-view-toggle";
 import { JsonLd } from "@/components/json-ld";
@@ -9,6 +10,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Badge } from "@/components/ui/badge";
 import { getDashboardData } from "@/lib/dashboard-data";
+import { buildMacroBriefing } from "@/lib/macro-briefing";
 import { INDICATORS, PILLAR_LABELS, type IndicatorPillar } from "@/lib/indicators";
 import { buildPageMetadata, canonicalUrl, itemListJsonLd } from "@/lib/seo";
 
@@ -31,6 +33,7 @@ const PILLAR_ORDER: IndicatorPillar[] = ["externo", "cambio", "precios", "moneta
 
 export default async function IndicadoresPage() {
   const data = await getDashboardData();
+  const editorialBriefing = buildMacroBriefing(data, "indicadores");
   const bySlug = new Map(data.indicators.map((i) => [i.slug, i]));
 
   const listJsonLd = itemListJsonLd(
@@ -104,6 +107,8 @@ export default async function IndicadoresPage() {
           </Link>
           .
         </p>
+
+        <HubEditorialPanel briefing={editorialBriefing} scope="indicadores" />
 
         <AdSlot placement="indicadores-footer" />
       </main>

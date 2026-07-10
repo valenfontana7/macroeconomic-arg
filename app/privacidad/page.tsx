@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { BRAND_NAME } from "@/lib/brand";
+import { PUBLISHER_EMAIL, PUBLISHER_NAME } from "@/lib/publisher";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
@@ -51,12 +52,28 @@ export default function PrivacidadPage() {
             </Link>
             .
           </p>
+          <h2 className="text-base font-semibold text-foreground">Responsable</h2>
+          <p>
+            El responsable del tratamiento de datos es {PUBLISHER_NAME}, editor de{" "}
+            {BRAND_NAME}. Podés escribir a{" "}
+            <a
+              href={`mailto:${PUBLISHER_EMAIL}`}
+              className="text-primary underline-offset-2 hover:underline"
+            >
+              {PUBLISHER_EMAIL}
+            </a>{" "}
+            o usar la página de{" "}
+            <Link href="/contacto" className="text-primary underline-offset-2 hover:underline">
+              Contacto
+            </Link>
+            .
+          </p>
           <h2 className="text-base font-semibold text-foreground">Tus derechos</h2>
           <p>
             Podés borrar datos locales desde la configuración del navegador. Para
             consultas sobre privacidad, escribinos desde{" "}
-            <Link href="/acerca" className="text-primary underline-offset-2 hover:underline">
-              Acerca
+            <Link href="/contacto" className="text-primary underline-offset-2 hover:underline">
+              Contacto
             </Link>
             .
           </p>

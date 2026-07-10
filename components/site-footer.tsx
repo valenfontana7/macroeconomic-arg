@@ -4,6 +4,7 @@ import { BrandLogo } from "@/components/brand-logo";
 import { BRAND_DESCRIPTION, BRAND_NAME } from "@/lib/brand";
 
 const EXPLORE_LINKS = [
+  { href: "/pulso", label: "Pulso macro" },
   { href: "/dolar", label: "Dólar hoy" },
   { href: "/inflacion", label: "Inflación" },
   { href: "/indicadores", label: "Indicadores" },
@@ -12,8 +13,15 @@ const EXPLORE_LINKS = [
   { href: "/calendario", label: "Calendario económico" },
 ] as const;
 
+const GUIDE_LINKS = [
+  { href: "/aprende/guia/dolar", label: "Guía del dólar" },
+  { href: "/aprende/guia/inflacion", label: "Guía de inflación" },
+  { href: "/aprende/guia/indicadores-bcra", label: "Guía BCRA" },
+] as const;
+
 const SITE_LINKS = [
   { href: "/acerca", label: "Acerca y metodología" },
+  { href: "/contacto", label: "Contacto" },
   { href: "/novedades", label: "Novedades" },
   { href: "/digest", label: "Resumen por email" },
   { href: "/citar", label: "Citar / embed" },
@@ -36,7 +44,7 @@ export function SiteFooter() {
 
   return (
     <footer className="mt-auto border-t border-border bg-card">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-4">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-5">
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
             <BrandLogo size={28} showGap={false} />
@@ -52,6 +60,19 @@ export function SiteFooter() {
         <div className="flex flex-col gap-2 text-sm">
           <span className="font-medium text-foreground">Cotizaciones y datos</span>
           {EXPLORE_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-muted-foreground hover:text-primary"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        <div className="flex flex-col gap-2 text-sm">
+          <span className="font-medium text-foreground">Guías</span>
+          {GUIDE_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}

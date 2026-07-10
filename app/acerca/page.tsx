@@ -17,6 +17,14 @@ import {
   brandUrl,
 } from "@/lib/brand";
 import { METHODOLOGY_VERSION } from "@/lib/methodology";
+import {
+  EDITORIAL_POLICY,
+  PUBLISHER_BIO,
+  PUBLISHER_COUNTRY,
+  PUBLISHER_EMAIL,
+  PUBLISHER_NAME,
+  PUBLISHER_ROLE,
+} from "@/lib/publisher";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
@@ -39,6 +47,37 @@ export default function AboutPage() {
             argentina.
           </p>
         </div>
+
+        <Card className="border-border/60 bg-card/60">
+          <CardHeader>
+            <CardTitle>Quién está detrás</CardTitle>
+            <CardDescription>
+              {PUBLISHER_NAME} · {PUBLISHER_ROLE} · {PUBLISHER_COUNTRY}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-3 text-sm text-muted-foreground">
+            <p>{PUBLISHER_BIO}</p>
+            <p>
+              Contacto:{" "}
+              <Link href="/contacto" className="text-foreground underline underline-offset-2">
+                {PUBLISHER_EMAIL}
+              </Link>
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/60 bg-card/60">
+          <CardHeader>
+            <CardTitle>Política editorial</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-3 text-sm text-muted-foreground">
+            <ul className="flex list-disc flex-col gap-2 pl-5">
+              {EDITORIAL_POLICY.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
 
         <Card className="border-border/60 bg-card/60">
           <CardHeader>

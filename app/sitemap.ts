@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { GUIDE_PAGES } from "@/lib/guide-pages";
 import { ALL_CONCEPTS } from "@/lib/macro-education";
 import { INDICATORS } from "@/lib/indicators";
 import { getSiteUrl } from "@/lib/site-url";
@@ -24,6 +25,7 @@ function route(
 export default function sitemap(): MetadataRoute.Sitemap {
   const hubRoutes: MetadataRoute.Sitemap = [
     route("/", 1, "hourly"),
+    route("/pulso", 0.95, "hourly"),
     route("/dolar", 0.95, "hourly"),
     route("/inflacion", 0.95, "daily"),
     route("/indicadores", 0.9, "daily"),
@@ -32,6 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     route("/aprende", 0.85, "weekly"),
     route("/calendario", 0.75, "weekly"),
     route("/acerca", 0.5, "monthly"),
+    route("/contacto", 0.5, "monthly"),
     route("/novedades", 0.5, "weekly"),
     route("/digest", 0.4, "monthly"),
     route("/citar", 0.4, "monthly"),
@@ -48,9 +51,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     route(`/aprende/${concept.slug}`, 0.7, "monthly"),
   );
 
+  const guideRoutes: MetadataRoute.Sitemap = GUIDE_PAGES.map((guide) =>
+    route(`/aprende/guia/${guide.slug}`, 0.75, "monthly"),
+  );
+
   const toolRoutes: MetadataRoute.Sitemap = getToolSlugs().map((slug) =>
     route(`/herramientas/${slug}`, 0.8, "weekly"),
   );
 
-  return [...hubRoutes, ...indicatorRoutes, ...conceptRoutes, ...toolRoutes];
+  return [...hubRoutes, ...indicatorRoutes, ...conceptRoutes, ...guideRoutes, ...toolRoutes];
 }

@@ -4,12 +4,14 @@ import { AdSlot } from "@/components/ad-slot";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { DollarMultiChart } from "@/components/dollar-multi-chart";
 import { DollarPanel } from "@/components/dollar-panel";
+import { HubEditorialPanel } from "@/components/hub-editorial-panel";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ToolsPromo } from "@/components/tools/tools-promo";
 import { buttonVariants } from "@/components/ui/button";
 import { getDollarHistory } from "@/lib/argentinadatos-client";
 import { getDashboardData } from "@/lib/dashboard-data";
+import { buildMacroBriefing } from "@/lib/macro-briefing";
 import { cn } from "@/lib/utils";
 import { buildPageMetadata, DOLAR_FAQ, faqJsonLdFromPairs } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
@@ -40,6 +42,8 @@ export default async function DolarPage() {
     getDollarHistory("bolsa", 365),
     getDollarHistory("contadoconliqui", 365),
   ]);
+
+  const editorialBriefing = buildMacroBriefing(dashboard, "dolar");
 
   return (
     <>
@@ -85,6 +89,9 @@ export default async function DolarPage() {
         </div>
 
         <ToolsPromo />
+
+        <HubEditorialPanel briefing={editorialBriefing} scope="dolar" />
+
         <AdSlot placement="dashboard-mid-content" />
       </main>
       <SiteFooter />

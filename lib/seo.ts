@@ -7,6 +7,7 @@ import {
   BRAND_TAGLINE,
 } from "@/lib/brand";
 import type { MacroConcept } from "@/lib/macro-education";
+import { PUBLISHER_EMAIL, PUBLISHER_NAME, PUBLISHER_ROLE } from "@/lib/publisher";
 import { getSiteUrl } from "@/lib/site-url";
 
 export const SEO_KEYWORDS = [
@@ -134,17 +135,75 @@ export function organizationJsonLd() {
     url,
     description: BRAND_DESCRIPTION,
     slogan: BRAND_TAGLINE,
+    email: PUBLISHER_EMAIL,
     logo: {
       "@type": "ImageObject",
       url: `${url}/icon`,
       width: 48,
       height: 48,
     },
+    founder: {
+      "@type": "Person",
+      name: PUBLISHER_NAME,
+      email: PUBLISHER_EMAIL,
+    },
     sameAs: [],
     areaServed: {
       "@type": "Country",
       name: "Argentina",
     },
+  };
+}
+
+export function personJsonLd() {
+  const url = getSiteUrl();
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: PUBLISHER_NAME,
+    email: PUBLISHER_EMAIL,
+    jobTitle: PUBLISHER_ROLE,
+    worksFor: {
+      "@type": "Organization",
+      name: BRAND_NAME,
+      url,
+    },
+    nationality: {
+      "@type": "Country",
+      name: "Argentina",
+    },
+  };
+}
+
+export function articleJsonLd(options: {
+  title: string;
+  description: string;
+  path: string;
+  dateModified: string;
+  authorName: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: options.title,
+    description: options.description,
+    url: canonicalUrl(options.path),
+    dateModified: options.dateModified,
+    datePublished: options.dateModified,
+    author: {
+      "@type": "Person",
+      name: options.authorName,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: BRAND_NAME,
+      logo: {
+        "@type": "ImageObject",
+        url: `${getSiteUrl()}/icon`,
+      },
+    },
+    inLanguage: "es-AR",
   };
 }
 

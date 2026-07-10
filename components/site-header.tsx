@@ -10,6 +10,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { BRAND_NAME, BRAND_TAGLINE } from "@/lib/brand";
 
 const NAV_LINKS = [
+  { href: "/pulso", label: "Pulso" },
   { href: "/dolar", label: "Dólar" },
   { href: "/inflacion", label: "Inflación" },
   { href: "/indicadores", label: "Indicadores" },
