@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ThermometerMethodologyPanel } from "@/components/thermometer-methodology-panel";
 import { MOOD_LABELS, type MacroScoreResult } from "@/lib/macro-score";
 import { scoreToArcPoint, scoreToGaugeColor } from "@/lib/thermometer-color";
 
@@ -31,7 +32,7 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
   const marker = scoreToArcPoint(score.score, centerX, centerY, radius);
 
   return (
-    <div className="flex flex-col items-center gap-4 rounded-2xl border border-border/60 bg-card/60 p-6">
+    <div className="flex flex-col items-center gap-6 rounded-2xl border border-border/60 bg-card/60 p-6 sm:p-8">
       <div className="text-center">
         <p className="text-sm font-medium text-muted-foreground">
           Termómetro macro
@@ -47,6 +48,22 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
           className="mt-1 inline-block text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
         >
           ¿Qué significa este score?
+        </Link>
+        <Link
+          href="/digest"
+          className="mt-1 block text-xs text-primary underline-offset-2 hover:underline"
+        >
+          Recibir resumen por email
+        </Link>
+      </div>
+
+      <div className="mt-2 flex flex-wrap justify-center gap-3">
+        <ThermometerMethodologyPanel />
+        <Link
+          href="/herramientas/sandbox-escenarios"
+          className="inline-flex h-8 items-center rounded-lg border border-border bg-background px-3 text-sm hover:bg-muted/50"
+        >
+          Simular escenarios
         </Link>
       </div>
 
@@ -159,7 +176,7 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
         </svg>
       </div>
 
-      <div className="flex w-full flex-wrap justify-center gap-x-3 gap-y-1.5 text-[10px]">
+      <div className="flex w-full flex-wrap justify-center gap-x-4 gap-y-2 text-xs">
         {ZONE_LABELS.map((zone) => (
           <span key={zone.label} style={{ color: scoreToGaugeColor(zone.at) }}>
             {zone.label} ≥{zone.at}
@@ -167,7 +184,7 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
         ))}
       </div>
 
-      <div className="grid w-full grid-cols-2 gap-2 text-xs sm:grid-cols-4 lg:grid-cols-7">
+      <div className="grid w-full grid-cols-2 gap-3 text-xs sm:grid-cols-3 lg:grid-cols-5">
         {(
           [
             ["Inflación", score.breakdown.inflation],
@@ -177,11 +194,14 @@ export function MacroThermometer({ score }: MacroThermometerProps) {
             ["BADLAR", score.breakdown.badlarReal],
             ["Brecha", score.breakdown.brecha],
             ["Riesgo", score.breakdown.countryRisk],
+            ["Fiscal", score.breakdown.fiscalBalance],
+            ["Deuda ext.", score.breakdown.externalDebt],
+            ["M2", score.breakdown.m2Growth],
           ] as const
         ).map(([label, value]) => (
           <div
             key={label}
-            className="rounded-lg bg-muted/40 px-2 py-2 text-center"
+            className="rounded-lg bg-muted/40 px-3 py-2.5 text-center"
           >
             <p className="text-muted-foreground">{label}</p>
             <p

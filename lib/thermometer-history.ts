@@ -1,5 +1,10 @@
 import { getBrechaCclSeries } from "@/lib/argentinadatos-client";
 import { getVariableSeries } from "@/lib/bcra-client";
+import {
+  getFiscalSeries,
+  percentChangeYoY,
+  rollingSumPrimary,
+} from "@/lib/fiscal-client";
 import { getIndecInflationSeries } from "@/lib/datos-gobar-client";
 import {
   calculateMacroScore,
@@ -29,6 +34,9 @@ function buildMacroScoreInputAtDate(
     dollar: BcraDataPoint[];
     monetaryBase: BcraDataPoint[];
     badlar: BcraDataPoint[];
+    m2: BcraDataPoint[];
+    primaryBalance: BcraDataPoint[];
+    externalDebt: BcraDataPoint[];
     brechaCclPct: number | null;
     inflationAnnual: number | null;
   },
@@ -47,6 +55,8 @@ function buildMacroScoreInputAtDate(
   const dollarSlice = sliceSeriesByDaysFromDate(series.dollar, 30, endDate);
   const monetaryNow = series.monetaryBase.at(-1)?.valor;
   const monetaryPast = findValueDaysAgoFromDate(series.monetaryBase, 30, endDate)?.valor;
+  const primarySlice = series.primaryBalance.slice(-3);
+  const externalDebtSlice = series.externalDebt;
 
   return {
     inflationMonthly: latestInflation,
@@ -56,6 +66,9 @@ function buildMacroScoreInputAtDate(
     badlarRealSpread,
     brechaCclPct: series.brechaCclPct,
     countryRisk: null,
+    primaryBalance3m: rollingSumPrimary(primarySlice, primarySlice.length),
+    externalDebtChangeYoY: percentChangeYoY(externalDebtSlice),
+    m2GrowthYoY: series.m2.at(-1)?.valor ?? null,
   };
 }
 
@@ -64,15 +77,21 @@ export async function getThermometerHistory(days = 90): Promise<ThermometerHisto
   desde.setFullYear(desde.getFullYear() - 1);
   const desdeStr = desde.toISOString().slice(0, 10);
 
-  const [dollar, inflation, reserves, monetaryBase, badlar, brecha, indecSeries] =
+  const [dollar, inflation, reserves, monetaryBase, badlar, m2, brecha, indecSeries, fiscalSeries] =
     await Promise.all([
       getVariableSeries(5, desdeStr),
       getVariableSeries(27, desdeStr, undefined, 86400),
       getVariableSeries(1, desdeStr),
       getVariableSeries(15, desdeStr),
       getVariableSeries(7, desdeStr),
+      getVariableSeries(25, desdeStr),
       getBrechaCclSeries(365),
       getIndecInflationSeries(),
+      getFiscalSeries().catch(() => ({
+        primaryBalance: [] as BcraDataPoint[],
+        financialResult: [] as BcraDataPoint[],
+        externalDebt: [] as BcraDataPoint[],
+      })),
     ]);
 
   if (dollar.length === 0) return [];
@@ -96,6 +115,9 @@ export async function getThermometerHistory(days = 90): Promise<ThermometerHisto
     const dol = sliceSeriesUpTo(dollar, fecha);
     const mon = sliceSeriesUpTo(monetaryBase, fecha);
     const bad = sliceSeriesUpTo(badlar, fecha);
+    const m2Slice = sliceSeriesUpTo(m2, fecha);
+    const primary = sliceSeriesUpTo(fiscalSeries.primaryBalance, fecha);
+    const externalDebt = sliceSeriesUpTo(fiscalSeries.externalDebt, fecha);
 
     if (dol.length < 5) continue;
 
@@ -108,6 +130,9 @@ export async function getThermometerHistory(days = 90): Promise<ThermometerHisto
       dollar: dol,
       monetaryBase: mon,
       badlar: bad,
+      m2: m2Slice,
+      primaryBalance: primary,
+      externalDebt,
       brechaCclPct: brechaPoint,
       inflationAnnual: annualAt,
     });

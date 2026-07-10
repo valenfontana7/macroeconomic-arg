@@ -9,6 +9,9 @@ const SIGNAL_LABELS: Record<keyof MacroScoreResult["breakdown"], string> = {
   badlarReal: "BADLAR real",
   brecha: "Brecha CCL",
   countryRisk: "Riesgo país",
+  fiscalBalance: "Resultado primario",
+  externalDebt: "Deuda externa",
+  m2Growth: "M2 privado",
 };
 
 export function analyzeConflictingSignals(

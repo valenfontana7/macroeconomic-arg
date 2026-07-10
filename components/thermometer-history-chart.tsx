@@ -35,6 +35,10 @@ export function ThermometerHistoryChart({ history, compact = false }: Thermomete
 
   return (
     <div className="flex flex-col gap-3">
+      <p className="text-xs leading-relaxed text-muted-foreground">
+        El histórico no incluye riesgo país (EMBI): no hay serie histórica integrada en
+        este cálculo. El score actual sí lo incorpora cuando hay dato disponible.
+      </p>
       {!compact ? (
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <p className="text-sm text-muted-foreground">

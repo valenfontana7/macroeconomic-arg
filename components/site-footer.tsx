@@ -14,6 +14,7 @@ const EXPLORE_LINKS = [
 
 const SITE_LINKS = [
   { href: "/acerca", label: "Acerca y metodología" },
+  { href: "/novedades", label: "Novedades" },
   { href: "/digest", label: "Resumen por email" },
   { href: "/citar", label: "Citar / embed" },
   { href: "/privacidad", label: "Política de privacidad" },
@@ -24,6 +25,8 @@ const SITE_LINKS = [
 const SOURCE_LINKS = [
   { href: "https://www.bcra.gob.ar", label: "BCRA — Banco Central" },
   { href: "https://www.indec.gob.ar", label: "INDEC" },
+  { href: "https://datos.gob.ar", label: "datos.gob.ar" },
+  { href: "https://www.economia.gob.ar", label: "Ministerio de Economía" },
   { href: "https://dolarapi.com", label: "DolarAPI" },
   { href: "https://argentinadatos.com", label: "ArgentinaDatos" },
 ] as const;

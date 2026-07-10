@@ -46,7 +46,7 @@ export async function getToolsBundle(): Promise<ToolsBundle> {
   desde.setFullYear(desde.getFullYear() - 1);
   const desdeStr = desde.toISOString().slice(0, 10);
 
-  const [dashboard, ipcSeries, oficial, blue, bolsa, ccl, reservesSeries, monetarySeries, badlarSeries] =
+  const [dashboard, ipcSeries, oficial, blue, bolsa, ccl, reservesSeries, monetarySeries, badlarSeries, m2Series] =
     await Promise.all([
       getDashboardData(),
       getIndecInflationSeries(),
@@ -57,6 +57,7 @@ export async function getToolsBundle(): Promise<ToolsBundle> {
       getVariableSeries(1, desdeStr),
       getVariableSeries(15, desdeStr),
       getVariableSeries(7, desdeStr),
+      getVariableSeries(25, desdeStr),
     ]);
 
   const macroInput = buildMacroScoreInput({
@@ -65,9 +66,12 @@ export async function getToolsBundle(): Promise<ToolsBundle> {
     dollar: dashboard.featuredSeries.dollar,
     monetaryBase: monetarySeries,
     badlar: badlarSeries,
+    m2: m2Series,
     brechaCclPct: dashboard.dollar?.brechaCclPct ?? null,
     countryRisk: dashboard.countryRisk?.valor ?? null,
     inflationAnnual: dashboard.indec?.ipcAnnual ?? null,
+    primaryBalance3m: dashboard.fiscal?.primaryBalance3m ?? null,
+    externalDebtChangeYoY: dashboard.fiscal?.externalDebtChangeYoY ?? null,
   });
 
   const inflation = dashboard.featuredSeries.inflation;

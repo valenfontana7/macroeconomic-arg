@@ -13,6 +13,7 @@ export function GlobalSearch() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [modKey, setModKey] = useState("Ctrl");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const results = useMemo(() => searchItems(query, 14), [query]);
@@ -21,6 +22,10 @@ export function GlobalSearch() {
     setOpen(false);
     setQuery("");
     setActiveIndex(0);
+  }, []);
+
+  useEffect(() => {
+    setModKey(/Mac|iPhone|iPad/i.test(navigator.platform) ? "⌘" : "Ctrl");
   }, []);
 
   useEffect(() => {
@@ -80,7 +85,7 @@ export function GlobalSearch() {
         <Search className="size-4" aria-hidden />
         <span className="hidden sm:inline">Buscar</span>
         <kbd className="hidden rounded border border-border/80 bg-muted/50 px-1.5 py-0.5 font-mono text-[10px] sm:inline">
-          ⌘K
+          {modKey}+K
         </kbd>
       </button>
 

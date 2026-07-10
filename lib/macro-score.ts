@@ -16,6 +16,9 @@ export type MacroScoreInput = {
   badlarRealSpread: number | null;
   brechaCclPct: number | null;
   countryRisk: number | null;
+  primaryBalance3m: number | null;
+  externalDebtChangeYoY: number | null;
+  m2GrowthYoY: number | null;
 };
 
 export type MacroScoreResult = {
@@ -29,17 +32,23 @@ export type MacroScoreResult = {
     badlarReal: number;
     brecha: number;
     countryRisk: number;
+    fiscalBalance: number;
+    externalDebt: number;
+    m2Growth: number;
   };
 };
 
 const WEIGHTS = {
-  inflation: 0.22,
-  reserves: 0.18,
-  dollarVolatility: 0.15,
-  monetaryBase: 0.12,
-  badlarReal: 0.08,
-  brecha: 0.15,
-  countryRisk: 0.1,
+  inflation: 0.18,
+  reserves: 0.15,
+  dollarVolatility: 0.12,
+  monetaryBase: 0.09,
+  badlarReal: 0.06,
+  brecha: 0.12,
+  countryRisk: 0.08,
+  fiscalBalance: 0.1,
+  externalDebt: 0.07,
+  m2Growth: 0.03,
 } as const;
 
 function clamp(value: number, min = 0, max = 100): number {
@@ -109,6 +118,32 @@ function scoreCountryRisk(value: number | null): number {
   return 10;
 }
 
+function scoreFiscalBalance(value: number | null): number {
+  if (value === null) return 50;
+  if (value > 0) return 85;
+  if (value > -500_000) return 60;
+  if (value > -2_000_000) return 35;
+  return 15;
+}
+
+function scoreExternalDebtChangeYoY(value: number | null): number {
+  if (value === null) return 50;
+  if (value < -5) return 90;
+  if (value < 0) return 70;
+  if (value < 5) return 45;
+  if (value < 15) return 25;
+  return 10;
+}
+
+function scoreM2Growth(value: number | null): number {
+  if (value === null) return 50;
+  if (value < 25) return 85;
+  if (value < 40) return 65;
+  if (value < 60) return 40;
+  if (value < 80) return 25;
+  return 10;
+}
+
 function moodFromScore(score: number): MacroMood {
   if (score >= 75) return "tranquilo";
   if (score >= 55) return "atento";
@@ -139,6 +174,9 @@ export function calculateMacroScore(input: MacroScoreInput): MacroScoreResult {
     badlarReal: scoreBadlarReal(input.badlarRealSpread),
     brecha: scoreBrecha(input.brechaCclPct),
     countryRisk: scoreCountryRisk(input.countryRisk),
+    fiscalBalance: scoreFiscalBalance(input.primaryBalance3m),
+    externalDebt: scoreExternalDebtChangeYoY(input.externalDebtChangeYoY),
+    m2Growth: scoreM2Growth(input.m2GrowthYoY),
   };
 
   const score = clamp(
@@ -148,7 +186,10 @@ export function calculateMacroScore(input: MacroScoreInput): MacroScoreResult {
       breakdown.monetaryBase * WEIGHTS.monetaryBase +
       breakdown.badlarReal * WEIGHTS.badlarReal +
       breakdown.brecha * WEIGHTS.brecha +
-      breakdown.countryRisk * WEIGHTS.countryRisk,
+      breakdown.countryRisk * WEIGHTS.countryRisk +
+      breakdown.fiscalBalance * WEIGHTS.fiscalBalance +
+      breakdown.externalDebt * WEIGHTS.externalDebt +
+      breakdown.m2Growth * WEIGHTS.m2Growth,
   );
 
   return {
@@ -164,9 +205,12 @@ export function buildMacroScoreInput(series: {
   dollar: BcraDataPoint[];
   monetaryBase: BcraDataPoint[];
   badlar: BcraDataPoint[];
+  m2?: BcraDataPoint[];
   brechaCclPct?: number | null;
   countryRisk?: number | null;
   inflationAnnual?: number | null;
+  primaryBalance3m?: number | null;
+  externalDebtChangeYoY?: number | null;
 }): MacroScoreInput {
   const latestInflation = series.inflation.at(-1)?.valor ?? null;
   const latestBadlar = series.badlar.at(-1)?.valor ?? null;
@@ -191,6 +235,9 @@ export function buildMacroScoreInput(series: {
     badlarRealSpread,
     brechaCclPct: series.brechaCclPct ?? null,
     countryRisk: series.countryRisk ?? null,
+    primaryBalance3m: series.primaryBalance3m ?? null,
+    externalDebtChangeYoY: series.externalDebtChangeYoY ?? null,
+    m2GrowthYoY: series.m2?.at(-1)?.valor ?? null,
   };
 }
 

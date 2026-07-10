@@ -9,22 +9,22 @@ const SIGNAL_STYLES = {
 
 export function SignalLegend() {
   return (
-    <div className="rounded-xl border border-border/60 bg-card/40 px-4 py-3">
-      <p className="mb-2 text-sm font-medium">¿Qué significan los colores?</p>
-      <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-        <span className="flex items-center gap-1.5">
+    <div className="rounded-xl border border-border/60 bg-card/40 px-5 py-4">
+      <p className="mb-3 text-sm font-medium">¿Qué significan los colores?</p>
+      <div className="flex flex-col gap-3 text-xs text-muted-foreground sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+        <span className="flex items-center gap-2">
           <Badge variant="outline" className={cn("shrink-0", SIGNAL_STYLES.good)}>
             OK
           </Badge>
           Señal favorable según umbrales del indicador.
         </span>
-        <span className="flex items-center gap-1.5">
+        <span className="flex items-center gap-2">
           <Badge variant="outline" className={cn("shrink-0", SIGNAL_STYLES.warning)}>
             Atento
           </Badge>
           Valor en zona intermedia: conviene mirarlo de cerca.
         </span>
-        <span className="flex items-center gap-1.5">
+        <span className="flex items-center gap-2">
           <Badge variant="outline" className={cn("shrink-0", SIGNAL_STYLES.danger)}>
             Alerta
           </Badge>

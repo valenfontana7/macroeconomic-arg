@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -13,6 +14,7 @@ import { cn } from "@/lib/utils";
 
 type DollarPanelProps = {
   dollar: DollarSnapshot;
+  embedded?: boolean;
 };
 
 const CASA_ORDER = [
@@ -40,7 +42,7 @@ function brechaBadgeClass(pct: number | null): string {
   return "border-red-300 text-red-700";
 }
 
-export function DollarPanel({ dollar }: DollarPanelProps) {
+export function DollarPanel({ dollar, embedded = false }: DollarPanelProps) {
   const oficial = dollar.quotes.find((q) => q.casa === "oficial")?.venta ?? null;
   const sorted = [...dollar.quotes].sort((a, b) => {
     const ai = CASA_ORDER.indexOf(a.casa as (typeof CASA_ORDER)[number]);
@@ -49,16 +51,18 @@ export function DollarPanel({ dollar }: DollarPanelProps) {
   });
 
   return (
-    <section className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1">
-        <h2 className="font-heading text-xl font-semibold">Panel del dólar</h2>
-        <p className="text-sm text-muted-foreground">
-          Cotizaciones en tiempo casi real (DolarAPI). La brecha mide cuánto más
-          caro está cada dólar paralelo vs. el oficial.
-        </p>
-      </div>
+    <section className="flex flex-col gap-6">
+      {!embedded ? (
+        <div className="flex max-w-3xl flex-col gap-2">
+          <h2 className="font-heading text-xl font-semibold tracking-tight">Panel del dólar</h2>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Cotizaciones en tiempo casi real (DolarAPI). La brecha mide cuánto más
+            caro está cada dólar paralelo vs. el oficial.
+          </p>
+        </div>
+      ) : null}
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {sorted.map((quote) => {
           const brecha =
             oficial && quote.casa !== "oficial" && quote.casa !== "mayorista"
@@ -66,49 +70,61 @@ export function DollarPanel({ dollar }: DollarPanelProps) {
               : null;
 
           return (
-            <Card key={quote.casa} className="border-border/60 bg-card/60">
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between gap-2">
-                  <CardTitle className="text-base">
+            <Card
+              key={quote.casa}
+              className="border-border/60 bg-card/60 [--card-spacing:--spacing(5)]"
+            >
+              <CardHeader className="gap-3 pb-0">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <CardTitle className="text-base leading-snug">
                     {CASA_LABELS[quote.casa] ?? quote.nombre}
                   </CardTitle>
                   {brecha !== null ? (
                     <Badge
                       variant="outline"
-                      className={cn("tabular-nums", brechaBadgeClass(brecha))}
+                      className={cn("shrink-0 tabular-nums", brechaBadgeClass(brecha))}
                     >
                       +{brecha.toFixed(1)}% brecha
                     </Badge>
                   ) : null}
                 </div>
-                <CardDescription>Compra / Venta</CardDescription>
+                <CardDescription className="text-xs">Compra / Venta</CardDescription>
               </CardHeader>
-              <CardContent className="flex flex-col gap-1">
-                <p className="text-2xl font-semibold tabular-nums">
+              <CardContent className="flex flex-col gap-1 pt-4">
+                <p className="text-xl font-semibold tabular-nums sm:text-2xl">
                   {formatCurrency(quote.venta)}
                 </p>
                 <p className="text-xs text-muted-foreground">
                   Compra: {formatCurrency(quote.compra)}
                 </p>
               </CardContent>
+              <CardFooter className="border-t border-border/50 bg-transparent pt-4">
+                <p className="text-xs text-muted-foreground">DolarAPI</p>
+              </CardFooter>
             </Card>
           );
         })}
       </div>
 
-      <div className="flex flex-wrap items-center gap-3 text-sm">
-        <Badge variant="outline" className={brechaBadgeClass(dollar.brechaBluePct)}>
-          Brecha Blue: {dollar.brechaBluePct !== null ? formatPercent(dollar.brechaBluePct) : "—"}
-        </Badge>
-        <LearnMoreLink slug="brecha-blue" />
-        <Badge variant="outline" className={brechaBadgeClass(dollar.brechaMepPct)}>
-          Brecha MEP: {dollar.brechaMepPct !== null ? formatPercent(dollar.brechaMepPct) : "—"}
-        </Badge>
-        <LearnMoreLink slug="brecha-mep" />
-        <Badge variant="outline" className={brechaBadgeClass(dollar.brechaCclPct)}>
-          Brecha CCL: {dollar.brechaCclPct !== null ? formatPercent(dollar.brechaCclPct) : "—"}
-        </Badge>
-        <LearnMoreLink slug="brecha-ccl" />
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="outline" className={brechaBadgeClass(dollar.brechaBluePct)}>
+            Brecha Blue: {dollar.brechaBluePct !== null ? formatPercent(dollar.brechaBluePct) : "—"}
+          </Badge>
+          <LearnMoreLink slug="brecha-blue" />
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="outline" className={brechaBadgeClass(dollar.brechaMepPct)}>
+            Brecha MEP: {dollar.brechaMepPct !== null ? formatPercent(dollar.brechaMepPct) : "—"}
+          </Badge>
+          <LearnMoreLink slug="brecha-mep" />
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="outline" className={brechaBadgeClass(dollar.brechaCclPct)}>
+            Brecha CCL: {dollar.brechaCclPct !== null ? formatPercent(dollar.brechaCclPct) : "—"}
+          </Badge>
+          <LearnMoreLink slug="brecha-ccl" />
+        </div>
         <LearnMoreLink slug="dolar-oficial" className="text-sm text-primary underline-offset-2 hover:underline" />
       </div>
     </section>

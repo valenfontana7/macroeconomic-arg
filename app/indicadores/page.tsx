@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AdSlot } from "@/components/ad-slot";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { IndicatorCard } from "@/components/indicator-card";
+import { IndicatorsViewToggle } from "@/components/indicators-view-toggle";
 import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -40,11 +41,36 @@ export default async function IndicadoresPage() {
     })),
   );
 
+  const cardsView = (
+    <>
+      {PILLAR_ORDER.map((pillar) => {
+        const configs = INDICATORS.filter((i) => i.pillar === pillar);
+        return (
+          <section key={pillar} className="flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <h2 className="font-heading text-xl font-semibold">
+                {PILLAR_LABELS[pillar]}
+              </h2>
+              <Badge variant="outline">{configs.length}</Badge>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {configs.map((config) => {
+                const snapshot = bySlug.get(config.slug);
+                if (!snapshot) return null;
+                return <IndicatorCard key={config.slug} indicator={snapshot} />;
+              })}
+            </div>
+          </section>
+        );
+      })}
+    </>
+  );
+
   return (
     <>
       <JsonLd data={listJsonLd} />
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6">
+      <main id="main-content" className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6">
         <Breadcrumbs
           items={[{ label: "Inicio", href: "/" }, { label: "Indicadores" }]}
           currentPath="/indicadores"
@@ -55,36 +81,26 @@ export default async function IndicadoresPage() {
             Indicadores macro
           </h1>
           <p className="max-w-2xl text-muted-foreground">
-            {INDICATORS.length} series oficiales agrupadas por pilar. Cada tarjeta muestra
-            la fecha de la última observación y variación reciente.
+            {INDICATORS.length} series oficiales agrupadas por pilar, más finanzas
+            públicas. Cada tarjeta muestra la fecha de la última observación y variación
+            reciente.
           </p>
         </div>
 
-        {PILLAR_ORDER.map((pillar) => {
-          const configs = INDICATORS.filter((i) => i.pillar === pillar);
-          return (
-            <section key={pillar} className="flex flex-col gap-4">
-              <div className="flex items-center gap-2">
-                <h2 className="font-heading text-xl font-semibold">
-                  {PILLAR_LABELS[pillar]}
-                </h2>
-                <Badge variant="outline">{configs.length}</Badge>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {configs.map((config) => {
-                  const snapshot = bySlug.get(config.slug);
-                  if (!snapshot) return null;
-                  return <IndicatorCard key={config.slug} indicator={snapshot} />;
-                })}
-              </div>
-            </section>
-          );
-        })}
+        <IndicatorsViewToggle
+          indicators={data.indicators}
+          fiscalIndicators={data.fiscalIndicators}
+          cards={cardsView}
+        />
 
         <p className="text-sm text-muted-foreground">
           ¿No sabés por dónde empezar?{" "}
           <Link href="/herramientas/arbol-decisiones" className="text-primary hover:underline">
             Usá el árbol de decisiones
+          </Link>
+          {" · "}
+          <Link href="/finanzas-publicas" className="text-primary hover:underline">
+            Hub fiscal
           </Link>
           .
         </p>

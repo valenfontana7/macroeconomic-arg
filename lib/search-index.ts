@@ -86,6 +86,22 @@ const STATIC_PAGES: SearchItem[] = [
     group: "Páginas",
     keywords: ["embed", "iframe", "fuente", "citar"],
   },
+  {
+    id: "finanzas-publicas",
+    title: "Finanzas públicas",
+    subtitle: "Resultado fiscal y deuda externa",
+    href: "/finanzas-publicas",
+    group: "Páginas",
+    keywords: ["fiscal", "déficit", "deuda", "imig", "mecon"],
+  },
+  {
+    id: "novedades",
+    title: "Novedades",
+    subtitle: "Cambios de metodología y fuentes",
+    href: "/novedades",
+    group: "Páginas",
+    keywords: ["changelog", "actualizaciones", "metodología"],
+  },
 ];
 
 function buildIndex(): SearchItem[] {

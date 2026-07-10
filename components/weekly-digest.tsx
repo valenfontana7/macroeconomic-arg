@@ -8,11 +8,11 @@ type WeeklyDigestProps = {
 
 export function WeeklyDigest({ lines }: WeeklyDigestProps) {
   return (
-    <Card className="border-border/60 bg-card/60">
+    <Card className="border-border/60 bg-card/60 [--card-spacing:--spacing(5)]">
       <CardHeader>
         <CardTitle>Resumen en simple</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-3 text-sm leading-relaxed text-muted-foreground">
+      <CardContent className="flex flex-col gap-4 text-sm leading-relaxed text-muted-foreground">
         {lines.map((line) => (
           <p key={line}>{line}</p>
         ))}

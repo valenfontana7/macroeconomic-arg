@@ -1,4 +1,4 @@
-export type IndicatorPillar = "externo" | "cambio" | "precios" | "monetario";
+export type IndicatorPillar = "externo" | "cambio" | "precios" | "monetario" | "fiscal";
 
 export type IndicatorConfig = {
   id: number;
@@ -160,4 +160,5 @@ export const PILLAR_LABELS: Record<IndicatorPillar, string> = {
   cambio: "Tipo de cambio",
   precios: "Precios e inflación",
   monetario: "Política monetaria",
+  fiscal: "Finanzas públicas",
 };

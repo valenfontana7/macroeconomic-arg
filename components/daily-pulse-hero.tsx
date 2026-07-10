@@ -47,7 +47,7 @@ export function DailyPulseHero({ data }: DailyPulseHeroProps) {
               Actualizado {formatDate(data.fetchedAt)}
             </p>
           </div>
-          <div className="flex items-end gap-2">
+          <div className="pulse-hero-score flex items-end gap-2">
             <span className="text-4xl font-bold tabular-nums" style={{ color: accent }}>
               {macroScore.score}
             </span>

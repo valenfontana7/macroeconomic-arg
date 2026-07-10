@@ -2,8 +2,18 @@ import Link from "next/link";
 
 import { TOOLS } from "@/lib/tools/registry";
 
+const PRIORITY_SLUGS = ["senales-contradictorias", "sandbox-escenarios"] as const;
+
 export function ToolsPromo() {
-  const featured = [...TOOLS].sort((a, b) => a.impactOrder - b.impactOrder).slice(0, 4);
+  const priority = PRIORITY_SLUGS.map((slug) => TOOLS.find((tool) => tool.slug === slug)).filter(
+    (tool): tool is (typeof TOOLS)[number] => Boolean(tool),
+  );
+  const rest = TOOLS.filter(
+    (tool) => !PRIORITY_SLUGS.includes(tool.slug as (typeof PRIORITY_SLUGS)[number]),
+  )
+    .sort((a, b) => a.impactOrder - b.impactOrder)
+    .slice(0, 2);
+  const featured = [...priority, ...rest];
 
   return (
     <section className="flex flex-col gap-4 rounded-2xl border border-primary/20 bg-primary/5 p-5">
@@ -11,7 +21,7 @@ export function ToolsPromo() {
         <div>
           <h2 className="font-heading text-xl font-semibold">Herramientas interactivas</h2>
           <p className="text-sm text-muted-foreground">
-            Experiencias que no vas a ver en un diario de economía.
+            Señales contradictorias y sandbox de escenarios para lectura técnica.
           </p>
         </div>
         <Link

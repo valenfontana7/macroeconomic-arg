@@ -20,12 +20,19 @@ export const CONCERN_LABELS: Record<PersonalConcern, string> = {
 };
 
 const CONCERN_WEIGHTS: Record<PersonalConcern, Partial<Record<keyof MacroScoreResult["breakdown"], number>>> = {
-  inflacion: { inflation: 0.5, monetaryBase: 0.2, badlarReal: 0.15, countryRisk: 0.15 },
-  dolar: { brecha: 0.4, dollarVolatility: 0.35, reserves: 0.15, countryRisk: 0.1 },
-  ahorro: { badlarReal: 0.45, inflation: 0.35, monetaryBase: 0.2 },
-  alquiler: { inflation: 0.5, badlarReal: 0.25, dollarVolatility: 0.15, brecha: 0.1 },
-  deuda: { inflation: 0.45, badlarReal: 0.25, dollarVolatility: 0.2, monetaryBase: 0.1 },
-  viaje: { brecha: 0.35, dollarVolatility: 0.35, inflation: 0.2, countryRisk: 0.1 },
+  inflacion: { inflation: 0.45, monetaryBase: 0.15, m2Growth: 0.1, badlarReal: 0.15, countryRisk: 0.15 },
+  dolar: { brecha: 0.35, dollarVolatility: 0.3, reserves: 0.15, countryRisk: 0.1, externalDebt: 0.1 },
+  ahorro: { badlarReal: 0.4, inflation: 0.3, monetaryBase: 0.15, m2Growth: 0.15 },
+  alquiler: { inflation: 0.45, badlarReal: 0.25, dollarVolatility: 0.15, brecha: 0.15 },
+  deuda: {
+    inflation: 0.3,
+    badlarReal: 0.2,
+    dollarVolatility: 0.15,
+    fiscalBalance: 0.15,
+    externalDebt: 0.1,
+    countryRisk: 0.1,
+  },
+  viaje: { brecha: 0.3, dollarVolatility: 0.3, inflation: 0.15, countryRisk: 0.15, externalDebt: 0.1 },
 };
 
 export function calculatePersonalScore(
@@ -41,6 +48,9 @@ export function calculatePersonalScore(
       badlarRealSpread: null,
       brechaCclPct: null,
       countryRisk: null,
+      primaryBalance3m: null,
+      externalDebtChangeYoY: null,
+      m2GrowthYoY: null,
     });
   }
 
@@ -52,6 +62,9 @@ export function calculatePersonalScore(
     badlarReal: 0,
     brecha: 0,
     countryRisk: 0,
+    fiscalBalance: 0,
+    externalDebt: 0,
+    m2Growth: 0,
   };
 
   const totals: Record<keyof MacroScoreResult["breakdown"], number> = {
@@ -62,6 +75,9 @@ export function calculatePersonalScore(
     badlarReal: 0,
     brecha: 0,
     countryRisk: 0,
+    fiscalBalance: 0,
+    externalDebt: 0,
+    m2Growth: 0,
   };
 
   for (const concern of concerns) {

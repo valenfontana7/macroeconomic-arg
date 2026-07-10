@@ -5,6 +5,8 @@ import { BrandLogo } from "@/components/brand-logo";
 import { GlobalSearch } from "@/components/global-search";
 import { HeaderQuotes } from "@/components/header-quotes";
 import { MobileNav } from "@/components/mobile-nav";
+import { SiteNav } from "@/components/site-nav";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { BRAND_NAME, BRAND_TAGLINE } from "@/lib/brand";
 
 const NAV_LINKS = [
@@ -58,17 +60,8 @@ export function SiteHeader() {
           </Link>
 
           <div className="flex items-center gap-3">
-            <nav className="hidden items-center gap-5 text-sm font-medium md:flex">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-foreground/80 transition-colors hover:text-primary"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
+            <SiteNav links={NAV_LINKS} />
+            <ThemeToggle />
             <GlobalSearch />
             <MobileNav links={[{ href: "/", label: "Inicio" }, ...NAV_LINKS]} />
           </div>

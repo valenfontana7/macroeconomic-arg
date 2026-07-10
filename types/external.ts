@@ -86,10 +86,21 @@ export type CountryRiskSnapshot = {
   fecha: string;
 };
 
+export type FiscalSnapshot = {
+  primaryBalanceLatest: number | null;
+  primaryBalanceDate: string | null;
+  primaryBalance3m: number | null;
+  financialResultLatest: number | null;
+  financialResultDate: string | null;
+  externalDebtUsd: number | null;
+  externalDebtDate: string | null;
+  externalDebtChangeYoY: number | null;
+};
+
 export type ContextInsight = {
   id: string;
   title: string;
   body: string;
   level: "info" | "warning" | "alert";
-  category: "cambio" | "precios" | "actividad" | "externo" | "ahorro" | "salarios";
+  category: "cambio" | "precios" | "actividad" | "externo" | "ahorro" | "salarios" | "fiscal";
 };

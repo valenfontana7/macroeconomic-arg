@@ -6,6 +6,7 @@ export type MacroConceptCategory =
   | "externo"
   | "monetario"
   | "actividad"
+  | "fiscal"
   | "panel";
 
 export type MacroConcept = {
@@ -29,6 +30,7 @@ export const CATEGORY_LABELS: Record<MacroConceptCategory, string> = {
   externo: "Sector externo",
   monetario: "Política monetaria",
   actividad: "Actividad económica",
+  fiscal: "Finanzas públicas",
   panel: "Conceptos del panel",
 };
 
@@ -88,7 +90,7 @@ const bcraConcepts: MacroConcept[] = [
     slug: "inflacion",
     title: "Inflación mensual",
     category: "precios",
-    source: "BCRA / INDEC",
+    source: "BCRA — referencia; IPC oficial en INDEC",
     indicatorSlug: "inflacion",
     enCristiano:
       "Cuánto subieron los precios del súper, la nafta, los alquileres y casi todo lo que consumís en el último mes.",
@@ -99,7 +101,7 @@ const bcraConcepts: MacroConcept[] = [
     enTuVida:
       "Usala para negociar alquileres, pedir aumentos de sueldo o ajustar tu presupuesto familiar.",
     analogia: "Es la velocidad a la que se achica tu billetera si tu ingreso no sube parejo.",
-    erroresComunes: "No confundir con inflación interanual: esta es solo del último mes.",
+    erroresComunes: "No confundir con inflación interanual: esta es solo del último mes. El IPC oficial es el de INDEC; esta serie BCRA es referencia complementaria.",
     relatedSlugs: ["ipc-interanual", "ipc-nucleo", "cer", "uva"],
   },
   {
@@ -289,7 +291,7 @@ const marketConcepts: MacroConcept[] = [
     paraQueSirve:
       "Te da una lectura rápida sin tener que interpretar diez indicadores por separado.",
     comoLeerlo:
-      "75+ Tranquilo, 55–74 Atento, 35–54 Turbulento, menos de 35 Crítico. Combina inflación, reservas, dólar, brecha y más.",
+      "75+ Tranquilo, 55–74 Atento, 35–54 Turbulento, menos de 35 Crítico. Combina inflación, reservas, dólar, brecha, fiscal, deuda externa y liquidez.",
     enTuVida:
       "Usalo como punto de partida: si está en Atento o peor, conviene revisar gastos y cobertura cambiaria.",
     erroresComunes: "No es una predicción ni un consejo de inversión: es un resumen de señales.",
@@ -309,6 +311,54 @@ const marketConcepts: MacroConcept[] = [
     enTuVida:
       "Si varias tarjetas están en Alerta al mismo tiempo, el entorno macro probablemente esté complicado.",
     relatedSlugs: ["termometro-macro"],
+  },
+];
+
+const fiscalConcepts: MacroConcept[] = [
+  {
+    slug: "resultado-primario",
+    title: "Resultado primario",
+    category: "fiscal",
+    source: "IMIG / MEcon — datos.gob.ar",
+    enCristiano:
+      "Si el Estado gasta más de lo que recauda antes de pagar intereses de deuda, o al revés.",
+    paraQueSirve:
+      "Mide el esfuerzo fiscal 'de verdad': ingresos vs gastos corrientes, sin contar el costo de la deuda.",
+    comoLeerlo:
+      "Negativo = déficit primario. Positivo = superávit. Un déficit grande suele presionar emisión o más deuda.",
+    enTuVida:
+      "Cuando el déficit es alto, es más probable que suban impuestos, se recorten subsidios o se devalue.",
+    relatedSlugs: ["deficit-financiero", "deuda-externa"],
+  },
+  {
+    slug: "deficit-financiero",
+    title: "Resultado financiero",
+    category: "fiscal",
+    source: "IMIG / MEcon — datos.gob.ar",
+    enCristiano:
+      "El saldo fiscal total del Estado, incluyendo lo que paga de intereses por la deuda.",
+    paraQueSirve:
+      "Muestra cuánto necesita financiar el Tesoro en conjunto, no solo el gasto corriente.",
+    comoLeerlo:
+      "Siempre es más negativo que el primario porque suma intereses. Un déficit financiero alto implica más emisión o deuda.",
+    enTuVida:
+      "Afecta la confianza en el peso y el acceso a dólares: más déficit, más tensión macro.",
+    relatedSlugs: ["resultado-primario", "deuda-externa"],
+  },
+  {
+    slug: "deuda-externa",
+    title: "Deuda externa pública",
+    category: "fiscal",
+    source: "INDEC — datos.gob.ar",
+    enCristiano:
+      "Cuántos dólares debe el gobierno argentino al exterior y en moneda extranjera.",
+    paraQueSirve:
+      "Mide la exposición del Estado a movimientos del tipo de cambio y al riesgo soberano.",
+    comoLeerlo:
+      "Un stock alto o que crece rápido suele ir con mayor riesgo país y menos margen cambiario.",
+    enTuVida:
+      "Más deuda externa puede traducirse en más restricciones cambiarias o reprogramaciones.",
+    relatedSlugs: ["resultado-primario", "riesgo-pais", "reservas"],
   },
 ];
 
@@ -410,6 +460,7 @@ const indecConcepts: MacroConcept[] = [
 export const ALL_CONCEPTS: MacroConcept[] = [
   ...bcraConcepts,
   ...marketConcepts,
+  ...fiscalConcepts,
   ...indecConcepts,
 ];
 

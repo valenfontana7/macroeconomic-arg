@@ -3,6 +3,7 @@ import type {
   ContextInsight,
   CountryRiskSnapshot,
   DollarSnapshot,
+  FiscalSnapshot,
   IndecSnapshot,
 } from "@/types/external";
 
@@ -10,6 +11,7 @@ type BuildInsightsInput = {
   dollar: DollarSnapshot | null;
   indec: IndecSnapshot | null;
   countryRisk: CountryRiskSnapshot | null;
+  fiscal: FiscalSnapshot | null;
   badlar: number | null;
   macroScore: MacroScoreResult;
 };
@@ -23,7 +25,7 @@ function brechaLevel(pct: number | null): "baja" | "media" | "alta" | null {
 
 export function buildContextInsights(input: BuildInsightsInput): ContextInsight[] {
   const insights: ContextInsight[] = [];
-  const { dollar, indec, countryRisk, badlar, macroScore } = input;
+  const { dollar, indec, countryRisk, fiscal, badlar, macroScore } = input;
 
   if (dollar?.brechaCclPct !== null && dollar?.brechaCclPct !== undefined) {
     const level = brechaLevel(dollar.brechaCclPct);
@@ -185,6 +187,46 @@ export function buildContextInsights(input: BuildInsightsInput): ContextInsight[
     }
   }
 
+  if (fiscal?.primaryBalance3m !== null && fiscal?.primaryBalance3m !== undefined) {
+    if (fiscal.primaryBalance3m < -2_000_000) {
+      insights.push({
+        id: "fiscal-deficit-profundo",
+        title: "Déficit primario acumulado elevado",
+        body: `El resultado primario acumulado en 3 meses es deficitario por ${Math.abs(fiscal.primaryBalance3m).toLocaleString("es-AR")} millones de pesos. Eso suele presionar emisión, deuda o recortes futuros.`,
+        level: "alert",
+        category: "fiscal",
+      });
+    } else if (fiscal.primaryBalance3m > 0) {
+      insights.push({
+        id: "fiscal-superavit",
+        title: "Superávit primario reciente",
+        body: "El resultado primario acumulado en 3 meses es positivo. Es una señal de disciplina fiscal, aunque conviene mirar si se sostiene.",
+        level: "info",
+        category: "fiscal",
+      });
+    }
+  }
+
+  if (fiscal?.externalDebtChangeYoY !== null && fiscal?.externalDebtChangeYoY !== undefined) {
+    if (fiscal.externalDebtChangeYoY > 15) {
+      insights.push({
+        id: "deuda-externa-acelerando",
+        title: "Deuda externa pública acelerando",
+        body: `La deuda externa del gobierno general creció ${fiscal.externalDebtChangeYoY.toFixed(1)}% interanual. Mayor stock en dólares implica más exposición cambiaria.`,
+        level: "warning",
+        category: "fiscal",
+      });
+    } else if (fiscal.externalDebtChangeYoY < 0) {
+      insights.push({
+        id: "deuda-externa-baja",
+        title: "Deuda externa pública en descenso",
+        body: `El stock de deuda externa del gobierno bajó ${Math.abs(fiscal.externalDebtChangeYoY).toFixed(1)}% interanual. Es una señal favorable de solvencia externa.`,
+        level: "info",
+        category: "fiscal",
+      });
+    }
+  }
+
   if (macroScore.mood === "critico" || macroScore.mood === "turbulento") {
     insights.push({
       id: "pulso-debil",
@@ -239,7 +281,7 @@ export function buildExtendedDigest(input: ExtendedDigestInput): string[] {
   }
 
   if (inflationMonthly !== null) {
-    lines.push(`La inflación mensual (INDEC/BCRA) ronda el ${inflationMonthly.toFixed(1)}%.`);
+    lines.push(`La inflación mensual oficial (INDEC) ronda el ${inflationMonthly.toFixed(1)}%.`);
   }
 
   if (inflationAnnual !== null) {

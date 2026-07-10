@@ -4,6 +4,7 @@ import { DM_Sans, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { CookieConsentBanner } from "@/components/cookie-consent";
 import { AdSenseLoader } from "@/components/adsense-loader";
 import { JsonLd } from "@/components/json-ld";
+import { SkipLink } from "@/components/skip-link";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BRAND_DESCRIPTION, BRAND_NAME, BRAND_OG_DESCRIPTION } from "@/lib/brand";
 import { getSiteUrl } from "@/lib/site-url";
@@ -81,6 +82,7 @@ export default function RootLayout({
       className={`${dmSans.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background font-sans">
+        <SkipLink />
         <AdSenseLoader />
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />

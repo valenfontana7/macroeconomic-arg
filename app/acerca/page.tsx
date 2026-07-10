@@ -10,11 +10,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { ReportDataIssue } from "@/components/report-data-issue";
 import {
   BRAND_DOMAIN_RECOMMENDED,
   BRAND_NAME,
   brandUrl,
 } from "@/lib/brand";
+import { METHODOLOGY_VERSION } from "@/lib/methodology";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
@@ -28,7 +30,7 @@ export default function AboutPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6">
+      <main id="main-content" className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-bold tracking-tight">Acerca de {BRAND_NAME}</h1>
           <p className="text-muted-foreground">
@@ -68,6 +70,13 @@ export default function AboutPage() {
                 </a>
                 : IPC mensual e interanual, IPC núcleo, EMAE y salario real
                 industrial (INDEC).
+              </li>
+              <li>
+                datos.gob.ar / IMIG (Ministerio de Economía): resultado primario y
+                financiero del sector público.
+              </li>
+              <li>
+                datos.gob.ar / INDEC: deuda externa del gobierno general.
               </li>
               <li>
                 <a
@@ -120,25 +129,40 @@ export default function AboutPage() {
         <Card className="border-border/60 bg-card/60">
           <CardHeader>
             <CardTitle>Termómetro macro: cómo se calcula</CardTitle>
+            <CardDescription>{METHODOLOGY_VERSION}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-3 text-sm text-muted-foreground">
             <p>
-              El score (0–100) combina siete señales con pesos fijos y reglas
-              transparentes:
+              El score (0–100) combina diez señales con pesos fijos y reglas
+              transparentes. Si falta un dato para una señal, usamos 50 (neutral):
             </p>
             <ul className="flex list-disc flex-col gap-2 pl-5">
-              <li>Inflación mensual (22%)</li>
-              <li>Variación de reservas en 30 días (18%)</li>
-              <li>Volatilidad del dólar mayorista en 30 días (15%)</li>
-              <li>Crecimiento de la base monetaria en 30 días (12%)</li>
-              <li>BADLAR real vs inflación anualizada (8%)</li>
-              <li>Brecha CCL vs oficial (15%)</li>
-              <li>Riesgo país EMBI (10%)</li>
+              <li>Inflación mensual (18%)</li>
+              <li>Variación de reservas en 30 días (15%)</li>
+              <li>Volatilidad del dólar mayorista en 30 días (12%)</li>
+              <li>Crecimiento de la base monetaria en 30 días (9%)</li>
+              <li>BADLAR real vs inflación anualizada (6%)</li>
+              <li>Brecha CCL vs oficial (12%)</li>
+              <li>Riesgo país EMBI (8%)</li>
+              <li>Resultado primario acumulado 3 meses (10%)</li>
+              <li>Variación interanual deuda externa pública (7%)</li>
+              <li>M2 privado interanual (3%)</li>
             </ul>
             <p>
-              Estados: Tranquilo (≥75), Atento (55–74), Turbulento (35–54),
-              Crítico (&lt;35).
+              Finanzas públicas (resultado financiero, deuda total/PIB) se muestran
+              en el dashboard pero no entran al score hasta contar con series
+              oficiales actualizadas. La deuda externa INDEC se publica con rezago
+              trimestral.
             </p>
+            <p>
+              Estados: Tranquilo (≥75), Atento (55–74), Turbulento (35–54),
+              Crítico (&lt;35). Cambios de metodología en{" "}
+              <Link href="/novedades" className="text-primary underline-offset-2 hover:underline">
+                Novedades
+              </Link>
+              .
+            </p>
+            <ReportDataIssue />
           </CardContent>
         </Card>
 

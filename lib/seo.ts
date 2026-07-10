@@ -185,6 +185,8 @@ export function datasetJsonLd(options: {
   description: string;
   path: string;
   keywords?: string[];
+  dateModified?: string;
+  distributionUrl?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -192,6 +194,16 @@ export function datasetJsonLd(options: {
     name: options.name,
     description: options.description,
     url: canonicalUrl(options.path),
+    ...(options.dateModified ? { dateModified: options.dateModified } : {}),
+    ...(options.distributionUrl
+      ? {
+          distribution: {
+            "@type": "DataDownload",
+            contentUrl: options.distributionUrl,
+            encodingFormat: "text/csv",
+          },
+        }
+      : {}),
     keywords: options.keywords ?? ["Argentina", "macroeconomía", "BCRA", "INDEC"],
     creator: {
       "@type": "Organization",
