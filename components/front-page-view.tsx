@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import type { DashboardData } from "@/lib/dashboard-data";
 import type { MacroBriefing } from "@/lib/macro-briefing";
+import { buildDailyCover } from "@/lib/daily-cover";
 import { MOOD_LABELS } from "@/lib/macro-score";
 import { scoreToGaugeColor } from "@/lib/thermometer-color";
 import { formatDate } from "@/lib/format";
@@ -12,31 +13,19 @@ type FrontPageViewProps = {
   briefing: MacroBriefing;
 };
 
-function extractDek(briefing: MacroBriefing): string | null {
-  const digest = briefing.sections.find((s) => s.heading.includes("Resumen"));
-  return digest?.paragraphs?.[0] ?? null;
-}
-
-function extractTeaserParagraphs(briefing: MacroBriefing): string[] {
-  // Tomamos hasta 2 párrafos no triviales que no sean la intro genérica
-  const paragraphs: string[] = [];
-  for (const section of briefing.sections) {
-    if (section.heading.includes("Introducción") || section.heading.includes("Sobre esta sección")) {
-      continue;
-    }
-    for (const p of section.paragraphs) {
-      if (p.length < 40) continue;
-      paragraphs.push(p);
-      if (paragraphs.length >= 2) return paragraphs;
-    }
-  }
-  return paragraphs.slice(0, 2);
-}
-
 export function FrontPageView({ data, briefing }: FrontPageViewProps) {
-  const leadHeadline = data.insights[0]?.title ?? "Pulso macro de hoy";
-  const dek = extractDek(briefing);
-  const teaser = extractTeaserParagraphs(briefing);
+  const cover = buildDailyCover(data);
+  const leadHeadline = cover.title;
+  const dek = cover.dek;
+  const teaser = (() => {
+    const fromQue = cover.sections.find((s) => s.heading.includes("Qué se movió"));
+    const fromBolsillo = cover.sections.find((s) => s.heading.toLowerCase().includes("bolsillo"));
+    const arr = [
+      ...(fromQue?.paragraphs ?? []),
+      ...(fromBolsillo?.paragraphs ?? []),
+    ].filter((p) => p.length > 40);
+    return arr.slice(0, 2);
+  })();
   const score = data.macroScore;
   const moodColor = scoreToGaugeColor(score.score);
 
@@ -62,7 +51,7 @@ export function FrontPageView({ data, briefing }: FrontPageViewProps) {
 
           <div>
             <Link
-              href="/pulso"
+              href="/hoy"
               className={cn(
                 "inline-flex items-center text-[15px] font-medium text-foreground underline-offset-4 hover:underline",
               )}
