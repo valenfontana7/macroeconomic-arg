@@ -36,6 +36,10 @@ export function buildDigestContent(data: DashboardData): DigestContent {
     "",
     siteUrl,
     "",
+    "Tu tarjeta se cura sola todos los meses.",
+    "Cargá una deuda en Matadeudas y ves cuándo se muere si seguís pagando el mínimo.",
+    "Ver mi deuda → https://matadeudas.com.ar/?utm_source=labrecha&utm_medium=email&utm_campaign=deuda_semana",
+    "",
     "Para dejar de recibir estos correos, respondé a este email con 'baja'.",
   ];
 
@@ -52,6 +56,15 @@ export function buildDigestContent(data: DashboardData): DigestContent {
       <p style="margin-top: 24px;">
         <a href="${siteUrl}" style="color: #0284c7;">Ver dashboard completo →</a>
       </p>
+      <div style="margin-top: 24px; padding: 16px; border: 1px solid rgba(2, 132, 199, 0.3); border-radius: 12px; background: rgba(2, 132, 199, 0.05);">
+        <h2 style="margin: 0 0 6px; font-size: 16px;">Tu tarjeta se cura sola todos los meses.</h2>
+        <p style="margin: 6px 0 12px; color: #475569; font-size: 14px;">
+          Cargá una deuda en Matadeudas y ves cuándo se muere si seguís pagando el mínimo. Gratis, sin cuenta, los datos no salen de tu dispositivo.
+        </p>
+        <a href="https://matadeudas.com.ar/?utm_source=labrecha&utm_medium=email&utm_campaign=deuda_semana" style="display: inline-block; background: #0284c7; color: #ffffff; text-decoration: none; padding: 8px 10px; border-radius: 8px; font-size: 14px;">
+          Ver mi deuda →
+        </a>
+      </div>
       <p style="margin-top: 32px; font-size: 12px; color: #94a3b8;">
         Datos del BCRA, INDEC y mercado. No es asesoramiento financiero.
       </p>
