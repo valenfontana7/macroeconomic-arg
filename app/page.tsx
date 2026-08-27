@@ -1,4 +1,5 @@
-import { DashboardView } from "@/components/dashboard-view";
+import { FrontPageView } from "@/components/front-page-view";
+import { MarketsTape } from "@/components/markets-tape";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getDashboardData } from "@/lib/dashboard-data";
@@ -34,12 +35,9 @@ export default async function HomePage() {
   return (
     <>
       <SiteHeader />
+      <MarketsTape />
       <main id="main-content" className="flex-1">
-        <DashboardView
-          data={data}
-          thermometerHistory={thermometerHistory}
-          editorialBriefing={editorialBriefing}
-        />
+        <FrontPageView data={data} briefing={editorialBriefing} />
       </main>
       <SiteFooter />
     </>
