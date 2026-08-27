@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { DM_Sans, JetBrains_Mono, Merriweather } from "next/font/google";
 
 import { CookieConsentBanner } from "@/components/cookie-consent";
 import { AdSenseLoader } from "@/components/adsense-loader";
@@ -18,9 +18,10 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
 });
 
-const plusJakarta = Plus_Jakarta_Sans({
+const merriweather = Merriweather({
   variable: "--font-display",
   subsets: ["latin"],
+  weight: ["300", "400", "700", "900"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -80,7 +81,7 @@ export default function RootLayout({
   return (
     <html
       lang="es-AR"
-      className={`${dmSans.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${merriweather.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background font-sans">
         <SkipLink />

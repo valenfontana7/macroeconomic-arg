@@ -1,4 +1,4 @@
-import { FrontPageView } from "@/components/front-page-view";
+import { DashboardView } from "@/components/dashboard-view";
 import { MarketsTape } from "@/components/markets-tape";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -8,24 +8,15 @@ import { getThermometerHistory } from "@/lib/thermometer-history";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "Dólar hoy: cotización del dólar blue, oficial, MEP y CCL en Argentina",
+  title: "Vista completa del tablero macro",
   description:
-    "Cotización del dólar hoy en Argentina: blue, oficial, MEP, CCL y tarjeta en tiempo real, con brecha cambiaria, inflación INDEC y reservas del BCRA. Datos de fuentes oficiales y de mercado.",
-  path: "/",
-  keywords: [
-    "dólar hoy",
-    "dólar blue hoy",
-    "cotización dólar",
-    "dólar oficial hoy",
-    "dólar MEP hoy",
-    "brecha cambiaria hoy",
-    "inflación argentina hoy",
-  ],
+    "Todos los indicadores y gráficos: dólar, inflación, brecha, reservas, tasa y más.",
+  path: "/completo",
 });
 
 export const revalidate = 900;
 
-export default async function HomePage() {
+export default async function CompletoPage() {
   const [data, thermometerHistory] = await Promise.all([
     getDashboardData(),
     getThermometerHistory(90),
@@ -37,9 +28,16 @@ export default async function HomePage() {
       <SiteHeader />
       <MarketsTape />
       <main id="main-content" className="flex-1">
-        <FrontPageView data={data} briefing={editorialBriefing} />
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
+          <DashboardView
+            data={data}
+            thermometerHistory={thermometerHistory}
+            editorialBriefing={editorialBriefing}
+          />
+        </div>
       </main>
       <SiteFooter />
     </>
   );
 }
+
