@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ContextInsights } from "@/components/context-insights";
 import { ThermometerPulseTeaser } from "@/components/thermometer-pulse-teaser";
 import { ToolsPromo } from "@/components/tools/tools-promo";
+import { MatadeudasCta } from "@/components/matadeudas-cta";
 import { useDashboardMode } from "@/components/dashboard-shell";
 import type { ContextInsight } from "@/types/external";
 import type { MacroScoreResult } from "@/lib/macro-score";
@@ -42,6 +43,7 @@ export function DashboardPulseExtras({ score, insights }: DashboardPulseExtrasPr
         </div>
       </section>
       <ToolsPromo />
+      <MatadeudasCta />
     </div>
   );
 }
