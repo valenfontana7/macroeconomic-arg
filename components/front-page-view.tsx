@@ -8,6 +8,7 @@ import { formatDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { buildDailyCover } from "@/lib/daily-cover";
 import { getUpcomingEvents } from "@/lib/macro-calendar";
+import { NoteCard } from "@/components/note-card";
 
 type FrontPageViewProps = {
   data: DashboardData;
@@ -108,15 +109,15 @@ export function FrontPageView({ data, briefing }: FrontPageViewProps) {
         {/* Columna principal */}
         <div className="flex flex-col gap-4">
           <header className="flex flex-col gap-3">
-            <h1 className="font-heading text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+            <h1 className="font-heading text-5xl font-bold leading-tight tracking-tight sm:text-6xl">
               {leadHeadline}
             </h1>
             {dek ? (
-              <p className="max-w-[70ch] text-base leading-relaxed text-foreground/80">{dek}</p>
+              <p className="max-w-[68ch] text-[17px] leading-[1.5] text-foreground/80">{dek}</p>
             ) : null}
           </header>
 
-          <div className="flex max-w-[75ch] flex-col gap-4 text-[15px] leading-relaxed text-foreground/85">
+          <div className="flex max-w-[68ch] flex-col gap-4 text-[17px] leading-[1.5] text-foreground/85">
             {teaser.map((p) => (
               <p key={p.slice(0, 48)}>{p}</p>
             ))}
@@ -138,24 +139,13 @@ export function FrontPageView({ data, briefing }: FrontPageViewProps) {
           <section className="mt-4 flex flex-col gap-4">
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {notes.map((note) => (
-                  <article
+                  <NoteCard
                     key={`${note.kicker}-${note.title}`}
-                    className="flex flex-col gap-2 border border-border/60 bg-card/40 p-4"
-                  >
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-foreground/70">
-                      {note.kicker}
-                    </span>
-                    <h3 className="font-heading text-lg font-semibold leading-snug">{note.title}</h3>
-                    <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">{note.dek}</p>
-                    <div className="pt-1">
-                      <Link
-                        href={note.href}
-                        className="inline-flex text-sm font-medium text-foreground underline-offset-4 hover:underline"
-                      >
-                        Leer →
-                      </Link>
-                    </div>
-                  </article>
+                    kicker={note.kicker}
+                    title={note.title}
+                    dek={note.dek}
+                    href={note.href}
+                  />
                 ))}
               </div>
             </section>
