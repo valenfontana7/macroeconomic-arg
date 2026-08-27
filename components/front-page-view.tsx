@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { DashboardData } from "@/lib/dashboard-data";
 import type { MacroBriefing } from "@/lib/macro-briefing";
 import { MOOD_LABELS } from "@/lib/macro-score";
-import { scoreToGaugeColor } from "@/lib/thermometer-color";
 import { formatDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { buildDailyCover } from "@/lib/daily-cover";
@@ -42,7 +41,6 @@ export function FrontPageView({ data, briefing }: FrontPageViewProps) {
   const dek = cover.description ?? extractDek(briefing);
   const teaser = extractTeaserParagraphs(briefing);
   const score = data.macroScore;
-  const moodColor = scoreToGaugeColor(score.score);
 
   type FrontPageNote = { kicker: string; title: string; dek: string; href: string };
 
@@ -104,110 +102,128 @@ export function FrontPageView({ data, briefing }: FrontPageViewProps) {
   const notes = buildNotes();
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
-      <div className="grid gap-8 lg:grid-cols-[1fr_0.35fr]">
-        {/* Columna principal */}
-        <div className="flex flex-col gap-4">
-          <header className="flex flex-col gap-3">
-            <h1 className="font-heading text-5xl font-bold leading-tight tracking-tight sm:text-6xl">
-              {leadHeadline}
-            </h1>
-            {dek ? (
-              <p className="max-w-[68ch] text-[17px] leading-[1.5] text-foreground/80">{dek}</p>
-            ) : null}
-          </header>
-
-          <div className="flex max-w-[68ch] flex-col gap-4 text-[17px] leading-[1.5] text-foreground/85">
+    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6">
+      {/* Fila 1: lead 8 columnas + rail 4 columnas */}
+      <div className="grid grid-cols-12 gap-x-8 gap-y-10">
+        {/* Lead */}
+        <section className="col-span-12 lg:col-span-8">
+          <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground/60">
+            Hoy en la economía
+          </div>
+          <h1 className="font-heading text-5xl font-bold leading-[1.1] tracking-tight md:text-6xl">
+            {leadHeadline}
+          </h1>
+          {dek ? (
+            <p className="mt-3 max-w-[65ch] text-[17px] leading-[1.55] text-foreground/80">{dek}</p>
+          ) : null}
+          <div className="prose mt-5 max-w-[65ch] text-[17px] leading-[1.6] prose-p:mb-4">
             {teaser.map((p) => (
               <p key={p.slice(0, 48)}>{p}</p>
             ))}
           </div>
-
-          <div>
+          <p className="mt-6 text-sm">
             <Link
               href="/hoy"
-              className={cn(
-                "inline-flex items-center text-[15px] font-medium text-foreground underline-offset-4 hover:underline",
-              )}
+              className={cn("text-foreground underline underline-offset-2 hover:opacity-90")}
             >
-              Leer la tapa →
+              Seguir leyendo →
             </Link>
-          </div>
+          </p>
+        </section>
 
-          {/* Grid de notas estilo diario */}
-          {notes.length >= 3 ? (
-          <section className="mt-4 flex flex-col gap-4">
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {notes.map((note) => (
-                  <NoteCard
-                    key={`${note.kicker}-${note.title}`}
-                    kicker={note.kicker}
-                    title={note.title}
-                    dek={note.dek}
-                    href={note.href}
-                  />
-                ))}
-              </div>
-            </section>
-          ) : null}
-
-          {/* Más abajo: acceso a Completo y herramientas */}
-          <section className="mt-8 flex flex-wrap items-center gap-3 border-t border-border/70 pt-6">
-            <Link
-              href="/completo"
-              className="inline-flex items-center rounded border border-border bg-background px-3 py-2 text-sm font-medium hover:bg-muted/50"
-            >
-              Ver completo
-            </Link>
-            <span className="text-xs text-muted-foreground">
-              Actualizado {formatDate(data.fetchedAt)}
-            </span>
-          </section>
-        </div>
-
-        {/* Columna derecha: riel de mercados */}
-        <aside className="flex flex-col gap-5">
-          <section className="flex flex-col gap-1">
-            <h2 className="font-heading text-sm font-semibold uppercase tracking-wide text-foreground/70">
-              Clima de mercado
-            </h2>
-            <p className="text-sm">
-              <span className="font-semibold tabular-nums" style={{ color: moodColor }}>
-                {score.score}
-              </span>{" "}
-              / 100 — <span className="text-muted-foreground">{MOOD_LABELS[score.mood]}</span>
-            </p>
-          </section>
-
-          {/* Cotizaciones en formato columna de diario, con reglas */}
-          {data.dollar ? (
+        {/* Rail mercados */}
+        <aside className="col-span-12 lg:col-span-4 lg:border-l lg:border-border lg:pl-6">
+          <div className="flex flex-col gap-6">
             <section className="flex flex-col gap-1">
-              <h2 className="font-heading text-sm font-semibold uppercase tracking-wide text-foreground/70">
-                Cotizaciones
-              </h2>
-              <ul className="border-t border-border/70 text-sm">
-                {["oficial", "blue", "bolsa", "contadoconliqui"].map((casa) => {
-                  const q = data.dollar!.quotes.find((q) => q.casa === casa);
-                  if (!q) return null;
-                  const label = casa === "oficial" ? "Oficial" : casa === "blue" ? "Blue" : casa === "bolsa" ? "MEP" : "CCL";
-                  return (
-                    <li key={casa} className="flex items-center justify-between border-b border-border/70 py-1.5">
-                      <span className="text-foreground/70">{label}</span>
-                      <span className="font-semibold tabular-nums">${q.venta.toLocaleString("es-AR")}</span>
-                    </li>
-                  );
-                })}
-                {data.dollar.brechaCclPct != null ? (
-                  <li className="flex items-center justify-between border-b border-border/70 py-1.5">
-                    <span className="text-foreground/70">Brecha CCL</span>
-                    <span className="font-semibold tabular-nums">{data.dollar.brechaCclPct.toFixed(1)}%</span>
-                  </li>
-                ) : null}
-              </ul>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground/60">
+                Clima de mercado
+              </div>
+              <p className="text-sm">
+                <span className="font-medium tabular-nums">{score.score}</span> —{" "}
+                <span className="text-muted-foreground">{MOOD_LABELS[score.mood]}</span>
+              </p>
             </section>
-          ) : null}
+
+            {data.dollar ? (
+              <section className="flex flex-col gap-1">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground/60">
+                  Cotizaciones
+                </div>
+                <dl className="text-sm">
+                  {["oficial", "blue", "bolsa", "contadoconliqui"].map((casa) => {
+                    const q = data.dollar!.quotes.find((q) => q.casa === casa);
+                    if (!q) return null;
+                    const label =
+                      casa === "oficial" ? "Oficial" : casa === "blue" ? "Blue" : casa === "bolsa" ? "MEP" : "CCL";
+                    return (
+                      <div key={casa} className="grid grid-cols-[1fr_auto] items-baseline py-1">
+                        <dt className="text-muted-foreground">{label}</dt>
+                        <dd className="tabular-nums font-medium">
+                          ${q.venta.toLocaleString("es-AR")}
+                        </dd>
+                      </div>
+                    );
+                  })}
+                  {data.dollar.brechaCclPct != null ? (
+                    <div className="grid grid-cols-[1fr_auto] items-baseline border-t border-dashed border-border pt-2 mt-2">
+                      <dt className="text-muted-foreground">Brecha CCL</dt>
+                      <dd className="tabular-nums">{data.dollar.brechaCclPct.toFixed(1)}%</dd>
+                    </div>
+                  ) : null}
+                </dl>
+                <div className="pt-1 text-xs text-muted-foreground">
+                  <Link href="/completo" className="underline underline-offset-2">
+                    Mercados →
+                  </Link>
+                </div>
+              </section>
+            ) : null}
+
+            {(() => {
+              const upcoming = getUpcomingEvents(1)[0];
+              if (!upcoming) return null;
+              const date = new Date(upcoming.date);
+              const dateLabel = date.toLocaleDateString("es-AR", {
+                day: "2-digit",
+                month: "2-digit",
+              });
+              return (
+                <section className="flex flex-col gap-1">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground/60">
+                    Agenda
+                  </div>
+                  <p className="text-sm">
+                    <span className="font-medium">{upcoming.title}</span>{" "}
+                    <span className="text-muted-foreground">— {dateLabel}</span>
+                  </p>
+                </section>
+              );
+            })()}
+          </div>
         </aside>
       </div>
+
+      {/* Fila 2: notas en 3–4 columnas con reglas verticales */}
+      {notes.length >= 3 ? (
+        <section className="mt-12">
+          <div className="grid grid-cols-1 gap-y-8 md:grid-cols-3 md:gap-x-8 xl:grid-cols-4">
+            {notes.slice(0, 4).map((note, idx) => (
+              <NoteCard
+                key={`${note.kicker}-${note.title}`}
+                kicker={note.kicker}
+                title={note.title}
+                dek={note.dek}
+                href={note.href}
+                variant="paper"
+                className="md:border-l md:border-border md:pl-6 first:md:border-l-0 first:md:pl-0"
+              />
+            ))}
+          </div>
+          <div className="mt-6 text-xs text-muted-foreground">
+            Actualizado {formatDate(data.fetchedAt)}
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }
