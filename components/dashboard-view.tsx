@@ -34,9 +34,15 @@ type DashboardViewProps = {
   data: DashboardData;
   thermometerHistory: ThermometerHistoryPoint[];
   editorialBriefing: MacroBriefing;
+  variant?: "default" | "completo";
 };
 
-export function DashboardView({ data, thermometerHistory, editorialBriefing }: DashboardViewProps) {
+export function DashboardView({
+  data,
+  thermometerHistory,
+  editorialBriefing,
+  variant = "default",
+}: DashboardViewProps) {
   const pillars = Array.from(new Set(data.indicators.map((item) => item.pillar)));
   const topInsights = data.insights.slice(0, 3);
 
@@ -48,74 +54,118 @@ export function DashboardView({ data, thermometerHistory, editorialBriefing }: D
         </div>
       ) : null}
 
-      <DashboardShell partialErrors={data.partialErrors}>
+      <DashboardShell
+        partialErrors={data.partialErrors}
+        headerControls={variant !== "completo"}
+        showSectionNav={variant !== "completo"}
+        initialMode={variant === "completo" ? "full" : undefined}
+      >
         {data.dollar ? <BrechaAlertsBanner dollar={data.dollar} /> : null}
 
-        <section className="flex flex-col gap-2">
-          <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-            Dólar hoy en Argentina: oficial, blue, MEP y CCL
-          </h1>
-          <p className="max-w-3xl text-muted-foreground">
-            Cotizaciones del dólar en tiempo casi real, inflación INDEC, reservas del BCRA
-            y los principales indicadores de la economía argentina, con fuentes oficiales
-            y de mercado.
-          </p>
-          <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-            <span>Actualizado {formatDate(data.fetchedAt)}</span>
-            {data.usdOfficial !== null ? (
-              <span>
-                Dólar oficial BCRA: {formatCurrency(data.usdOfficial)}
-                {data.usdDate ? ` (${formatDate(data.usdDate)})` : ""}
-              </span>
+        {variant !== "completo" ? (
+          <section className="flex flex-col gap-2">
+            <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+              Dólar hoy en Argentina: oficial, blue, MEP y CCL
+            </h1>
+            <p className="max-w-3xl text-muted-foreground">
+              Cotizaciones del dólar en tiempo casi real, inflación INDEC, reservas del BCRA
+              y los principales indicadores de la economía argentina, con fuentes oficiales
+              y de mercado.
+            </p>
+            <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+              <span>Actualizado {formatDate(data.fetchedAt)}</span>
+              {data.usdOfficial !== null ? (
+                <span>
+                  Dólar oficial BCRA: {formatCurrency(data.usdOfficial)}
+                  {data.usdDate ? ` (${formatDate(data.usdDate)})` : ""}
+                </span>
+              ) : null}
+            </div>
+          </section>
+        ) : null}
+
+        {variant !== "completo" ? (
+          <div id="dolar" className="scroll-mt-24">
+            {data.dollar ? <DollarHero dollar={data.dollar} /> : null}
+          </div>
+        ) : null}
+
+        {variant !== "completo" ? <AdSlot placement="dashboard-below-hero" /> : null}
+
+        {variant !== "completo" ? (
+          <section className="flex flex-col gap-2">
+            <h2 className="font-heading text-2xl font-semibold tracking-tight">
+              ¿Cómo está la economía hoy?
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="outline" className="border-sky-300 text-sky-800">
+                BCRA
+              </Badge>
+              <Badge variant="outline" className="border-sky-300 text-sky-800">
+                INDEC
+              </Badge>
+              <Badge variant="outline" className="border-sky-300 text-sky-800">
+                DolarAPI
+              </Badge>
+              <Badge variant="outline" className="border-sky-300 text-sky-800">
+                ArgentinaDatos
+              </Badge>
+              <Badge variant="outline" className="border-sky-300 text-sky-800">
+                MEcon / IMIG
+              </Badge>
+            </div>
+          </section>
+        ) : (
+          <>
+            {/* Encabezado compacto estilo mercados */}
+            {data.dollar ? (
+              <section className="flex flex-col gap-3">
+                <h2 className="font-heading text-xl font-semibold tracking-tight">
+                  Cotizaciones principales
+                </h2>
+                <div className="divide-y divide-border/70 overflow-hidden rounded-md border border-border/70 bg-card/60">
+                  {["oficial", "blue", "bolsa", "contadoconliqui"].map((casa) => {
+                    const q = data.dollar!.quotes.find((q) => q.casa === casa);
+                    if (!q) return null;
+                    const label =
+                      casa === "oficial" ? "Oficial" : casa === "blue" ? "Blue" : casa === "bolsa" ? "MEP" : "CCL";
+                    return (
+                      <div key={casa} className="flex items-center justify-between px-3 py-2 text-sm">
+                        <span className="text-foreground/70">{label}</span>
+                        <span className="font-semibold tabular-nums">${q.venta.toLocaleString("es-AR")}</span>
+                      </div>
+                    );
+                  })}
+                  {data.dollar.brechaCclPct != null ? (
+                    <div className="flex items-center justify-between bg-muted/40 px-3 py-2 text-sm">
+                      <span className="text-foreground/70">Brecha CCL</span>
+                      <span className="font-semibold tabular-nums">{data.dollar.brechaCclPct.toFixed(1)}%</span>
+                    </div>
+                  ) : null}
+                </div>
+              </section>
             ) : null}
-          </div>
-        </section>
-
-        <div id="dolar" className="scroll-mt-24">
-          {data.dollar ? <DollarHero dollar={data.dollar} /> : null}
-        </div>
-
-        <AdSlot placement="dashboard-below-hero" />
-
-        <section className="flex flex-col gap-2">
-          <h2 className="font-heading text-2xl font-semibold tracking-tight">
-            ¿Cómo está la economía hoy?
-          </h2>
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="outline" className="border-sky-300 text-sky-800">
-              BCRA
-            </Badge>
-            <Badge variant="outline" className="border-sky-300 text-sky-800">
-              INDEC
-            </Badge>
-            <Badge variant="outline" className="border-sky-300 text-sky-800">
-              DolarAPI
-            </Badge>
-            <Badge variant="outline" className="border-sky-300 text-sky-800">
-              ArgentinaDatos
-            </Badge>
-            <Badge variant="outline" className="border-sky-300 text-sky-800">
-              MEcon / IMIG
-            </Badge>
-          </div>
-        </section>
+          </>
+        )}
 
         {/* Tapa del día visible arriba, como historia principal */}
-        <DailyCoverTeaser data={data} />
+        {variant !== "completo" ? <DailyCoverTeaser data={data} /> : null}
 
-        <DailyPulseHero data={data} />
+        {variant !== "completo" ? <DailyPulseHero data={data} /> : null}
 
         {/* Evitar “más prosa” duplicada en el dashboard cuando la tapa ya está visible */}
-        {editorialBriefing.scope !== "home" ? (
+        {variant !== "completo" && editorialBriefing.scope !== "home" ? (
           <HubEditorialPanel briefing={editorialBriefing} scope={editorialBriefing.scope} />
         ) : null}
 
-        <div data-section="pulse-only">
-          <DashboardPulseExtras score={data.macroScore} insights={topInsights} />
-        </div>
+        {variant !== "completo" ? (
+          <div data-section="pulse-only">
+            <DashboardPulseExtras score={data.macroScore} insights={topInsights} />
+          </div>
+        ) : null}
 
         <div data-section="full-only" className="flex flex-col gap-10 lg:gap-12">
-          <DashboardGuide />
+          {variant !== "completo" ? <DashboardGuide /> : null}
 
           <DashboardSection
             id="termometro-full"
@@ -125,7 +175,7 @@ export function DashboardView({ data, thermometerHistory, editorialBriefing }: D
             <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
               <div className="flex flex-col gap-5">
                 <MacroThermometer score={data.macroScore} />
-                <div className="rounded-2xl border border-border/60 bg-card/60 p-5">
+                <div className="border border-border/70 bg-card/60 p-4">
                   <h3 className="mb-4 text-sm font-medium text-muted-foreground">
                     Histórico del termómetro (90 días)
                   </h3>
@@ -139,14 +189,14 @@ export function DashboardView({ data, thermometerHistory, editorialBriefing }: D
             </div>
           </DashboardSection>
 
-          <BrechaAlertsSettings />
+          {variant !== "completo" ? <BrechaAlertsSettings /> : null}
 
-          <ToolsPromo />
-          <MatadeudasCta />
+          {variant !== "completo" ? <ToolsPromo /> : null}
+          {variant !== "completo" ? <MatadeudasCta /> : null}
 
-          {data.dollar ? <CollapsibleDollarPanel dollar={data.dollar} /> : null}
+          {variant !== "completo" && data.dollar ? <CollapsibleDollarPanel dollar={data.dollar} /> : null}
 
-          {data.forex.length > 0 ? <ForexPanel quotes={data.forex} /> : null}
+          {variant !== "completo" && data.forex.length > 0 ? <ForexPanel quotes={data.forex} /> : null}
 
           <MacroContextGrid indec={data.indec} countryRisk={data.countryRisk} />
 

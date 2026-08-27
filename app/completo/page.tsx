@@ -33,6 +33,7 @@ export default async function CompletoPage() {
             data={data}
             thermometerHistory={thermometerHistory}
             editorialBriefing={editorialBriefing}
+            variant="completo"
           />
         </div>
       </main>
