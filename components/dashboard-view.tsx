@@ -22,6 +22,7 @@ import { TrendChart } from "@/components/trend-chart";
 import { WeeklyDigest } from "@/components/weekly-digest";
 import { Badge } from "@/components/ui/badge";
 import { DashboardPulseExtras } from "@/components/dashboard-pulse-extras";
+import { DailyCoverTeaser } from "@/components/daily-cover-teaser";
 import { formatCurrency, formatDate } from "@/lib/format";
 import { PILLAR_LABELS } from "@/lib/indicators";
 import type { DashboardData } from "@/lib/dashboard-data";
@@ -98,9 +99,15 @@ export function DashboardView({ data, thermometerHistory, editorialBriefing }: D
           </div>
         </section>
 
+        {/* Tapa del día visible arriba, como historia principal */}
+        <DailyCoverTeaser data={data} />
+
         <DailyPulseHero data={data} />
 
-        <HubEditorialPanel briefing={editorialBriefing} scope="home" />
+        {/* Evitar “más prosa” duplicada en el dashboard cuando la tapa ya está visible */}
+        {editorialBriefing.scope !== "home" ? (
+          <HubEditorialPanel briefing={editorialBriefing} scope={editorialBriefing.scope} />
+        ) : null}
 
         <div data-section="pulse-only">
           <DashboardPulseExtras score={data.macroScore} insights={topInsights} />
