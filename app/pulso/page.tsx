@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Breadcrumbs } from "@/components/breadcrumbs";
+import { MarketsTape } from "@/components/markets-tape";
 import { JsonLd } from "@/components/json-ld";
 import { MacroBriefingArticle } from "@/components/macro-briefing-article";
 import { SiteFooter } from "@/components/site-footer";
@@ -43,17 +43,14 @@ export default async function PulsoPage() {
         })}
       />
       <SiteHeader />
-      <main id="main-content" className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6">
-        <Breadcrumbs
-          items={[{ label: "Inicio", href: "/" }, { label: "Pulso macro" }]}
-          currentPath="/pulso"
-        />
+      <MarketsTape />
+      <main id="main-content" className="mx-auto flex w-full max-w-[65ch] flex-col gap-8 px-4 py-8 sm:px-6">
 
         <MacroBriefingArticle briefing={briefing} />
 
         <section className="flex flex-wrap gap-3 border-t border-border/60 pt-6">
           <Link href="/" className={cn(buttonVariants({ variant: "outline" }))}>
-            Ver dashboard
+            Ir a la tapa
           </Link>
           <Link href="/dolar" className={cn(buttonVariants({ variant: "outline" }))}>
             Dólar
