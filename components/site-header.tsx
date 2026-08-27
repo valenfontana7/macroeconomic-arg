@@ -1,25 +1,17 @@
 import Link from "next/link";
-import { Suspense } from "react";
 
-import { BrandLogo } from "@/components/brand-logo";
-import { GlobalSearch } from "@/components/global-search";
-import { HeaderQuotes } from "@/components/header-quotes";
 import { MobileNav } from "@/components/mobile-nav";
 import { SiteNav } from "@/components/site-nav";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { BRAND_NAME, BRAND_TAGLINE } from "@/lib/brand";
+import { BRAND_NAME } from "@/lib/brand";
 
 const NAV_LINKS = [
-  { href: "/pulso", label: "Pulso" },
-  { href: "/dolar", label: "Dólar" },
-  { href: "/inflacion", label: "Inflación" },
-  { href: "/indicadores", label: "Indicadores" },
-  { href: "/herramientas", label: "Herramientas" },
+  { href: "/", label: "Hoy" },
+  { href: "/dolar", label: "Mercados" },
   { href: "/aprende", label: "Aprendé" },
-  { href: "/calendario", label: "Calendario" },
+  { href: "/herramientas", label: "Herramientas" },
 ] as const;
 
-const headerDateFormatter = new Intl.DateTimeFormat("es-AR", {
+const datelineFormatter = new Intl.DateTimeFormat("es-AR", {
   weekday: "long",
   day: "numeric",
   month: "long",
@@ -27,46 +19,41 @@ const headerDateFormatter = new Intl.DateTimeFormat("es-AR", {
   timeZone: "America/Argentina/Buenos_Aires",
 });
 
-function todayLabel(): string {
-  const label = headerDateFormatter.format(new Date());
-  return label.charAt(0).toUpperCase() + label.slice(1);
+function dateline(): string {
+  const base = datelineFormatter.format(new Date());
+  const capitalized = base.charAt(0).toUpperCase() + base.slice(1);
+  return `Buenos Aires — ${capitalized}`;
 }
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40">
-      {/* Franja superior institucional: fecha + mini-cotizaciones */}
-      <div className="bg-[#1e3a5f] text-white">
-        <div className="mx-auto flex h-8 max-w-6xl items-center justify-between gap-4 overflow-hidden px-4 sm:px-6">
-          <span className="hidden text-xs text-white/80 sm:block">{todayLabel()}</span>
-          <Suspense fallback={null}>
-            <HeaderQuotes />
-          </Suspense>
+    <header className="z-40 border-b border-border/70 bg-background/80 backdrop-blur">
+      {/* Nameplate / masthead */}
+      <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
+        <div className="flex flex-col items-center gap-2 pb-4 text-center">
+          <Link href="/" className="inline-block">
+            <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+              {BRAND_NAME}
+            </h1>
+          </Link>
+          <p className="text-xs text-muted-foreground">{dateline()}</p>
         </div>
       </div>
-
-      {/* Barra principal */}
-      <div className="relative border-b border-border bg-card shadow-sm">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <Link href="/" className="flex items-center gap-3">
-            <BrandLogo size={36} />
-            <span className="flex flex-col gap-0.5">
-              <span className="font-heading text-lg font-bold tracking-tight text-foreground">
-                {BRAND_NAME}
-              </span>
-              <span className="hidden text-xs text-muted-foreground sm:block">
-                {BRAND_TAGLINE}
-              </span>
-            </span>
-          </Link>
-
-          <div className="flex items-center gap-3">
-            <SiteNav links={NAV_LINKS} />
-            <ThemeToggle />
-            <GlobalSearch />
-            <MobileNav links={[{ href: "/", label: "Inicio" }, ...NAV_LINKS]} />
-          </div>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <hr className="border-t border-border/70" />
+      </div>
+      {/* Section nav styled like a paper */}
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="flex items-center justify-between py-2">
+          <SiteNav
+            links={NAV_LINKS}
+            className="gap-6 text-[13px] uppercase tracking-wide text-foreground/80"
+          />
+          <MobileNav links={[...NAV_LINKS]} />
         </div>
+      </div>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <hr className="border-t border-border/70" />
       </div>
     </header>
   );
