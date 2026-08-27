@@ -6,15 +6,23 @@ export type NoteCardProps = {
   dek?: string | null;
   href: string;
   className?: string;
+  variant?: "card" | "paper";
 };
 
-export function NoteCard({ kicker, title, dek, href, className }: NoteCardProps) {
+export function NoteCard({
+  kicker,
+  title,
+  dek,
+  href,
+  className,
+  variant = "card",
+}: NoteCardProps) {
+  const baseWrapper =
+    "flex flex-col gap-2" +
+    (variant === "card" ? " border border-border/60 bg-card/40 p-4" : " p-0 bg-transparent");
+
   return (
-    <article
-      className={["flex flex-col gap-2 border border-border/60 bg-card/40 p-4", className]
-        .filter(Boolean)
-        .join(" ")}
-    >
+    <article className={[baseWrapper, className].filter(Boolean).join(" ")}>
       <span className="text-[11px] font-semibold uppercase tracking-wide text-foreground/70">
         {kicker}
       </span>
