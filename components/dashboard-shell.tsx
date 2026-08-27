@@ -15,6 +15,9 @@ import {
 type DashboardShellProps = {
   partialErrors: string[];
   children: React.ReactNode;
+  headerControls?: boolean;
+  showSectionNav?: boolean;
+  initialMode?: DashboardViewMode;
 };
 
 type DashboardModeContextValue = {
@@ -31,11 +34,22 @@ export function useDashboardMode() {
   return useContext(DashboardModeContext);
 }
 
-export function DashboardShell({ partialErrors, children }: DashboardShellProps) {
-  const [mode, setMode] = useState<DashboardViewMode>("pulse");
+export function DashboardShell({
+  partialErrors,
+  children,
+  headerControls = true,
+  showSectionNav = true,
+  initialMode,
+}: DashboardShellProps) {
+  const [mode, setMode] = useState<DashboardViewMode>(initialMode ?? "pulse");
 
   useEffect(() => {
+    if (initialMode) {
+      setMode(initialMode);
+      return;
+    }
     setMode(loadDashboardViewMode());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const switchToFull = () => {
@@ -52,20 +66,22 @@ export function DashboardShell({ partialErrors, children }: DashboardShellProps)
         data-dashboard-mode={mode}
         className="flex flex-col gap-8 data-[dashboard-mode=full]:[&_.pulse-hero-score]:hidden data-[dashboard-mode=full]:[&_[data-section=pulse-only]]:hidden data-[dashboard-mode=pulse]:[&_[data-section=full-only]]:hidden"
       >
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <DashboardViewModeToggle onChange={setMode} />
-          <p className="text-xs text-muted-foreground">
-            {mode === "pulse"
-              ? "Vista rápida (~30 s)"
-              : "Vista completa con todos los indicadores"}
-          </p>
-        </div>
+        {headerControls ? (
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <DashboardViewModeToggle onChange={setMode} />
+            <p className="text-xs text-muted-foreground">
+              {mode === "pulse"
+                ? "Vista rápida (~30 s)"
+                : "Vista completa con todos los indicadores"}
+            </p>
+          </div>
+        ) : null}
 
         <PartialErrorsBanner errors={partialErrors} />
 
-        {mode === "full" ? <DashboardSectionNav /> : null}
+        {showSectionNav && mode === "full" ? <DashboardSectionNav /> : null}
 
-        <DashboardOnboarding />
+        {headerControls ? <DashboardOnboarding /> : null}
 
         {children}
       </div>

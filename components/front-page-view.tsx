@@ -6,6 +6,8 @@ import { MOOD_LABELS } from "@/lib/macro-score";
 import { scoreToGaugeColor } from "@/lib/thermometer-color";
 import { formatDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { buildDailyCover } from "@/lib/daily-cover";
+import { getUpcomingEvents } from "@/lib/macro-calendar";
 
 type FrontPageViewProps = {
   data: DashboardData;
@@ -34,11 +36,71 @@ function extractTeaserParagraphs(briefing: MacroBriefing): string[] {
 }
 
 export function FrontPageView({ data, briefing }: FrontPageViewProps) {
-  const leadHeadline = data.insights[0]?.title ?? "Pulso macro de hoy";
-  const dek = extractDek(briefing);
+  const cover = buildDailyCover(data);
+  const leadHeadline = cover.title;
+  const dek = cover.description ?? extractDek(briefing);
   const teaser = extractTeaserParagraphs(briefing);
   const score = data.macroScore;
   const moodColor = scoreToGaugeColor(score.score);
+
+  type FrontPageNote = { kicker: string; title: string; dek: string; href: string };
+
+  function buildNotes(): FrontPageNote[] {
+    const notes: FrontPageNote[] = [];
+    // 1) Secciones de la tapa
+    const secMovio = cover.sections.find((s) => s.heading.includes("Qué se movió"));
+    if (secMovio?.paragraphs[0]) {
+      notes.push({
+        kicker: "Mercados",
+        title: "Qué se movió",
+        dek: secMovio.paragraphs[0],
+        href: "/hoy#que-se-movio",
+      });
+    }
+    const secBolsillo = cover.sections.find((s) => s.heading.includes("bolsillo"));
+    if (secBolsillo?.paragraphs[0]) {
+      notes.push({
+        kicker: "Bolsillo",
+        title: "Por qué importa el bolsillo",
+        dek: secBolsillo.paragraphs[0],
+        href: "/hoy#por-que-importa-el-bolsillo",
+      });
+    }
+    // 2) Insights — fiscal y cambio
+    const fiscal = data.insights.find((i) => i.category === "fiscal");
+    if (fiscal) {
+      notes.push({
+        kicker: "Fiscal",
+        title: fiscal.title,
+        dek: fiscal.body,
+        href: "/finanzas-publicas",
+      });
+    }
+    const cambio = data.insights.find((i) => i.category === "cambio");
+    if (cambio) {
+      notes.push({
+        kicker: "Mercados",
+        title: cambio.title,
+        dek: cambio.body,
+        href: "/dolar",
+      });
+    }
+    // 3) Agenda — próximo evento macro
+    const upcoming = getUpcomingEvents(1)[0];
+    if (upcoming) {
+      const date = new Date(upcoming.date);
+      const dateLabel = date.toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit" });
+      notes.push({
+        kicker: "Agenda",
+        title: upcoming.title,
+        dek: `${upcoming.description} — ${dateLabel}`,
+        href: "/calendario",
+      });
+    }
+    // Limitar entre 3 y 6
+    return notes.slice(0, 6);
+  }
+  const notes = buildNotes();
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
@@ -62,28 +124,37 @@ export function FrontPageView({ data, briefing }: FrontPageViewProps) {
 
           <div>
             <Link
-              href="/pulso"
+              href="/hoy"
               className={cn(
                 "inline-flex items-center text-[15px] font-medium text-foreground underline-offset-4 hover:underline",
               )}
             >
-              Seguir leyendo →
+              Leer la tapa →
             </Link>
           </div>
 
-          {/* Breves secundarios: señales */}
-          {data.insights.length > 0 ? (
-            <section className="mt-6 flex flex-col gap-4 border-t border-border/70 pt-6">
-              <h2 className="font-heading text-xl font-semibold tracking-tight">Señales del día</h2>
-              <div className="grid gap-5 sm:grid-cols-2">
-                {data.insights.slice(0, 3).map((insight) => (
-                  <article key={insight.title} className="flex flex-col gap-2">
-                    <h3 className="font-heading text-base font-semibold leading-snug">
-                      {insight.title}
-                    </h3>
-                    <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">
-                      {insight.body}
-                    </p>
+          {/* Grid de notas estilo diario */}
+          {notes.length >= 3 ? (
+          <section className="mt-4 flex flex-col gap-4">
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {notes.map((note) => (
+                  <article
+                    key={`${note.kicker}-${note.title}`}
+                    className="flex flex-col gap-2 border border-border/60 bg-card/40 p-4"
+                  >
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-foreground/70">
+                      {note.kicker}
+                    </span>
+                    <h3 className="font-heading text-lg font-semibold leading-snug">{note.title}</h3>
+                    <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">{note.dek}</p>
+                    <div className="pt-1">
+                      <Link
+                        href={note.href}
+                        className="inline-flex text-sm font-medium text-foreground underline-offset-4 hover:underline"
+                      >
+                        Leer →
+                      </Link>
+                    </div>
                   </article>
                 ))}
               </div>
@@ -96,7 +167,7 @@ export function FrontPageView({ data, briefing }: FrontPageViewProps) {
               href="/completo"
               className="inline-flex items-center rounded border border-border bg-background px-3 py-2 text-sm font-medium hover:bg-muted/50"
             >
-              Ver Completo (tablero)
+              Ver completo
             </Link>
             <span className="text-xs text-muted-foreground">
               Actualizado {formatDate(data.fetchedAt)}
@@ -106,61 +177,45 @@ export function FrontPageView({ data, briefing }: FrontPageViewProps) {
 
         {/* Columna derecha: riel de mercados */}
         <aside className="flex flex-col gap-5">
-          <section className="flex flex-col gap-2">
+          <section className="flex flex-col gap-1">
             <h2 className="font-heading text-sm font-semibold uppercase tracking-wide text-foreground/70">
               Clima de mercado
             </h2>
-            <div className="rounded-md border border-border/70 bg-card/60 p-3">
-              <div className="flex items-end gap-2">
-                <span className="text-3xl font-bold tabular-nums" style={{ color: moodColor }}>
-                  {score.score}
-                </span>
-                <span className="pb-1 text-sm text-muted-foreground">/ 100</span>
-              </div>
-              <p className="mt-1 text-sm text-muted-foreground">{MOOD_LABELS[score.mood]}</p>
-            </div>
+            <p className="text-sm">
+              <span className="font-semibold tabular-nums" style={{ color: moodColor }}>
+                {score.score}
+              </span>{" "}
+              / 100 — <span className="text-muted-foreground">{MOOD_LABELS[score.mood]}</span>
+            </p>
           </section>
 
-          {/* Cotizaciones compactas en columna */}
+          {/* Cotizaciones en formato columna de diario, con reglas */}
           {data.dollar ? (
-            <section className="flex flex-col gap-2">
+            <section className="flex flex-col gap-1">
               <h2 className="font-heading text-sm font-semibold uppercase tracking-wide text-foreground/70">
                 Cotizaciones
               </h2>
-              <div className="divide-y divide-border/70 overflow-hidden rounded-md border border-border/70 bg-card/60">
+              <ul className="border-t border-border/70 text-sm">
                 {["oficial", "blue", "bolsa", "contadoconliqui"].map((casa) => {
                   const q = data.dollar!.quotes.find((q) => q.casa === casa);
                   if (!q) return null;
-                  const label =
-                    casa === "oficial"
-                      ? "Oficial"
-                      : casa === "blue"
-                      ? "Blue"
-                      : casa === "bolsa"
-                      ? "MEP"
-                      : "CCL";
+                  const label = casa === "oficial" ? "Oficial" : casa === "blue" ? "Blue" : casa === "bolsa" ? "MEP" : "CCL";
                   return (
-                    <div key={casa} className="flex items-center justify-between px-3 py-2 text-sm">
+                    <li key={casa} className="flex items-center justify-between border-b border-border/70 py-1.5">
                       <span className="text-foreground/70">{label}</span>
-                      <span className="font-semibold tabular-nums">
-                        ${q.venta.toLocaleString("es-AR")}
-                      </span>
-                    </div>
+                      <span className="font-semibold tabular-nums">${q.venta.toLocaleString("es-AR")}</span>
+                    </li>
                   );
                 })}
                 {data.dollar.brechaCclPct != null ? (
-                  <div className="flex items-center justify-between bg-muted/40 px-3 py-2 text-sm">
+                  <li className="flex items-center justify-between border-b border-border/70 py-1.5">
                     <span className="text-foreground/70">Brecha CCL</span>
-                    <span className="font-semibold tabular-nums">
-                      {data.dollar.brechaCclPct.toFixed(1)}%
-                    </span>
-                  </div>
+                    <span className="font-semibold tabular-nums">{data.dollar.brechaCclPct.toFixed(1)}%</span>
+                  </li>
                 ) : null}
-              </div>
+              </ul>
             </section>
           ) : null}
-
-          {/* Calendario compacto o digest aparecerían más abajo si es necesario */}
         </aside>
       </div>
     </div>

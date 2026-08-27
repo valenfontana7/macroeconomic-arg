@@ -5,9 +5,10 @@ import { SiteNav } from "@/components/site-nav";
 import { BRAND_NAME } from "@/lib/brand";
 
 const NAV_LINKS = [
-  { href: "/", label: "Hoy" },
+  { href: "/", label: "Tapa" },
+  { href: "/hoy", label: "Hoy" },
+  { href: "/completo", label: "Completo" },
   { href: "/dolar", label: "Mercados" },
-  { href: "/aprende", label: "Aprendé" },
   { href: "/herramientas", label: "Herramientas" },
 ] as const;
 
