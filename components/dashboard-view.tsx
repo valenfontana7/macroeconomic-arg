@@ -22,6 +22,7 @@ import { TrendChart } from "@/components/trend-chart";
 import { WeeklyDigest } from "@/components/weekly-digest";
 import { Badge } from "@/components/ui/badge";
 import { DashboardPulseExtras } from "@/components/dashboard-pulse-extras";
+import { MatadeudasCta } from "@/components/matadeudas-cta";
 import { formatCurrency, formatDate } from "@/lib/format";
 import { PILLAR_LABELS } from "@/lib/indicators";
 import type { DashboardData } from "@/lib/dashboard-data";
@@ -134,6 +135,7 @@ export function DashboardView({ data, thermometerHistory, editorialBriefing }: D
           <BrechaAlertsSettings />
 
           <ToolsPromo />
+          <MatadeudasCta />
 
           {data.dollar ? <CollapsibleDollarPanel dollar={data.dollar} /> : null}
 
