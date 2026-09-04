@@ -6,6 +6,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { MarketsTape } from "@/components/markets-tape";
 import { getAllConcepts } from "@/lib/macro-education";
 import { GUIDE_PAGES } from "@/lib/guide-pages";
 import { buildPageMetadata, canonicalUrl, itemListJsonLd } from "@/lib/seo";
@@ -38,13 +39,14 @@ export default function AprendePage() {
     <>
       <JsonLd data={listJsonLd} />
       <SiteHeader />
+      <MarketsTape />
       <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
         <Breadcrumbs
           items={[{ label: "Inicio", href: "/" }, { label: "Aprendé" }]}
           currentPath="/aprende"
         />
         <div className="flex flex-col gap-2">
-          <h1 className="font-heading text-3xl font-bold tracking-tight">
+          <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-5xl">
             Aprendé macro sin ser economista
           </h1>
           <p className="max-w-2xl text-muted-foreground">
@@ -53,7 +55,7 @@ export default function AprendePage() {
           </p>
         </div>
 
-        <section className="flex flex-col gap-3 rounded-2xl border border-border/60 bg-card/40 p-5">
+        <section className="flex flex-col gap-3 border-y border-border/70 bg-transparent py-5">
           <h2 className="font-heading text-lg font-semibold">Guías temáticas</h2>
           <p className="text-sm text-muted-foreground">
             Lecturas largas que reúnen varios conceptos del glosario en un solo lugar.
@@ -63,7 +65,7 @@ export default function AprendePage() {
               <Link
                 key={guide.slug}
                 href={`/aprende/guia/${guide.slug}`}
-                className="rounded-lg border border-border/60 px-4 py-2 text-sm transition-colors hover:border-primary/40 hover:text-primary"
+                className="border border-border/70 px-4 py-2 text-sm transition-colors hover:border-primary/40 hover:text-primary"
               >
                 {guide.title}
               </Link>

@@ -28,23 +28,30 @@ function dateline(): string {
 
 export function SiteHeader() {
   return (
-    <header className="z-40 border-b border-border/70 bg-background/80 backdrop-blur">
+    <header className="z-40 border-b border-border/80 bg-background/95 backdrop-blur">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 pt-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-foreground/50 sm:px-6">
+        <span>Edición digital</span>
+        <span className="hidden sm:inline">BCRA · INDEC · Mercado</span>
+        <Link href="/pulso" className="text-primary hover:underline">
+          Pulso macro →
+        </Link>
+      </div>
       {/* Nameplate / masthead */}
-      <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
-        <div className="flex flex-col items-center gap-2 pb-4 text-center">
+      <div className="mx-auto max-w-7xl px-4 pt-4 sm:px-6">
+        <div className="flex flex-col items-center gap-2 pb-5 text-center">
           <Link href="/" className="inline-block">
-            <h1 className="font-heading text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+            <h1 className="font-heading text-5xl font-semibold tracking-[-0.045em] text-foreground sm:text-6xl">
               {BRAND_NAME}
             </h1>
           </Link>
           <p className="text-xs text-muted-foreground">{dateline()}</p>
         </div>
       </div>
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <hr className="border-t border-border/70" />
       </div>
       {/* Section nav styled like a paper */}
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex items-center justify-between py-2">
           <SiteNav
             links={NAV_LINKS}
@@ -53,7 +60,7 @@ export function SiteHeader() {
           <MobileNav links={[...NAV_LINKS]} />
         </div>
       </div>
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <hr className="border-t border-border/70" />
       </div>
     </header>

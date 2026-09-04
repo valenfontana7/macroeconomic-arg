@@ -43,7 +43,7 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto border-t border-border bg-card">
+    <footer className="mt-16 border-t-2 border-foreground/80 bg-background">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-5">
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
@@ -58,7 +58,7 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col gap-2 text-sm">
-          <span className="font-medium text-foreground">Cotizaciones y datos</span>
+          <span className="editorial-kicker text-foreground">Cotizaciones y datos</span>
           {EXPLORE_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -71,7 +71,7 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col gap-2 text-sm">
-          <span className="font-medium text-foreground">Guías</span>
+          <span className="editorial-kicker text-foreground">Guías</span>
           {GUIDE_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -84,7 +84,7 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col gap-2 text-sm">
-          <span className="font-medium text-foreground">Sitio</span>
+          <span className="editorial-kicker text-foreground">Sitio</span>
           {SITE_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -97,7 +97,7 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col gap-2 text-sm">
-          <span className="font-medium text-foreground">Fuentes oficiales</span>
+          <span className="editorial-kicker text-foreground">Fuentes oficiales</span>
           {SOURCE_LINKS.map((link) => (
             <a
               key={link.href}
@@ -112,7 +112,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="border-t border-border bg-muted/40">
+      <div className="border-t border-border bg-transparent">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-4 text-xs leading-relaxed text-muted-foreground sm:px-6">
           <p>
             {BRAND_NAME} es un sitio meramente informativo. Los datos publicados

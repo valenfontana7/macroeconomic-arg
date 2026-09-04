@@ -25,7 +25,7 @@ const merriweather = Merriweather({
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
+  variable: "--font-code",
   subsets: ["latin"],
 });
 

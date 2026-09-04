@@ -8,6 +8,7 @@ import { IndicatorsViewToggle } from "@/components/indicators-view-toggle";
 import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { MarketsTape } from "@/components/markets-tape";
 import { Badge } from "@/components/ui/badge";
 import { getDashboardData } from "@/lib/dashboard-data";
 import { buildMacroBriefing } from "@/lib/macro-briefing";
@@ -73,6 +74,7 @@ export default async function IndicadoresPage() {
     <>
       <JsonLd data={listJsonLd} />
       <SiteHeader />
+      <MarketsTape />
       <main id="main-content" className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6">
         <Breadcrumbs
           items={[{ label: "Inicio", href: "/" }, { label: "Indicadores" }]}
@@ -80,7 +82,7 @@ export default async function IndicadoresPage() {
         />
 
         <div className="flex flex-col gap-2">
-          <h1 className="font-heading text-3xl font-bold tracking-tight">
+          <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-5xl">
             Indicadores macro
           </h1>
           <p className="max-w-2xl text-muted-foreground">

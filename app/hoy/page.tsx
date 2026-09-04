@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { MarketsTape } from "@/components/markets-tape";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getDashboardData } from "@/lib/dashboard-data";
@@ -46,29 +47,30 @@ export default async function TodayCoverPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-8 sm:px-6">
+      <MarketsTape />
+      <main className="mx-auto flex w-full max-w-4xl flex-col gap-7 px-4 py-8 sm:px-6">
         <Breadcrumbs items={[{ label: "Inicio", href: "/" }, { label: "Hoy" }]} />
 
         <header className="flex flex-col gap-2">
-          <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+          <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-5xl">
             Hoy en la economía
           </h1>
           <p className="text-sm text-muted-foreground">Actualizado {cover.dateLabel}</p>
         </header>
 
-        <article className="flex flex-col gap-5">
-          <p className="text-lg font-semibold leading-relaxed text-foreground/90">
+        <article className="flex max-w-[68ch] flex-col gap-5 border-t border-border/80 pt-6">
+          <p className="font-heading text-xl font-semibold leading-relaxed text-foreground/90">
             {cover.title}
           </p>
           {cover.sections.map((section) => {
             const id = headingToId(section.heading);
             return (
-              <section key={section.heading} id={id} className="flex flex-col gap-2 scroll-mt-24">
-                <h2 className="font-heading text-base font-semibold tracking-tight">
+              <section key={section.heading} id={id} className="flex flex-col gap-2 border-t border-border/60 pt-5 scroll-mt-24 first:border-t-0 first:pt-0">
+                <h2 className="font-heading text-xl font-semibold tracking-tight">
                   {section.heading}
                 </h2>
                 {section.paragraphs.map((p, idx) => (
-                  <p key={idx} className="text-sm leading-relaxed text-muted-foreground">
+                  <p key={idx} className="text-base leading-relaxed text-foreground/75">
                     {p}
                   </p>
                 ))}
@@ -82,7 +84,6 @@ export default async function TodayCoverPage() {
 
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         {/* TODO: /hoy/[fecha] como permalink cuando haya almacenamiento histórico confiable */}

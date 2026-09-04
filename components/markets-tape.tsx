@@ -5,7 +5,12 @@ import { formatNumber } from "@/lib/format";
  * Cinta de mercados delgada: oficial, blue, MEP, CCL y brecha CCL.
  * Silenciosamente no muestra nada si no hay datos.
  */
-export async function MarketsTape() {
+type MarketsTapeData = {
+  visible: { label: string; value: number }[];
+  brecha: string | null;
+};
+
+async function getMarketsTapeData(): Promise<MarketsTapeData | null> {
   try {
     const snapshot = await getDollarSnapshot();
     const byId = (casa: string) =>
@@ -23,35 +28,44 @@ export async function MarketsTape() {
         ? `${snapshot.brechaCclPct.toFixed(1)}%`
         : null;
 
-    const visible = items.filter((i) => i.value != null);
-    if (visible.length === 0) return null;
-
-    return (
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="flex h-9 items-center gap-4 overflow-x-auto whitespace-nowrap text-[13px] tabular-nums text-foreground/90">
-          {visible.map((item, idx) => (
-            <span key={item.label} className="flex items-center gap-1.5">
-              <span className="text-foreground/60">{item.label}</span>
-              <span className="font-semibold">${formatNumber(item.value!, 0)}</span>
-              {idx < visible.length - 1 ? (
-                <span aria-hidden className="mx-2 h-3 w-px bg-border/70" />
-              ) : null}
-            </span>
-          ))}
-          {brecha ? (
-            <>
-              <span aria-hidden className="mx-2 h-3 w-px bg-border/70" />
-              <span className="flex items-center gap-1.5">
-                <span className="text-foreground/60">Brecha CCL</span>
-                <span className="font-semibold">{brecha}</span>
-              </span>
-            </>
-          ) : null}
-        </div>
-      </div>
+    const visible = items.filter(
+      (item): item is { label: string; value: number } => item.value != null,
     );
+    if (visible.length === 0) return null;
+    return { visible, brecha };
   } catch {
     return null;
   }
 }
 
+export async function MarketsTape() {
+  const data = await getMarketsTapeData();
+  if (!data) return null;
+
+  return (
+    <div className="border-b border-border/70 bg-muted/20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="flex min-h-9 items-center gap-4 overflow-x-auto whitespace-nowrap py-1 text-[12px] tabular-nums text-foreground/90">
+          {data.visible.map((item, idx) => (
+            <span key={item.label} className="flex items-center gap-1.5">
+              <span className="text-foreground/60">{item.label}</span>
+              <span className="font-semibold">${formatNumber(item.value, 0)}</span>
+              {idx < data.visible.length - 1 ? (
+                <span aria-hidden className="mx-2 h-3 w-px bg-border/70" />
+              ) : null}
+            </span>
+          ))}
+          {data.brecha ? (
+            <>
+              <span aria-hidden className="mx-2 h-3 w-px bg-border/70" />
+              <span className="flex items-center gap-1.5">
+                <span className="text-foreground/60">Brecha CCL</span>
+                <span className="font-semibold">{data.brecha}</span>
+              </span>
+            </>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}

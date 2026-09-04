@@ -1,6 +1,7 @@
 import { AdSlot } from "@/components/ad-slot";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { MarketsTape } from "@/components/markets-tape";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { MacroCalendarPanel } from "@/components/macro-calendar-panel";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +24,7 @@ export default function CalendarioPage() {
   return (
     <>
       <SiteHeader />
+      <MarketsTape />
       <main className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6">
         <Breadcrumbs
           items={[{ label: "Inicio", href: "/" }, { label: "Calendario macro" }]}
@@ -30,7 +32,7 @@ export default function CalendarioPage() {
         />
 
         <div className="flex flex-col gap-2">
-          <h1 className="font-heading text-3xl font-bold tracking-tight">Calendario macro</h1>
+          <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-5xl">Calendario macro</h1>
           <p className="text-muted-foreground">
             Fechas habituales en que el INDEC y el BCRA publican los datos que movemos en el
             dashboard. Son estimaciones basadas en el calendario histórico — el día exacto puede

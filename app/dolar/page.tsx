@@ -5,6 +5,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { DollarMultiChart } from "@/components/dollar-multi-chart";
 import { DollarPanel } from "@/components/dollar-panel";
 import { HubEditorialPanel } from "@/components/hub-editorial-panel";
+import { MarketsTape } from "@/components/markets-tape";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ToolsPromo } from "@/components/tools/tools-promo";
@@ -49,6 +50,7 @@ export default async function DolarPage() {
     <>
       <JsonLd data={faqJsonLdFromPairs([...DOLAR_FAQ])} />
       <SiteHeader />
+      <MarketsTape />
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6">
         <Breadcrumbs
           items={[{ label: "Inicio", href: "/" }, { label: "Dólar" }]}
@@ -56,7 +58,7 @@ export default async function DolarPage() {
         />
 
         <div className="flex flex-col gap-2">
-          <h1 className="font-heading text-3xl font-bold tracking-tight">
+          <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-5xl">
             Dólar en Argentina
           </h1>
           <p className="max-w-2xl text-muted-foreground">

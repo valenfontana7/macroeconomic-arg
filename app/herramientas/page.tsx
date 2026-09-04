@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AdSlot } from "@/components/ad-slot";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { MarketsTape } from "@/components/markets-tape";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,13 +37,14 @@ export default function HerramientasPage() {
     <>
       <JsonLd data={listJsonLd} />
       <SiteHeader />
+      <MarketsTape />
       <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6">
         <Breadcrumbs
           items={[{ label: "Inicio", href: "/" }, { label: "Herramientas" }]}
           currentPath="/herramientas"
         />
         <div className="flex flex-col gap-2">
-          <h1 className="font-heading text-3xl font-bold tracking-tight">
+          <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-5xl">
             Herramientas interactivas
           </h1>
           <p className="max-w-2xl text-muted-foreground">

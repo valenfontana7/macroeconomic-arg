@@ -17,7 +17,7 @@ export function MacroBriefingArticle({
 }: MacroBriefingArticleProps) {
   return (
     <article className="flex flex-col gap-6">
-      <header className="flex flex-col gap-2">
+      <header className="flex flex-col gap-2 border-b border-border/80 pb-5">
         <h2 className={compact ? "font-heading text-xl font-semibold" : "font-heading text-2xl font-bold tracking-tight"}>
           {briefing.title}
         </h2>
@@ -28,7 +28,7 @@ export function MacroBriefingArticle({
       </header>
 
       {briefing.sections.map((section) => (
-        <section key={section.heading} className="flex flex-col gap-3">
+        <section key={section.heading} className="flex flex-col gap-3 border-b border-border/60 pb-5 last:border-b-0">
           <h3 className="font-heading text-lg font-semibold">{section.heading}</h3>
           <div className="flex flex-col gap-3 text-sm leading-relaxed text-muted-foreground">
             {section.paragraphs.map((paragraph) => (
@@ -53,7 +53,7 @@ export function MacroBriefingArticle({
       ) : null}
 
       {!compact ? (
-        <footer className="rounded-xl border border-border/60 bg-muted/30 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
+        <footer className="border-y border-border/60 bg-muted/20 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
           Este análisis es informativo y se genera con reglas editoriales fijas sobre datos
           públicos. No constituye asesoramiento financiero.{" "}
           <Link href="/contacto" className="text-primary underline-offset-2 hover:underline">

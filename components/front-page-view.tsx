@@ -107,7 +107,7 @@ export function FrontPageView({ data, briefing }: FrontPageViewProps) {
       <div className="grid grid-cols-12 gap-x-8 gap-y-10">
         {/* Lead */}
         <section className="col-span-12 lg:col-span-8">
-          <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground/60">
+          <div className="editorial-kicker mb-3">
             Hoy en la economía
           </div>
           <h1 className="font-heading text-5xl font-bold leading-[1.1] tracking-tight md:text-6xl">
@@ -205,9 +205,9 @@ export function FrontPageView({ data, briefing }: FrontPageViewProps) {
 
       {/* Fila 2: notas en 3–4 columnas con reglas verticales */}
       {notes.length >= 3 ? (
-        <section className="mt-12">
+        <section className="mt-12 border-t border-border/80 pt-8">
           <div className="grid grid-cols-1 gap-y-8 md:grid-cols-3 md:gap-x-8 xl:grid-cols-4">
-            {notes.slice(0, 4).map((note, idx) => (
+            {notes.slice(0, 4).map((note) => (
               <NoteCard
                 key={`${note.kicker}-${note.title}`}
                 kicker={note.kicker}
